@@ -15,15 +15,28 @@ const description = t(lang, 'bio.description');
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
         <div class="lg:col-span-1">
           <div class="sticky top-24">
-            <img
-              src="/images/StefanoCapezzone.jpg"
-              alt="Stefano Capezzone"
-              class="w-full max-w-sm mx-auto rounded-2xl shadow-lg"
-              loading="eager"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="/images/optimized/stefano-400.webp 400w,
+                        /images/optimized/stefano-800.webp 800w"
+                sizes="(max-width: 640px) 256px, 320px"
+              />
+              <img
+                src="/images/optimized/stefano-800.webp"
+                alt="Stefano Capezzone"
+                class="w-64 h-64 lg:w-80 lg:h-80 mx-auto object-cover rounded-2xl shadow-lg"
+                width="320"
+                height="320"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </picture>
             <div class="mt-6 text-center lg:text-left">
               <h1 class="text-2xl font-bold text-ibm-blue-90">Stefano Capezzone</h1>
-              <p class="text-ibm-blue-60 mt-1">CEO & Founder, Fastal Srl</p>
+              <p class="text-ibm-blue-60 mt-1">CEO & Founder, <a href="https://www.fastal.it/en/" class="hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a></p>
+              <p class="text-ibm-blue-60 mt-1">President, Communication and Services Union <a href="https://cnaroma.it" class="hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a></p>
               <div class="mt-4 flex justify-center lg:justify-start">
                 <SocialLinks variant="default" />
               </div>
@@ -34,15 +47,15 @@ const description = t(lang, 'bio.description');
         <div class="lg:col-span-2 prose prose-lg max-w-none prose-p:text-ibm-blue-70 prose-strong:text-ibm-blue-80 prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h2:text-ibm-blue-90">
           <h2>Profile</h2>
           <p>
-            Stefano Capezzone is an <strong>entrepreneur</strong>, lecturer and innovation manager with over thirty years of experience in the <strong>ICT</strong> sector and <strong>Artificial Intelligence</strong>, specialized in mission critical projects and digital transformation of large organizations. He is CEO and Founder of Fastal Srl, a holding company through which he leads the development of high-tech solutions, products and services, and investment projects in innovative entrepreneurial initiatives.
+            Stefano Capezzone is an <strong>entrepreneur</strong>, lecturer and innovation manager with over thirty years of experience in the <strong>ICT</strong> sector and <strong>Artificial Intelligence</strong>, specialized in cybersecurity, mission critical projects and digital transformation of large organizations. He is CEO and Founder of <a href="https://www.fastal.it/en/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, a holding company through which he leads the development of high-tech solutions, products and services, and investment projects in innovative entrepreneurial initiatives.
           </p>
 
           <h2>Current Role</h2>
           <p>
-            Since 2008, he has been Founding Partner and Director of Fastal Srl, a consulting, training and software development company through which he coordinates the growth of new high-tech enterprises and initiatives in digital services and telecommunications. Under his strategic direction, several companies have been established and developed, focused on creating innovative products in gaming, telecommunications networks, electronic payments and value-added services.
+            Since 2008, he has been Founding Partner and Director of <a href="https://www.fastal.it/en/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, a consulting, training and software development company through which he coordinates the growth of new high-tech enterprises and initiatives in digital services and telecommunications. Under his strategic direction, several companies have been established and developed, focused on creating innovative products in gaming, telecommunications networks, electronic payments and value-added services.
           </p>
           <p>
-            Since 2015, he has been involved in trade union representation activities, currently serving as <strong>President of the Communication and Services Union of CNA Roma</strong>, with responsibility for the association's strategic development and coordination of projects supporting digital, printing and communication businesses. He is a delegate to the <strong>Smart City Lab Advisory Board of the City of Rome</strong>, contributing to the definition of policies and initiatives for urban innovation and smart services development.
+            Since 2015, he has been involved in trade union representation activities, currently serving as <strong>President of the Communication and Services Union of <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a></strong>, with responsibility for the association's strategic development and coordination of projects supporting digital, printing and communication businesses. He is a delegate to the <strong>Smart City Lab Advisory Board of the City of Rome</strong>, contributing to the definition of policies and initiatives for urban innovation and smart services development.
           </p>
 
           <h2>Entrepreneurial and Managerial Experience</h2>
@@ -55,10 +68,13 @@ const description = t(lang, 'bio.description');
 
           <h2>Innovation, Associations and Digital Culture</h2>
           <p>
-            From 2015 to 2024, he served as President of CNA Roma Digitale, where he promoted the spread of digital culture and Industry 4.0 framework technologies among manufacturing and artisan companies in the Lazio region. In this role, he designed and coordinated territorial initiatives, digital transformation support programs and networking activities between companies and regional Fab Labs.
+            From 2015 to 2024, he served as President of <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, where he promoted the spread of digital culture and Industry 4.0 framework technologies among manufacturing and artisan companies in the Lazio region. In this role, he designed and coordinated territorial initiatives, digital transformation support programs and networking activities between companies and regional Fab Labs.
           </p>
           <p>
             He has conducted numerous teaching and outreach activities for executives, entrepreneurs and professionals, addressing topics such as additive manufacturing, collaborative robotics, rapid electronic prototyping and new production models enabled by digital technologies.
+          </p>
+          <p>
+            Active in the open source and hacker culture of the 1990s, in 2013 he was among the main promoters and supporters of the Italian Maker movement, contributing to the development of the national Fab Lab network.
           </p>
 
           <h2>Academic and Training Activities</h2>
@@ -68,17 +84,17 @@ const description = t(lang, 'bio.description');
 
           <h2>Research Activities</h2>
           <p>
-            As part of his professional journey, Stefano Capezzone has been conducting industrial research since 1990 on Software Engineering for Telecommunications and Applied Artificial Intelligence, collaborating with Universities and Research Institutions, appearing as co-author in several internationally recognized publications.
+            As part of his professional journey, Stefano Capezzone has been conducting industrial research since 1990 on Software Engineering, Telecommunications, Applied Artificial Intelligence and Quantum Computing, collaborating with Universities and Research Institutions, appearing as co-author in several internationally recognized publications.
           </p>
 
           <h2>Speaking Engagements</h2>
           <p>
-            Stefano Capezzone frequently appears as a speaker at conferences and events dedicated to innovation. Key appearances include: TedX Ostiense, Linux Day Roma, MakerFaire Rome, and the General States of Innovation of the City of Rome.
+            Stefano Capezzone frequently appears as a speaker at conferences and events dedicated to innovation. Key appearances include: TedX Ostiense, Linux Day Roma, Expo 2025 Osaka, MakerFaire Rome, and the General States of Innovation of the City of Rome.
           </p>
 
           <h2>Education and Skills</h2>
           <p>
-            Stefano Capezzone graduated in Electronic Engineering from La Sapienza University of Rome, with a thesis on Artificial Intelligence and training that integrates electronics, computer science, business management and economics.
+            In 1990, Stefano Capezzone graduated in Electronic Engineering from La Sapienza University of Rome, with a thesis on Artificial Intelligence and training that integrates electronics, computer science, business management and economics.
           </p>
           <p>
             His main competencies include general management of technology companies, project management of mission critical projects, development of industrial plans and business plans for high-tech companies, capital raising and M&A operations in the ICT sector.

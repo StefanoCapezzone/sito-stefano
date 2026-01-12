@@ -15,15 +15,28 @@ const description = t(lang, 'bio.description');
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
         <div class="lg:col-span-1">
           <div class="sticky top-24">
-            <img
-              src="/images/StefanoCapezzone.jpg"
-              alt="Stefano Capezzone"
-              class="w-full max-w-sm mx-auto rounded-2xl shadow-lg"
-              loading="eager"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="/images/optimized/stefano-400.webp 400w,
+                        /images/optimized/stefano-800.webp 800w"
+                sizes="(max-width: 640px) 256px, 320px"
+              />
+              <img
+                src="/images/optimized/stefano-800.webp"
+                alt="Stefano Capezzone"
+                class="w-64 h-64 lg:w-80 lg:h-80 mx-auto object-cover rounded-2xl shadow-lg"
+                width="320"
+                height="320"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </picture>
             <div class="mt-6 text-center lg:text-left">
               <h1 class="text-2xl font-bold text-ibm-blue-90">Stefano Capezzone</h1>
-              <p class="text-ibm-blue-60 mt-1">CEO & Founder, Fastal Srl</p>
+              <p class="text-ibm-blue-60 mt-1">CEO & Founder, <a href="https://www.fastal.it/it/" class="hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a></p>
+              <p class="text-ibm-blue-60 mt-1">Presidente Unione Comunicazione e Terziario <a href="https://cnaroma.it" class="hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a></p>
               <div class="mt-4 flex justify-center lg:justify-start">
                 <SocialLinks variant="default" />
               </div>
@@ -34,15 +47,15 @@ const description = t(lang, 'bio.description');
         <div class="lg:col-span-2 prose prose-lg max-w-none prose-p:text-ibm-blue-70 prose-strong:text-ibm-blue-80 prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h2:text-ibm-blue-90">
           <h2>Profilo</h2>
           <p>
-            Stefano Capezzone è un <strong>imprenditore</strong>, docente e manager dell'innovazione con oltre trent'anni di esperienza nel settore <strong>ICT</strong> e nell'<strong>Intelligenza Artificiale</strong>, specializzato in progetti mission critical e trasformazione digitale di grandi organizzazioni. È CEO e Founder di Fastal Srl, holding con cui guida lo sviluppo di soluzioni, prodotti e servizi ad alta tecnologia e progetti di investimento in iniziative imprenditoriali innovative.
+            Stefano Capezzone è un <strong>imprenditore</strong>, docente e manager dell'innovazione con oltre trent'anni di esperienza nel settore <strong>ICT</strong> e nell'<strong>Intelligenza Artificiale</strong>, specializzato in cybersecurity, progetti mission critical e trasformazione digitale di grandi organizzazioni. È CEO e Founder di <a href="https://www.fastal.it/it/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, holding con cui guida lo sviluppo di soluzioni, prodotti e servizi ad alta tecnologia e progetti di investimento in iniziative imprenditoriali innovative.
           </p>
 
           <h2>Ruolo attuale</h2>
           <p>
-            Dal 2008 è Socio Fondatore e Amministratore di Fastal Srl, società di consulenza, formazione e sviluppo software con cui coordina la crescita di nuove imprese high tech e iniziative nel campo dei servizi digitali e delle telecomunicazioni. Sotto la sua direzione strategica sono state costituite e sviluppate diverse realtà orientate alla creazione di prodotti innovativi in ambito gaming, reti di telecomunicazione, pagamenti elettronici e servizi a valore aggiunto.
+            Dal 2008 è Socio Fondatore e Amministratore di <a href="https://www.fastal.it/it/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, società di consulenza, formazione e sviluppo software con cui coordina la crescita di nuove imprese high tech e iniziative nel campo dei servizi digitali e delle telecomunicazioni. Sotto la sua direzione strategica sono state costituite e sviluppate diverse realtà orientate alla creazione di prodotti innovativi in ambito gaming, reti di telecomunicazione, pagamenti elettronici e servizi a valore aggiunto.
           </p>
           <p>
-            Dal 2015 svolge attività di rappresentanza sindacale, attualmente con l'incarico di <strong>Presidente dell'Unione Comunicazione e Terziario di CNA Roma</strong>, con responsabilità di sviluppo strategico dell'associazione e coordinamento di progetti a supporto delle imprese del digitale, della stampa e della comunicazione. È delegato alla <strong>Consulta Smart City Lab del Comune di Roma</strong>, contribuendo alla definizione di politiche e iniziative per l'innovazione urbana e lo sviluppo di servizi smart sul territorio.
+            Dal 2015 svolge attività di rappresentanza sindacale, attualmente con l'incarico di <strong>Presidente dell'Unione Comunicazione e Terziario di <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a></strong>, con responsabilità di sviluppo strategico dell'associazione e coordinamento di progetti a supporto delle imprese del digitale, della stampa e della comunicazione. È delegato alla <strong>Consulta Smart City Lab del Comune di Roma</strong>, contribuendo alla definizione di politiche e iniziative per l'innovazione urbana e lo sviluppo di servizi smart sul territorio.
           </p>
 
           <h2>Esperienza imprenditoriale e manageriale</h2>
@@ -55,10 +68,13 @@ const description = t(lang, 'bio.description');
 
           <h2>Innovazione, associazionismo e cultura digitale</h2>
           <p>
-            Dal 2015 al 2024 è stato Presidente di CNA Roma Digitale, ruolo in cui ha promosso la diffusione della cultura digitale e delle tecnologie del framework Industria 4.0 presso imprese manifatturiere e artigiane del Lazio. In questo ambito ha progettato e coordinato iniziative territoriali, percorsi di accompagnamento alla trasformazione digitale e attività di networking tra aziende e Fab Lab della rete regionale.
+            Dal 2015 al 2024 è stato Presidente di <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, ruolo in cui ha promosso la diffusione della cultura digitale e delle tecnologie del framework Industria 4.0 presso imprese manifatturiere e artigiane del Lazio. In questo ambito ha progettato e coordinato iniziative territoriali, percorsi di accompagnamento alla trasformazione digitale e attività di networking tra aziende e Fab Lab della rete regionale.
           </p>
           <p>
             Ha tenuto numerose attività di docenza e divulgazione rivolte a quadri dirigenti, imprenditori e professionisti, affrontando temi quali fabbricazione additiva, robotica collaborativa, prototipazione rapida elettronica e nuovi modelli produttivi abilitati dalle tecnologie digitali.
+          </p>
+          <p>
+            Attivo nell'ambito della cultura open source e hacker degli anni '90, nel 2013 è stato tra i principali promotori e sostenitori del movimento Maker italiano, contribuendo allo sviluppo della rete nazionale dei Fab Lab.
           </p>
 
           <h2>Attività accademiche e di formazione</h2>
@@ -68,17 +84,17 @@ const description = t(lang, 'bio.description');
 
           <h2>Attività di ricerca</h2>
           <p>
-            Come parte del suo percorso professionale, Stefano Capezzone svolge attività di ricerca industriale dal 1990 sui temi dell'Ingegneria del Software delle Telecomunicazioni e dell'Intelligenza Artificiale applicata, collaborando con Università e Enti di Ricerca, figurando come co-autore in diverse pubblicazioni di rilievo internazionale.
+            Come parte del suo percorso professionale, Stefano Capezzone svolge attività di ricerca industriale dal 1990 sui temi dell'Ingegneria del Software, delle Telecomunicazioni, dell'Intelligenza Artificiale applicata e dell'Informatica Quantistica, collaborando con Università e Enti di Ricerca, figurando come co-autore in diverse pubblicazioni di rilievo internazionale.
           </p>
 
           <h2>Interventi come relatore</h2>
           <p>
-            Stefano Capezzone è spesso presente come relatore in convegni ed eventi dedicati all'innovazione, tra le partecipazioni principali vi sono: TedX Ostiense, Linux Day Roma, MakerFaire Rome, Stati Generali dell'Innovazione Comune di Roma.
+            Stefano Capezzone è spesso presente come relatore in convegni ed eventi dedicati all'innovazione, tra le partecipazioni principali vi sono: TedX Ostiense, Linux Day Roma, Expo 2025 Osaka, MakerFaire Rome, Stati Generali dell'Innovazione Comune di Roma.
           </p>
 
           <h2>Formazione e competenze</h2>
           <p>
-            Stefano Capezzone si è laureato in Ingegneria Elettronica (v.o.) presso l'Università La Sapienza di Roma, con una tesi sull'Intelligenza Artificiale e una formazione che integra elettronica, informatica, gestione aziendale ed economia.
+            Nel 1990 Stefano Capezzone si è laureato in Ingegneria Elettronica (v.o.) presso l'Università La Sapienza di Roma, con una tesi sull'Intelligenza Artificiale e una formazione che integra elettronica, informatica, gestione aziendale ed economia.
           </p>
           <p>
             Le sue principali competenze riguardano la direzione generale di imprese tecnologiche, il project management di progetti mission critical, lo sviluppo di piani industriali e business plan per aziende high tech, la raccolta di capitali e le operazioni di M&A in ambito ICT.

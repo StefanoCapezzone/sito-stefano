@@ -49,14 +49,24 @@ const description = t(lang, 'site.description');
         <div class="order-1 lg:order-2 flex justify-center">
           <div class="relative">
             <div class="absolute inset-0 bg-ibm-blue-60 rounded-2xl transform rotate-3"></div>
-            <img
-              src="/images/StefanoCapezzone.jpg"
-              alt="Stefano Capezzone"
-              class="relative w-64 h-64 lg:w-80 lg:h-80 object-cover rounded-2xl shadow-xl"
-              loading="eager"
-              decoding="sync"
-              fetchpriority="high"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="/images/optimized/stefano-400.webp 400w,
+                        /images/optimized/stefano-800.webp 800w"
+                sizes="(max-width: 1024px) 256px, 320px"
+              />
+              <img
+                src="/images/optimized/stefano-800.webp"
+                alt="Stefano Capezzone"
+                class="relative w-64 h-64 lg:w-80 lg:h-80 object-cover rounded-2xl shadow-xl"
+                width="320"
+                height="320"
+                loading="eager"
+                decoding="sync"
+                fetchpriority="high"
+              />
+            </picture>
           </div>
         </div>
       </div>
@@ -73,11 +83,11 @@ const description = t(lang, 'site.description');
         <p>
           Stefano Capezzone è un <strong>imprenditore</strong>, docente e manager dell'innovazione
           con oltre trent'anni di esperienza nel settore <strong>ICT</strong> e
-          nell'<strong>Intelligenza Artificiale</strong>, specializzato in progetti mission critical
+          nell'<strong>Intelligenza Artificiale</strong>, specializzato in cybersecurity, progetti mission critical
           e trasformazione digitale di grandi organizzazioni.
         </p>
         <p>
-          È CEO e Founder di Fastal Srl, holding con cui guida lo sviluppo di soluzioni, prodotti e
+          È CEO e Founder di <a href="https://www.fastal.it/it/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, holding con cui guida lo sviluppo di soluzioni, prodotti e
           servizi ad alta tecnologia e progetti di investimento in iniziative imprenditoriali innovative.
         </p>
       </div>
