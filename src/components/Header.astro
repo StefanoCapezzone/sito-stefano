@@ -1,0 +1,107 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  lang: 'it' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const navigation = {
+  it: [
+    { name: 'Home', href: '/it/' },
+    { name: 'Bio', href: '/it/bio' },
+    { name: 'Blog', href: '/it/blog' },
+    { name: 'Pubblicazioni', href: '/it/pubblicazioni' },
+  ],
+  en: [
+    { name: 'Home', href: '/en/' },
+    { name: 'Bio', href: '/en/bio' },
+    { name: 'Blog', href: '/en/blog' },
+    { name: 'Publications', href: '/en/publications' },
+  ],
+};
+
+const currentNav = navigation[lang];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-ibm-blue-20">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo / Name -->
+      <a
+        href={`/${lang}/`}
+        class="font-semibold text-lg text-ibm-blue-90 hover:text-ibm-blue-60 transition-colors"
+      >
+        Stefano Capezzone
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8">
+        {currentNav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-sm font-medium transition-colors',
+              currentPath === item.href || currentPath.startsWith(item.href + '/')
+                ? 'text-ibm-blue-60'
+                : 'text-ibm-blue-70 hover:text-ibm-blue-60',
+            ]}
+          >
+            {item.name}
+          </a>
+        ))}
+        <LanguageSwitcher lang={lang} />
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        type="button"
+        class="md:hidden p-2 text-ibm-blue-70 hover:text-ibm-blue-60"
+        aria-label={lang === 'it' ? 'Apri menu' : 'Open menu'}
+        id="mobile-menu-button"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-ibm-blue-20 bg-white">
+    <nav class="px-4 py-4 space-y-2">
+      {currentNav.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'block px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+            currentPath === item.href || currentPath.startsWith(item.href + '/')
+              ? 'bg-ibm-blue-10 text-ibm-blue-60'
+              : 'text-ibm-blue-70 hover:bg-ibm-blue-10 hover:text-ibm-blue-60',
+          ]}
+        >
+          {item.name}
+        </a>
+      ))}
+      <div class="pt-2 border-t border-ibm-blue-20">
+        <LanguageSwitcher lang={lang} />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('astro:page-load', () => {
+    const button = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+
+    if (button && menu) {
+      button.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>

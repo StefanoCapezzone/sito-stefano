@@ -1,0 +1,51 @@
+{
+  "site": {
+    "title": "Stefano Capezzone",
+    "description": "Imprenditore, docente e manager dell'innovazione con oltre trent'anni di esperienza nel settore ICT e nell'Intelligenza Artificiale."
+  },
+  "nav": {
+    "home": "Home",
+    "bio": "Bio",
+    "blog": "Blog",
+    "publications": "Pubblicazioni"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Imprenditore | Innovatore | Docente",
+      "subtitle": "CEO e Founder di Fastal Srl, con oltre trent'anni di esperienza nell'ICT e nell'Intelligenza Artificiale.",
+      "cta": "Scopri di più"
+    },
+    "latestPosts": "Ultimi Articoli",
+    "viewAll": "Vedi tutti",
+    "aboutMe": "Chi sono",
+    "readMore": "Leggi di più"
+  },
+  "bio": {
+    "title": "Bio",
+    "description": "Profilo professionale di Stefano Capezzone"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Articoli su innovazione tecnologica, intelligenza artificiale e trasformazione digitale.",
+    "readMore": "Leggi articolo",
+    "publishedOn": "Pubblicato il",
+    "noPosts": "Nessun articolo disponibile."
+  },
+  "publications": {
+    "title": "Pubblicazioni",
+    "description": "Pubblicazioni scientifiche e ricerche accademiche.",
+    "viewPaper": "Vedi pubblicazione",
+    "abstract": "Abstract",
+    "year": "Anno",
+    "journal": "Rivista"
+  },
+  "footer": {
+    "rights": "Tutti i diritti riservati.",
+    "madeWith": "Realizzato con"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "notFound": "Pagina non trovata"
+  }
+}

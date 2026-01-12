@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { t, formatDate } from '../../../i18n/utils';
+
+const lang = 'it';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.lang === 'it' && !data.draft;
+  });
+
+  return posts.map((post) => ({
+    // Remove language prefix from slug (e.g., "it/linux-day-2025" -> "linux-day-2025")
+    params: { slug: post.slug.replace(/^(it|en)\//, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  lang={lang}
+>
+  <article class="py-16 lg:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <header class="mb-12">
+        <div class="flex items-center gap-4 text-sm text-ibm-blue-50 mb-4">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate, lang)}
+          </time>
+          {post.data.updatedDate && (
+            <>
+              <span>•</span>
+              <span>Aggiornato: {formatDate(post.data.updatedDate, lang)}</span>
+            </>
+          )}
+        </div>
+        <h1 class="text-3xl lg:text-4xl font-bold text-ibm-blue-90 mb-6">
+          {post.data.title}
+        </h1>
+        <p class="text-xl text-ibm-blue-70 leading-relaxed">
+          {post.data.description}
+        </p>
+        {post.data.tags && (
+          <div class="flex flex-wrap gap-2 mt-6">
+            {post.data.tags.map((tag) => (
+              <span class="text-sm bg-ibm-blue-10 text-ibm-blue-60 px-3 py-1 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Featured Image -->
+      {post.data.image && (
+        <figure class="mb-12">
+          <img
+            src={post.data.image}
+            alt={post.data.imageAlt || post.data.title}
+            class="w-full rounded-xl shadow-lg"
+            loading="eager"
+          />
+          {post.data.imageAlt && (
+            <figcaption class="text-center text-sm text-ibm-blue-50 mt-3">
+              {post.data.imageAlt}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
+      <!-- Content -->
+      <div class="prose prose-lg max-w-none prose-headings:text-ibm-blue-90 prose-p:text-ibm-blue-70 prose-strong:text-ibm-blue-80 prose-a:text-ibm-blue-60 prose-a:no-underline hover:prose-a:underline prose-code:text-ibm-blue-70 prose-code:bg-ibm-blue-10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-ibm-blue-90 prose-blockquote:border-ibm-blue-60 prose-blockquote:text-ibm-blue-70">
+        <Content />
+      </div>
+
+      <!-- Navigation -->
+      <nav class="mt-16 pt-8 border-t border-ibm-blue-20">
+        <a
+          href="/it/blog"
+          class="inline-flex items-center text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Torna al blog
+        </a>
+      </nav>
+    </div>
+  </article>
+</BaseLayout>

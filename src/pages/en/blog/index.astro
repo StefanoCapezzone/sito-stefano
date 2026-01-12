@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { t, formatDate } from '../../../i18n/utils';
+
+const lang = 'en';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = t(lang, 'blog.title');
+const description = t(lang, 'blog.description');
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <div class="py-16 lg:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="mb-12">
+        <h1 class="text-3xl lg:text-4xl font-bold text-ibm-blue-90 mb-4">
+          {title}
+        </h1>
+        <p class="text-lg text-ibm-blue-70">
+          {description}
+        </p>
+      </div>
+
+      <!-- Posts Grid -->
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-ibm-blue-20">
+              {post.data.image && (
+                <a href={`/en/blog/${post.slug.replace(/^en\//, '')}`}>
+                  <img
+                    src={post.data.image}
+                    alt={post.data.imageAlt || post.data.title}
+                    class="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="p-6">
+                <time class="text-sm text-ibm-blue-50" datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate, lang)}
+                </time>
+                <h2 class="text-xl font-semibold text-ibm-blue-90 mt-2 mb-3">
+                  <a href={`/en/blog/${post.slug.replace(/^en\//, '')}`} class="hover:text-ibm-blue-60 transition-colors">
+                    {post.data.title}
+                  </a>
+                </h2>
+                <p class="text-ibm-blue-70 line-clamp-3 mb-4">
+                  {post.data.description}
+                </p>
+                {post.data.tags && (
+                  <div class="flex flex-wrap gap-2">
+                    {post.data.tags.slice(0, 3).map((tag) => (
+                      <span class="text-xs bg-ibm-blue-10 text-ibm-blue-60 px-2 py-1 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-ibm-blue-50 py-12">
+          {t(lang, 'blog.noPosts')}
+        </p>
+      )}
+    </div>
+  </div>
+</BaseLayout>

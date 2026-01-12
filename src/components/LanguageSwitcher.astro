@@ -1,0 +1,49 @@
+---
+interface Props {
+  lang: 'it' | 'en';
+}
+
+const { lang } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Build the alternate language URL
+const getAlternateURL = () => {
+  if (lang === 'it') {
+    return currentPath.replace('/it/', '/en/').replace('/it', '/en') || '/en/';
+  }
+  return currentPath.replace('/en/', '/it/').replace('/en', '/it') || '/it/';
+};
+
+const alternateURL = getAlternateURL();
+const alternateLang = lang === 'it' ? 'en' : 'it';
+---
+
+<div class="flex items-center gap-1 text-sm">
+  <a
+    href="/it/"
+    class:list={[
+      'px-2 py-1 rounded transition-colors',
+      lang === 'it'
+        ? 'bg-ibm-blue-60 text-white'
+        : 'text-ibm-blue-70 hover:bg-ibm-blue-10',
+    ]}
+    aria-label="Italiano"
+    aria-current={lang === 'it' ? 'true' : undefined}
+  >
+    IT
+  </a>
+  <span class="text-ibm-blue-30">|</span>
+  <a
+    href="/en/"
+    class:list={[
+      'px-2 py-1 rounded transition-colors',
+      lang === 'en'
+        ? 'bg-ibm-blue-60 text-white'
+        : 'text-ibm-blue-70 hover:bg-ibm-blue-10',
+    ]}
+    aria-label="English"
+    aria-current={lang === 'en' ? 'true' : undefined}
+  >
+    EN
+  </a>
+</div>

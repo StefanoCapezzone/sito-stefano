@@ -1,0 +1,51 @@
+{
+  "site": {
+    "title": "Stefano Capezzone",
+    "description": "Entrepreneur, lecturer and innovation manager with over thirty years of experience in ICT and Artificial Intelligence."
+  },
+  "nav": {
+    "home": "Home",
+    "bio": "Bio",
+    "blog": "Blog",
+    "publications": "Publications"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Entrepreneur | Innovator | Lecturer",
+      "subtitle": "CEO and Founder of Fastal Srl, with over thirty years of experience in ICT and Artificial Intelligence.",
+      "cta": "Learn more"
+    },
+    "latestPosts": "Latest Posts",
+    "viewAll": "View all",
+    "aboutMe": "About Me",
+    "readMore": "Read more"
+  },
+  "bio": {
+    "title": "Bio",
+    "description": "Professional profile of Stefano Capezzone"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Articles on technological innovation, artificial intelligence and digital transformation.",
+    "readMore": "Read article",
+    "publishedOn": "Published on",
+    "noPosts": "No articles available."
+  },
+  "publications": {
+    "title": "Publications",
+    "description": "Scientific publications and academic research.",
+    "viewPaper": "View publication",
+    "abstract": "Abstract",
+    "year": "Year",
+    "journal": "Journal"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "madeWith": "Made with"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "notFound": "Page not found"
+  }
+}

@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SocialLinks from '../../components/SocialLinks.astro';
+import { getCollection } from 'astro:content';
+import { t, formatDate } from '../../i18n/utils';
+
+const lang = 'it';
+
+// Get latest blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+const latestPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const title = t(lang, 'site.title');
+const description = t(lang, 'site.description');
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <!-- Hero Section -->
+  <section class="relative py-20 lg:py-32 bg-gradient-to-b from-ibm-blue-10 to-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Text Content -->
+        <div class="order-2 lg:order-1">
+          <p class="text-ibm-blue-60 font-medium mb-2">
+            {t(lang, 'home.hero.tagline')}
+          </p>
+          <h1 class="text-4xl lg:text-5xl font-bold text-ibm-blue-90 mb-6">
+            Stefano Capezzone
+          </h1>
+          <p class="text-lg text-ibm-blue-70 leading-relaxed mb-8">
+            {t(lang, 'home.hero.subtitle')}
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="/it/bio"
+              class="inline-flex items-center justify-center px-6 py-3 bg-ibm-blue-60 text-white font-medium rounded-lg hover:bg-ibm-blue-70 transition-colors"
+            >
+              {t(lang, 'home.hero.cta')}
+            </a>
+            <SocialLinks variant="hero" />
+          </div>
+        </div>
+
+        <!-- Photo -->
+        <div class="order-1 lg:order-2 flex justify-center">
+          <div class="relative">
+            <div class="absolute inset-0 bg-ibm-blue-60 rounded-2xl transform rotate-3"></div>
+            <img
+              src="/images/StefanoCapezzone.jpg"
+              alt="Stefano Capezzone"
+              class="relative w-64 h-64 lg:w-80 lg:h-80 object-cover rounded-2xl shadow-xl"
+              loading="eager"
+              decoding="sync"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Preview Section -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl lg:text-3xl font-bold text-ibm-blue-90 mb-8">
+        {t(lang, 'home.aboutMe')}
+      </h2>
+      <div class="prose prose-lg max-w-none text-ibm-blue-70">
+        <p>
+          Stefano Capezzone è un <strong>imprenditore</strong>, docente e manager dell'innovazione
+          con oltre trent'anni di esperienza nel settore <strong>ICT</strong> e
+          nell'<strong>Intelligenza Artificiale</strong>, specializzato in progetti mission critical
+          e trasformazione digitale di grandi organizzazioni.
+        </p>
+        <p>
+          È CEO e Founder di Fastal Srl, holding con cui guida lo sviluppo di soluzioni, prodotti e
+          servizi ad alta tecnologia e progetti di investimento in iniziative imprenditoriali innovative.
+        </p>
+      </div>
+      <a
+        href="/it/bio"
+        class="inline-flex items-center mt-6 text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
+      >
+        {t(lang, 'home.readMore')}
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Latest Posts Section -->
+  {latestPosts.length > 0 && (
+    <section class="py-16 lg:py-24 bg-ibm-blue-10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl lg:text-3xl font-bold text-ibm-blue-90">
+            {t(lang, 'home.latestPosts')}
+          </h2>
+          <a
+            href="/it/blog"
+            class="text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
+          >
+            {t(lang, 'home.viewAll')} &rarr;
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {latestPosts.map((post) => (
+            <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+              {post.data.image && (
+                <img
+                  src={post.data.image}
+                  alt={post.data.imageAlt || post.data.title}
+                  class="w-full h-48 object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div class="p-6">
+                <time class="text-sm text-ibm-blue-50" datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate, lang)}
+                </time>
+                <h3 class="text-xl font-semibold text-ibm-blue-90 mt-2 mb-3">
+                  <a href={`/it/blog/${post.slug.replace(/^it\//, '')}`} class="hover:text-ibm-blue-60 transition-colors">
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-ibm-blue-70 line-clamp-3">
+                  {post.data.description}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

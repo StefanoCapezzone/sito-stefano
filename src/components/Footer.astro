@@ -1,0 +1,70 @@
+---
+import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  lang: 'it' | 'en';
+}
+
+const { lang } = Astro.props;
+const currentYear = new Date().getFullYear();
+
+const footerText = {
+  it: {
+    copyright: `${currentYear} Stefano Capezzone. Tutti i diritti riservati.`,
+  },
+  en: {
+    copyright: `${currentYear} Stefano Capezzone. All rights reserved.`,
+  },
+};
+
+const text = footerText[lang];
+---
+
+<footer class="bg-ibm-blue-90 text-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- About -->
+      <div>
+        <h3 class="font-semibold text-lg mb-4">Stefano Capezzone</h3>
+        <p class="text-ibm-blue-30 text-sm leading-relaxed">
+          {lang === 'it'
+            ? 'Imprenditore, docente e manager dell\'innovazione con oltre trent\'anni di esperienza nel settore ICT e nell\'Intelligenza Artificiale.'
+            : 'Entrepreneur, lecturer and innovation manager with over thirty years of experience in ICT and Artificial Intelligence.'}
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="font-semibold text-lg mb-4">
+          {lang === 'it' ? 'Link Rapidi' : 'Quick Links'}
+        </h3>
+        <nav class="space-y-2">
+          <a href={`/${lang}/bio`} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
+            Bio
+          </a>
+          <a href={`/${lang}/blog`} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
+            Blog
+          </a>
+          <a href={`/${lang}/${lang === 'it' ? 'pubblicazioni' : 'publications'}`} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
+            {lang === 'it' ? 'Pubblicazioni' : 'Publications'}
+          </a>
+        </nav>
+      </div>
+
+      <!-- Social -->
+      <div>
+        <h3 class="font-semibold text-lg mb-4">
+          {lang === 'it' ? 'Seguimi' : 'Follow Me'}
+        </h3>
+        <SocialLinks variant="footer" />
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="mt-12 pt-8 border-t border-ibm-blue-80">
+      <p class="text-ibm-blue-30 text-sm text-center sm:text-left">
+        &copy; {text.copyright}
+      </p>
+    </div>
+  </div>
+</footer>

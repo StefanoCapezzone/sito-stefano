@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SocialLinks from '../../components/SocialLinks.astro';
+import { t } from '../../i18n/utils';
+
+const lang = 'en';
+const title = t(lang, 'bio.title');
+const description = t(lang, 'bio.description');
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <article class="py-16 lg:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header with photo -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <img
+              src="/images/StefanoCapezzone.jpg"
+              alt="Stefano Capezzone"
+              class="w-full max-w-sm mx-auto rounded-2xl shadow-lg"
+              loading="eager"
+            />
+            <div class="mt-6 text-center lg:text-left">
+              <h1 class="text-2xl font-bold text-ibm-blue-90">Stefano Capezzone</h1>
+              <p class="text-ibm-blue-60 mt-1">CEO & Founder, Fastal Srl</p>
+              <div class="mt-4 flex justify-center lg:justify-start">
+                <SocialLinks variant="default" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 prose prose-lg max-w-none prose-p:text-ibm-blue-70 prose-strong:text-ibm-blue-80 prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h2:text-ibm-blue-90">
+          <h2>Profile</h2>
+          <p>
+            Stefano Capezzone is an <strong>entrepreneur</strong>, lecturer and innovation manager with over thirty years of experience in the <strong>ICT</strong> sector and <strong>Artificial Intelligence</strong>, specialized in mission critical projects and digital transformation of large organizations. He is CEO and Founder of Fastal Srl, a holding company through which he leads the development of high-tech solutions, products and services, and investment projects in innovative entrepreneurial initiatives.
+          </p>
+
+          <h2>Current Role</h2>
+          <p>
+            Since 2008, he has been Founding Partner and Director of Fastal Srl, a consulting, training and software development company through which he coordinates the growth of new high-tech enterprises and initiatives in digital services and telecommunications. Under his strategic direction, several companies have been established and developed, focused on creating innovative products in gaming, telecommunications networks, electronic payments and value-added services.
+          </p>
+          <p>
+            Since 2015, he has been involved in trade union representation activities, currently serving as <strong>President of the Communication and Services Union of CNA Roma</strong>, with responsibility for the association's strategic development and coordination of projects supporting digital, printing and communication businesses. He is a delegate to the <strong>Smart City Lab Advisory Board of the City of Rome</strong>, contributing to the definition of policies and initiatives for urban innovation and smart services development.
+          </p>
+
+          <h2>Entrepreneurial and Managerial Experience</h2>
+          <p>
+            Throughout his career, he has led capital raising and private equity operations, accompanying several technology companies through growth paths, market positioning and exits for investors. With Blu Sistemi S.p.A., between 2008 and 2011, he contributed to the release of highly innovative products that enabled the company to become a leader in highly specialized niches related to new technologies.
+          </p>
+          <p>
+            Between 2002 and 2008, he was Co-founder and CEO of Avantica S.r.l., a consulting and software development company focused on innovative services for mobile telephony and network infrastructure management, where he consolidated expertise in managing complex mission critical projects for major clients such as Telecom Italia, H3G, Poste Italiane and Enel Distribuzione.
+          </p>
+
+          <h2>Innovation, Associations and Digital Culture</h2>
+          <p>
+            From 2015 to 2024, he served as President of CNA Roma Digitale, where he promoted the spread of digital culture and Industry 4.0 framework technologies among manufacturing and artisan companies in the Lazio region. In this role, he designed and coordinated territorial initiatives, digital transformation support programs and networking activities between companies and regional Fab Labs.
+          </p>
+          <p>
+            He has conducted numerous teaching and outreach activities for executives, entrepreneurs and professionals, addressing topics such as additive manufacturing, collaborative robotics, rapid electronic prototyping and new production models enabled by digital technologies.
+          </p>
+
+          <h2>Academic and Training Activities</h2>
+          <p>
+            As a lecturer, he has been collaborating since 2020 with CNA Sostenibile Viterbo, an accredited training institution, where he teaches courses on Artificial Intelligence, business productivity through AI tools and digital manufacturing processes in professional qualification programs. Between 2016 and 2020, he taught at LUISS Rome in the "Openness & Digital Fabrication" course for bachelor's degrees in Marketing, Economics and Social Sciences.
+          </p>
+
+          <h2>Research Activities</h2>
+          <p>
+            As part of his professional journey, Stefano Capezzone has been conducting industrial research since 1990 on Software Engineering for Telecommunications and Applied Artificial Intelligence, collaborating with Universities and Research Institutions, appearing as co-author in several internationally recognized publications.
+          </p>
+
+          <h2>Speaking Engagements</h2>
+          <p>
+            Stefano Capezzone frequently appears as a speaker at conferences and events dedicated to innovation. Key appearances include: TedX Ostiense, Linux Day Roma, MakerFaire Rome, and the General States of Innovation of the City of Rome.
+          </p>
+
+          <h2>Education and Skills</h2>
+          <p>
+            Stefano Capezzone graduated in Electronic Engineering from La Sapienza University of Rome, with a thesis on Artificial Intelligence and training that integrates electronics, computer science, business management and economics.
+          </p>
+          <p>
+            His main competencies include general management of technology companies, project management of mission critical projects, development of industrial plans and business plans for high-tech companies, capital raising and M&A operations in the ICT sector.
+          </p>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

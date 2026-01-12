@@ -1,0 +1,73 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Font Geist */
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
+@import "@fontsource/geist-sans/700.css";
+@import "@fontsource/geist-mono/400.css";
+
+/* Palette IBM Blue */
+@theme {
+  --color-ibm-blue-10: #edf5ff;
+  --color-ibm-blue-20: #d0e2ff;
+  --color-ibm-blue-30: #a6c8ff;
+  --color-ibm-blue-40: #78a9ff;
+  --color-ibm-blue-50: #4589ff;
+  --color-ibm-blue-60: #0f62fe;
+  --color-ibm-blue-70: #0043ce;
+  --color-ibm-blue-80: #002d9c;
+  --color-ibm-blue-90: #001d6c;
+  --color-ibm-blue-100: #001141;
+
+  /* Semantic colors */
+  --color-primary: var(--color-ibm-blue-60);
+  --color-primary-hover: var(--color-ibm-blue-70);
+  --color-primary-light: var(--color-ibm-blue-20);
+  --color-primary-dark: var(--color-ibm-blue-90);
+
+  /* Font family */
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-ibm-blue-20);
+  color: var(--color-ibm-blue-90);
+}
+
+/* Skip to content link for accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+

@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Quantum Metabolic Avatar: A digital replica of metabolism enhanced by quantum algorithms",
+    "year": 2025,
+    "journal": "Expert Systems with Applications",
+    "doi": "10.1016/j.eswa.2025.129045",
+    "authors": ["A. Abeltino", "C. Serantoni", "M.M. De Giulio", "A. Riente", "S. Capezzone", "R. Esposito", "M. De Spirito", "G. Maulucci"],
+    "abstract": "The integration of quantum computing into predictive modeling represents a transformative advancement in machine learning. This study compares classical Echo State Networks (ESN) with quantum Echo State Networks (qESN) for time-series forecasting, emphasizing the concept of a metabolic avatar - a dynamic data-driven model of individual metabolic processes. QESNs achieve comparable results to classical models under optimal conditions using a minimal number of qubits (4), outperform classical ESN significantly when trained with limited data, and demonstrate higher resilience to outliers."
+  },
+  {
+    "title": "Transforming personalized weight forecasting: From the Personalized Metabolic Avatar to the Generalized Metabolic Avatar",
+    "year": 2025,
+    "journal": "Computers in Biology and Medicine",
+    "doi": "10.1016/j.compbiomed.2025.109879",
+    "authors": ["A. Abeltino", "C. Serantoni", "A. Riente", "S. Capezzone", "R. Esposito", "M. De Spirito", "G. Maulucci"],
+    "abstract": "This research presents the evolution from the Personalized Metabolic Avatar (PMA) to the Generalized Metabolic Avatar (GMA), advancing personalized weight forecasting through improved machine learning architectures and broader applicability across diverse patient populations."
+  },
+  {
+    "title": "Machine Learning Applications in Oral Pathology Diagnosis",
+    "year": 2025,
+    "journal": "Journal of Oral Pathology & Medicine",
+    "doi": "10.1111/jop.70035",
+    "authors": ["S. Capezzone et al."],
+    "abstract": "A comprehensive study exploring the application of machine learning techniques in oral pathology diagnosis, demonstrating improved accuracy and efficiency in identifying pathological conditions."
+  },
+  {
+    "title": "Digital applications for diet monitoring, planning, and precision nutrition for citizens and professionals: a state of the art",
+    "year": 2025,
+    "journal": "Nutrition Reviews",
+    "doi": "10.1093/nutrit/nuae035",
+    "authors": ["A. Abeltino", "A. Riente", "G. Bianchetti", "C. Serantoni", "M. De Spirito", "S. Capezzone", "R. Esposito", "G. Maulucci"],
+    "abstract": "This review examines digital applications for diet monitoring and precision nutrition, covering wearable devices, masticatory analysis, glucose monitoring systems, and mobile applications for dietary planning. The paper discusses the current state of technology and its potential for personalized nutrition interventions."
+  },
+  {
+    "title": "Assessment of the influence of chewing pattern on glucose homeostasis through linear regression model",
+    "year": 2024,
+    "journal": "Nutrition",
+    "doi": "10.1016/j.nut.2024.112481",
+    "authors": ["A. Riente", "A. Abeltino", "C. Serantoni", "S. Capezzone", "R. Esposito", "M. De Spirito", "G. Maulucci"],
+    "abstract": "This study investigates the relationship between chewing patterns and glucose homeostasis using linear regression modeling, revealing significant correlations between mastication behaviors and postprandial glucose responses."
+  },
+  {
+    "title": "Evaluation of the Chewing Pattern through an Electromyographic Device",
+    "year": 2023,
+    "journal": "Biosensors (MDPI)",
+    "doi": "10.3390/bios13070749",
+    "authors": ["A. Riente", "A. Abeltino", "C. Serantoni", "G. Bianchetti", "M. De Spirito", "S. Capezzone", "R. Esposito", "G. Maulucci"],
+    "abstract": "Development and evaluation of a non-invasive electromyographic device for analyzing personalized chewing patterns. The device evaluates chewing time, cycle time, work rate, number of chews and work, providing insights into mastication behaviors and their potential health implications."
+  }
+]
