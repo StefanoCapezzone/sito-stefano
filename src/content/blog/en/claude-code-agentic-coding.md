@@ -4,6 +4,7 @@ description: "With Claude Code 2.0, Anthropic has paved the way for a new era of
 pubDate: 2026-01-09
 image: "/images/blog/claude-code.webp"
 imageAlt: "Claude Code - Agentic Coding"
+ogImage: "/images/blog/claude-code-og.webp"
 lang: en
 tags: ["artificial-intelligence", "llm", "claude-code", "software-engineering", "agentic-ai"]
 ---

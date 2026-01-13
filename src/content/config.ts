@@ -9,6 +9,7 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    ogImage: z.string().optional(),
     lang: z.enum(['it', 'en']),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().default(false),

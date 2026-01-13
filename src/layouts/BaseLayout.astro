@@ -8,6 +8,7 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  ogImage?: string;
   lang?: 'it' | 'en';
   canonicalURL?: string;
 }
@@ -15,14 +16,17 @@ interface Props {
 const {
   title,
   description,
-  image = '/images/og-default.webp',
+  image,
+  ogImage,
   lang = 'it',
   canonicalURL = Astro.url.href
 } = Astro.props;
 
+const socialImage = ogImage || image || '/images/og-default.webp';
+
 const siteName = 'Stefano Capezzone';
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
-const socialImageURL = new URL(image, Astro.site);
+const socialImageURL = new URL(socialImage, Astro.site);
 ---
 
 <!DOCTYPE html>
