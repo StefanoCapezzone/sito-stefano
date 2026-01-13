@@ -1,0 +1,2 @@
+# Redirect root to Italian homepage
+/ /it/ 302
