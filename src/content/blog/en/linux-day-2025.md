@@ -2,11 +2,14 @@
 title: "Linux Day 2025: From Cybersecurity to Extreme LLM Self-Hosting"
 description: "A story from Linux Day 2025 in Rome, where I presented an extreme self-hosting experiment: running an LLM on a Raspberry Pi 5."
 pubDate: 2025-10-25
+updatedDate: 2026-02-12
 image: "/images/blog/linux-day-llm.webp"
 imageAlt: "Raspberry Pi 5 with cooler and M.2 HAT for SSD"
 lang: en
 tags: ["linux", "llm", "raspberry-pi", "self-hosting", "artificial-intelligence"]
 ---
+
+> **TL;DR**: At [Linux Day 2025](https://www.linuxday.it/) in Rome, I demonstrated how to run a full LLM on a [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) with 16GB RAM, using [Ollama](https://ollama.com/) and [Open WebUI](https://github.com/open-webui/open-webui). An AI chatbot comparable to ChatGPT 2023, running on a 100-euro device connected to a USB-C charger.
 
 The last Saturday of October is the date when Italy typically hosts **Linux Day**, the celebration dedicated to the operating system that now powers virtually all major enterprise systems.
 
@@ -104,7 +107,7 @@ The room was packed; I'm starting to have my own fan base.
 
 On the table was a Raspberry Pi 5, packaged with the official fan cooler and expansion HAT to have a 512 GB SSD as mass storage.
 
-On board was an installation of **Ollama** and **Open WebUI**, configured perfectly, with a nice collection of 4-bit quantized models, including the incredible Qwen2.5-vl and Qwen3 from Alibaba.
+On board was an installation of [**Ollama**](https://ollama.com/) and [**Open WebUI**](https://github.com/open-webui/open-webui), configured perfectly, with a nice collection of 4-bit quantized models, including the incredible [Qwen2.5-vl and Qwen3](https://huggingface.co/Qwen) from Alibaba.
 
 ### The Secure Network
 
@@ -120,4 +123,27 @@ The ChatBot really looked like ChatGPT, responded fluently, on point, and in a f
 
 An AI comparable to ChatGPT from 2023 was running without requiring a dedicated nuclear reactor, on a device connected via a USB-C charger to a regular power outlet, barely getting warm.
 
-After a few minutes, someone caught my hook and understood. The CyberPunk culture is still alive. They got into the Raspberry Pi and issued the shutdown command. There are promising young people in our university classrooms.
+After a few minutes, someone caught my hook and understood. The CyberPunk culture is still alive. They got into the [Raspberry Pi](https://www.raspberrypi.com/products/raspberry-pi-5/) and issued the shutdown command. There are promising young people in our university classrooms.
+
+## Technical Specifications
+
+| Component | Detail |
+|---|---|
+| **Hardware** | [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) 16GB RAM |
+| **Storage** | 512GB SSD via M.2 HAT |
+| **Cooling** | Official fan cooler |
+| **OS** | Raspberry Pi OS (Debian-based, ARM64) |
+| **LLM Runtime** | [Ollama](https://ollama.com/) |
+| **Frontend** | [Open WebUI](https://github.com/open-webui/open-webui) |
+| **Models** | [Qwen2.5-vl, Qwen3](https://huggingface.co/Qwen) (4-bit quantized) |
+| **Network** | Dedicated Wi-Fi AP on Samsung SoC |
+| **Power** | Standard USB-C (5V/5A) |
+
+## Key Takeaways
+
+1. **Open source LLMs are ready for real use**: models like Qwen3 quantized to 4-bit offer performance comparable to ChatGPT 2023, sufficient for many business use cases
+2. **Self-hosting is accessible**: with an investment of about 150 euros (Raspberry Pi 5 + SSD), it's possible to have a private AI instance, with full GDPR compliance
+3. **Privacy is guaranteed by design**: data never leaves the device, no dependency on cloud services
+4. **Cybersecurity remains essential**: as demonstrated the previous year with the Flipper Zero, network security awareness is crucial, even when talking about AI
+
+*The Linux Day experiment is part of the broader work of [AI technology outreach](/en/bio) we carry out through CNA Roma's Digital Innovation Hub. For a deeper look at how AI is transforming software development, read the article on [Claude Code and the Era of Agentic Coding](/en/blog/claude-code-agentic-coding).*

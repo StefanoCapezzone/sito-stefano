@@ -32,6 +32,32 @@ export default defineConfig({
           en: 'en-US',
         },
       },
+      changefreq: 'weekly',
+      lastmod: new Date(),
+      serialize(item) {
+        // Homepage e bio con priorita' alta
+        if (item.url.match(/\/(it|en)\/?$/)) {
+          item.priority = 1.0;
+          item.changefreq = 'weekly';
+        } else if (item.url.includes('/bio')) {
+          item.priority = 0.9;
+          item.changefreq = 'monthly';
+        } else if (item.url.includes('/blog/') && !item.url.endsWith('/blog/')) {
+          // Singoli articoli blog
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        } else if (item.url.includes('/blog')) {
+          // Blog index
+          item.priority = 0.7;
+          item.changefreq = 'weekly';
+        } else if (item.url.includes('/pubblicazioni') || item.url.includes('/publications')) {
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        } else {
+          item.priority = 0.5;
+        }
+        return item;
+      },
     }),
   ],
 

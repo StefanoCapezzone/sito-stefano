@@ -2,11 +2,14 @@
 title: "Linux Day 2025: Dalla Cybersecurity al Self Hosting Estremo di LLM"
 description: "Racconto del Linux Day 2025 a Roma, dove ho presentato un esperimento di self-hosting estremo: far girare un LLM su una Raspberry Pi 5."
 pubDate: 2025-10-25
+updatedDate: 2026-02-12
 image: "/images/blog/linux-day-llm.webp"
 imageAlt: "Raspberry Pi 5 con cooler e HAT M.2 per SSD"
 lang: it
 tags: ["linux", "llm", "raspberry-pi", "self-hosting", "intelligenza-artificiale"]
 ---
+
+> **In sintesi**: Al [Linux Day 2025](https://www.linuxday.it/) a Roma ho dimostrato come far girare un LLM completo su una [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) da 16GB, usando [Ollama](https://ollama.com/) e [Open WebUI](https://github.com/open-webui/open-webui). Un chatbot IA paragonabile a ChatGPT 2023, in esecuzione su un dispositivo da 100 euro collegato ad una presa USB-C.
 
 L'ultimo sabato di ottobre è una data in cui in Italia solitamente viene collocato il **Linux Day** cioè la giornata dedicata alla celebrazione del sistema operativo che oramai ospita la totalità dei grandi sistemi enterprise.
 
@@ -104,7 +107,7 @@ L'aula era gremita, oramai comincio ad avere la mia fan base.
 
 Sul tavolo una Raspberry Pi 5, impacchettata con il *cooler* ufficiale a ventolina e HAT di espansione per avere come memoria di massa una SSD da 512 Gbyte.
 
-A bordo una installazione di **Ollama** e **Open WebUI**, configurati a puntino, con una bella collezione di modelli quantizzati a 4 bit, tra cui gli incredibili Qwen2.5-vl e Qwen3 di Alibaba.
+A bordo una installazione di [**Ollama**](https://ollama.com/) e [**Open WebUI**](https://github.com/open-webui/open-webui), configurati a puntino, con una bella collezione di modelli quantizzati a 4 bit, tra cui gli incredibili [Qwen2.5-vl e Qwen3](https://huggingface.co/Qwen) di Alibaba.
 
 ### La rete sicura
 
@@ -120,4 +123,27 @@ Il ChatBot sembrava veramente ChatGPT, rispondeva fluidamente, a tono e in pochi
 
 Un'IA comparabile al ChatGPT del 2023 era in esecuzione senza richiedere un reattore nucleare dedicato, su un dispositivo collegato tramite un caricatore USB-C ad una normale presa elettrica, scaldando giusto un poco.
 
-Dopo alcuni minuti, qualcuno ha colto il mio gancio e ha capito, la cultura CyberPunk è ancora viva, è entrato nella Raspberry Pi e ha dato il comando di shutdown. Ci sono giovani promettenti nelle nostre aule universitarie.
+Dopo alcuni minuti, qualcuno ha colto il mio gancio e ha capito, la cultura CyberPunk è ancora viva, è entrato nella [Raspberry Pi](https://www.raspberrypi.com/products/raspberry-pi-5/) e ha dato il comando di shutdown. Ci sono giovani promettenti nelle nostre aule universitarie.
+
+## Specifiche tecniche della configurazione
+
+| Componente | Dettaglio |
+|---|---|
+| **Hardware** | [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) 16GB RAM |
+| **Storage** | SSD 512GB via HAT M.2 |
+| **Raffreddamento** | Cooler ufficiale a ventola |
+| **OS** | Raspberry Pi OS (Debian-based, ARM64) |
+| **Runtime LLM** | [Ollama](https://ollama.com/) |
+| **Frontend** | [Open WebUI](https://github.com/open-webui/open-webui) |
+| **Modelli** | [Qwen2.5-vl, Qwen3](https://huggingface.co/Qwen) (4-bit quantizzati) |
+| **Rete** | AP Wi-Fi dedicato su SoC Samsung |
+| **Alimentazione** | USB-C standard (5V/5A) |
+
+## Cosa abbiamo imparato
+
+1. **I LLM open source sono pronti per l'uso reale**: modelli come Qwen3 quantizzati a 4 bit offrono prestazioni paragonabili a ChatGPT 2023, sufficienti per molti casi d'uso aziendali
+2. **Il self-hosting è accessibile**: con un investimento di circa 150 euro (Raspberry Pi 5 + SSD) è possibile avere un'istanza privata di IA, con piena compliance GDPR
+3. **La privacy è garantita by design**: i dati non escono mai dal dispositivo, nessuna dipendenza da servizi cloud
+4. **La cybersecurity resta fondamentale**: come dimostrato l'anno precedente con il Flipper Zero, la consapevolezza sulla sicurezza delle reti è essenziale, anche quando si parla di IA
+
+*L'esperimento del Linux Day si inserisce nel più ampio lavoro di [diffusione delle tecnologie IA](/it/bio) che portiamo avanti attraverso il Digital Innovation Hub di CNA Roma. Per un approfondimento su come l'IA stia trasformando lo sviluppo software, leggi l'articolo su [Claude Code e l'era del coding agentico](/it/blog/claude-code-agentic-coding).*

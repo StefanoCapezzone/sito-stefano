@@ -2,12 +2,15 @@
 title: "Claude Code: benvenuti nell'era del coding agentico"
 description: "Con Claude Code 2.0, Anthropic ha aperto la strada ad una nuova era dello sviluppo software. Non vibe coding, ma vera ingegneria del software potenziata dall'IA."
 pubDate: 2026-01-09
+updatedDate: 2026-02-12
 image: "/images/blog/claude-code.webp"
 imageAlt: "Claude Code - Agentic Coding"
 ogImage: "/images/blog/claude-code-og.webp"
 lang: it
 tags: ["intelligenza-artificiale", "llm", "claude-code", "software-engineering", "agentic-ai"]
 ---
+
+> **In sintesi**: Claude Code 2.0 di [Anthropic](https://www.anthropic.com/) non e' uno strumento di vibe coding, ma un'infrastruttura completa di software engineering basata su agenti IA. Grazie a tecniche avanzate di [agent engineering](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview), riesce a gestire codebase reali di centinaia di migliaia di righe di codice, emulando il lavoro di un intero team di sviluppatori. L'esperienza sul campo del [Digital Innovation Hub di CNA Roma](https://cnaroma.it) ha confermato la piena automazione delle attivita' di coding con supervisione ingegneristica.
 
 Nelle ultime settimane sono avvenuti due fenomeni apparentemente opposti.
 
@@ -127,7 +130,7 @@ Ma non divaghiamo e torniamo al miracolo di Claude Code.
 
 Se Claude Code non è roba da vibe coding, allora cos'è?
 
-Claude Code è un agente software, basato sui LLM di Anthropic, in grado di lavorare autonomamente per tempi molto lunghi, decine di minuti, teoricamente anche diverse ore, in grado di gestire una base di codice reale, complessa, con dimensioni anche di qualche milione di linee di codice.
+Claude Code è un [agente software](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview), basato sui LLM di [Anthropic](https://www.anthropic.com/), in grado di lavorare autonomamente per tempi molto lunghi, decine di minuti, teoricamente anche diverse ore, in grado di gestire una base di codice reale, complessa, con dimensioni anche di qualche milione di linee di codice.
 
 Ma non è uno strumento di vibe coding.
 
@@ -217,4 +220,17 @@ I nostri associati, pionieri nell'uso di questo tipo di framework agentici, stan
 
 I primi effetti sull'organizzazione aziendale hanno riguardato la riqualificazione di molti sviluppatori e la ricollocazione su posizioni professionali di livello superiore.
 
-Dal mio privilegiato punto di osservazione, mi sento di affermare che la nuova era dello sviluppo software è appena iniziata.
+Dal [mio privilegiato punto di osservazione](/it/bio), mi sento di affermare che la nuova era dello sviluppo software è appena iniziata.
+
+## I numeri della nostra esperienza
+
+L'attività del Digital Innovation Hub di CNA Roma ha coinvolto oltre 15 aziende ICT del territorio, che hanno adottato Claude Code nei propri processi di sviluppo. I risultati principali:
+
+- **Riduzione dei tempi di sviluppo**: le sessioni di coding agentico producono in un'ora l'equivalente di una giornata di lavoro di uno sviluppatore senior
+- **Riqualificazione professionale**: sviluppatori junior sono stati ricollocati su posizioni di software engineering e project management
+- **Qualità del codice**: le code review automatizzate hanno ridotto i bug in produzione
+- **Primi prodotti rilasciati**: software interamente realizzato con supervisione ingegneristica e coding agentico
+
+L'esperienza conferma che il valore non risiede nello strumento in sé, ma nella capacità di applicare i principi dell'ingegneria del software alla gestione degli agenti IA. Chi ha provato ad usare Claude Code come un ChatBot ha fallito; chi lo ha usato come un team di sviluppatori virtuali, governato da solide pratiche di software engineering, ha ottenuto risultati straordinari.
+
+*Per un altro esempio di come le tecnologie open source stiano democratizzando l'accesso all'IA, leggi il mio articolo sul [Linux Day 2025: self-hosting estremo di LLM](/it/blog/linux-day-2025).*

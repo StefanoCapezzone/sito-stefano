@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getLocalizedUrl } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -11,6 +12,23 @@ interface Props {
   ogImage?: string;
   lang?: 'it' | 'en';
   canonicalURL?: string;
+  jsonLd?: object | object[];
+  ogType?: string;
+  datePublished?: string;
+  dateModified?: string;
+  articleMeta?: {
+    publishedTime: string;
+    modifiedTime: string;
+    author: string;
+    tags?: string[];
+  };
+  citationMeta?: Array<{
+    title: string;
+    authors: string[];
+    doi: string;
+    journal: string;
+    year: number;
+  }>;
 }
 
 const {
@@ -19,7 +37,13 @@ const {
   image,
   ogImage,
   lang = 'it',
-  canonicalURL = Astro.url.href
+  canonicalURL = Astro.url.href,
+  jsonLd,
+  ogType = 'website',
+  datePublished,
+  dateModified,
+  articleMeta,
+  citationMeta,
 } = Astro.props;
 
 const socialImage = ogImage || image || '/images/og-default.webp';
@@ -27,6 +51,76 @@ const socialImage = ogImage || image || '/images/og-default.webp';
 const siteName = 'Stefano Capezzone';
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 const socialImageURL = new URL(socialImage, Astro.site);
+
+const currentPath = Astro.url.pathname;
+const hreflangIt = new URL(getLocalizedUrl(currentPath, 'it'), Astro.site).href;
+const hreflangEn = new URL(getLocalizedUrl(currentPath, 'en'), Astro.site).href;
+
+const personSchema = {
+  "@type": "Person",
+  "@id": "https://stefano.capezzone.it/#person",
+  "name": "Stefano Capezzone",
+  "givenName": "Stefano",
+  "familyName": "Capezzone",
+  "jobTitle": lang === 'it' ? "Imprenditore, Docente e Manager dell'Innovazione" : "Entrepreneur, Lecturer and Innovation Manager",
+  "url": "https://stefano.capezzone.it",
+  "image": "https://stefano.capezzone.it/images/optimized/stefano-800.webp",
+  "description": lang === 'it'
+    ? "Imprenditore, docente e manager dell'innovazione con oltre trent'anni di esperienza nel settore ICT e nell'Intelligenza Artificiale."
+    : "Entrepreneur, lecturer and innovation manager with over thirty years of experience in ICT and Artificial Intelligence.",
+  "sameAs": [
+    "https://www.linkedin.com/in/stefano-capezzone/",
+    "https://x.com/stefacap",
+    "https://mastodon.social/@stefanocapezzone",
+    "https://orcid.org/0009-0001-1857-5043",
+    "https://www.facebook.com/stefano.capezzone/",
+    "https://fablabs.io/users/blackparrot"
+  ],
+  "worksFor": [
+    {
+      "@type": "Organization",
+      "name": "Fastal Srl",
+      "url": "https://www.fastal.it"
+    },
+    {
+      "@type": "Organization",
+      "name": "CNA Roma",
+      "url": "https://cnaroma.it"
+    }
+  ],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Università La Sapienza di Roma"
+  },
+  "knowsAbout": [
+    "Artificial Intelligence",
+    "Software Engineering",
+    "Cybersecurity",
+    "Digital Transformation",
+    "LLM",
+    "Quantum Computing",
+    "IoT",
+    "Industry 4.0"
+  ]
+};
+
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": "https://stefano.capezzone.it/#website",
+  "name": "Stefano Capezzone",
+  "url": "https://stefano.capezzone.it",
+  "inLanguage": ["it-IT", "en-US"],
+  "publisher": { "@id": "https://stefano.capezzone.it/#person" }
+};
+
+const baseJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [personSchema, websiteSchema]
+};
+
+const allJsonLd = jsonLd
+  ? Array.isArray(jsonLd) ? jsonLd : [jsonLd]
+  : [];
 ---
 
 <!DOCTYPE html>
@@ -40,9 +134,11 @@ const socialImageURL = new URL(socialImage, Astro.site);
     <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
     <meta name="author" content="Stefano Capezzone" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
+    <link rel="author" href={`/${lang}/bio`} />
 
     <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -51,34 +147,80 @@ const socialImageURL = new URL(socialImage, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImageURL} />
     <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
     <meta property="og:site_name" content={siteName} />
+    {articleMeta && (
+      <>
+        <meta property="article:published_time" content={articleMeta.publishedTime} />
+        <meta property="article:modified_time" content={articleMeta.modifiedTime} />
+        <meta property="article:author" content={articleMeta.author} />
+        {articleMeta.tags?.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@stefacap" />
+    <meta name="twitter:creator" content="@stefacap" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
 
+    <!-- Date meta tags -->
+    {datePublished && <meta property="og:article:published_time" content={datePublished} />}
+    {dateModified && <meta property="og:updated_time" content={dateModified} />}
+
+    <!-- Dublin Core -->
+    <meta name="DC.title" content={title} />
+    <meta name="DC.creator" content="Stefano Capezzone" />
+    <meta name="DC.description" content={description} />
+    <meta name="DC.language" content={lang} />
+    {datePublished && <meta name="DC.date" content={datePublished} />}
+    {dateModified && <meta name="DC.date.modified" content={dateModified} />}
+
+    <!-- Citation Meta Tags (Highwire Press / Google Scholar) -->
+    {citationMeta?.map((pub) => (
+      <>
+        <meta name="citation_title" content={pub.title} />
+        {pub.authors.map((author) => (
+          <meta name="citation_author" content={author} />
+        ))}
+        <meta name="citation_doi" content={pub.doi} />
+        <meta name="citation_journal_title" content={pub.journal} />
+        <meta name="citation_publication_date" content={`${pub.year}`} />
+      </>
+    ))}
+
     <!-- Alternate languages -->
-    <link rel="alternate" hreflang="it" href={canonicalURL.replace('/en/', '/it/')} />
-    <link rel="alternate" hreflang="en" href={canonicalURL.replace('/it/', '/en/')} />
-    <link rel="alternate" hreflang="x-default" href={canonicalURL.replace('/en/', '/it/')} />
+    <link rel="alternate" hreflang="it" href={hreflangIt} />
+    <link rel="alternate" hreflang="en" href={hreflangEn} />
+    <link rel="alternate" hreflang="x-default" href={hreflangIt} />
 
     <!-- View Transitions -->
     <ClientRouter />
 
-    <!-- Preconnect for performance -->
+    <!-- Preconnect and DNS Prefetch for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://doi.org" />
+    <link rel="dns-prefetch" href="https://www.linkedin.com" />
+    <link rel="dns-prefetch" href="https://orcid.org" />
 
     <!-- Generator -->
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
+    {allJsonLd.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body class="min-h-screen flex flex-col bg-white text-ibm-blue-90">
     <!-- Skip to content for accessibility -->

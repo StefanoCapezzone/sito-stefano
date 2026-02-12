@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getCollection } from 'astro:content';
 import { t } from '../../i18n/utils';
 
@@ -13,11 +14,51 @@ const sortedPublications = [...publications].sort((a, b) => b.year - a.year);
 
 const title = t(lang, 'publications.title');
 const description = t(lang, 'publications.description');
+
+const scholarlyArticlesSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Scientific publications by Stefano Capezzone",
+  "itemListElement": sortedPublications.map((pub, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "ScholarlyArticle",
+      "name": pub.title,
+      "author": pub.authors?.map((name: string) => ({ "@type": "Person", "name": name })) || [],
+      "datePublished": `${pub.year}`,
+      "isPartOf": { "@type": "Periodical", "name": pub.journal },
+      "sameAs": `https://doi.org/${pub.doi}`,
+      ...(pub.abstract ? { "abstract": pub.abstract } : {}),
+    }
+  }))
+};
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Publications' },
+];
 ---
 
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  jsonLd={scholarlyArticlesSchema}
+  datePublished="2025-01-01"
+  dateModified="2026-02-12"
+  citationMeta={sortedPublications.map((pub) => ({
+    title: pub.title,
+    authors: pub.authors || [],
+    doi: pub.doi,
+    journal: pub.journal,
+    year: pub.year,
+  }))}
+>
   <div class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumb items={breadcrumbItems} lang={lang} />
+
       <!-- Header -->
       <div class="mb-12">
         <h1 class="text-3xl lg:text-4xl font-bold text-ibm-blue-90 mb-4">

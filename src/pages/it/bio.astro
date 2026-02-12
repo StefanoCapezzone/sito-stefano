@@ -1,16 +1,94 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SocialLinks from '../../components/SocialLinks.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { t } from '../../i18n/utils';
 
 const lang = 'it';
 const title = t(lang, 'bio.title');
 const description = t(lang, 'bio.description');
+
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": { "@id": "https://stefano.capezzone.it/#person" },
+  "dateCreated": "2025-01-01",
+  "dateModified": "2026-02-12",
+  "inLanguage": "it-IT"
+};
+
+const eventsSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Speaking engagements di Stefano Capezzone",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Event",
+        "name": "Expo 2025 Osaka",
+        "startDate": "2025-04-13",
+        "location": { "@type": "Place", "name": "Osaka, Giappone" },
+        "performer": { "@id": "https://stefano.capezzone.it/#person" }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Event",
+        "name": "Linux Day 2025 - Self-hosting estremo di LLM",
+        "startDate": "2025-10-25",
+        "location": { "@type": "Place", "name": "Università di Roma Tor Vergata" },
+        "performer": { "@id": "https://stefano.capezzone.it/#person" },
+        "url": "https://stefano.capezzone.it/it/blog/linux-day-2025"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "Event",
+        "name": "Linux Day 2024 - Hacking di Reti Wireless con Flipper Zero",
+        "startDate": "2024-10-26",
+        "location": { "@type": "Place", "name": "Università di Roma Tor Vergata" },
+        "performer": { "@id": "https://stefano.capezzone.it/#person" }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Event",
+        "name": "MakerFaire Rome",
+        "location": { "@type": "Place", "name": "Roma, Italia" },
+        "performer": { "@id": "https://stefano.capezzone.it/#person" }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "Event",
+        "name": "TEDx Ostiense",
+        "location": { "@type": "Place", "name": "Roma, Italia" },
+        "performer": { "@id": "https://stefano.capezzone.it/#person" }
+      }
+    }
+  ]
+};
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/it/' },
+  { label: 'Bio' },
+];
 ---
 
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout title={title} description={description} lang={lang} jsonLd={[profilePageSchema, eventsSchema]} datePublished="2025-01-01" dateModified="2026-02-12">
   <article class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumb items={breadcrumbItems} lang={lang} />
       <!-- Header with photo -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
         <div class="lg:col-span-1">
@@ -68,7 +146,7 @@ const description = t(lang, 'bio.description');
 
           <h2>Innovazione, associazionismo e cultura digitale</h2>
           <p>
-            Dal 2015 al 2024 è stato Presidente di <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, ruolo in cui ha promosso la diffusione della cultura digitale e delle tecnologie del framework Industria 4.0 presso imprese manifatturiere e artigiane del Lazio. In questo ambito ha progettato e coordinato iniziative territoriali, percorsi di accompagnamento alla trasformazione digitale e attività di networking tra aziende e Fab Lab della rete regionale.
+            Dal 2015 al 2024 è stato Presidente di <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, ruolo in cui ha promosso la diffusione della cultura digitale e delle tecnologie del framework Industria 4.0 presso imprese manifatturiere e artigiane del Lazio. In questo ambito ha progettato e coordinato iniziative territoriali, percorsi di accompagnamento alla trasformazione digitale e attività di networking tra aziende e Fab Lab della rete regionale. Attraverso il Digital Innovation Hub di CNA Roma, ha introdotto l'uso di framework agentici di IA per lo sviluppo software nelle aziende associate, come descritto nell'articolo <a href="/it/blog/claude-code-agentic-coding" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Claude Code e l'era del coding agentico</a>.
           </p>
           <p>
             Ha tenuto numerose attività di docenza e divulgazione rivolte a quadri dirigenti, imprenditori e professionisti, affrontando temi quali fabbricazione additiva, robotica collaborativa, prototipazione rapida elettronica e nuovi modelli produttivi abilitati dalle tecnologie digitali.
@@ -89,7 +167,7 @@ const description = t(lang, 'bio.description');
 
           <h2>Interventi come relatore</h2>
           <p>
-            Stefano Capezzone è spesso presente come relatore in convegni ed eventi dedicati all'innovazione, tra le partecipazioni principali vi sono: TedX Ostiense, Linux Day Roma, Expo 2025 Osaka, MakerFaire Rome, Stati Generali dell'Innovazione Comune di Roma.
+            Stefano Capezzone è spesso presente come relatore in convegni ed eventi dedicati all'innovazione, tra le partecipazioni principali vi sono: TedX Ostiense, <a href="/it/blog/linux-day-2025" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Linux Day Roma</a>, Expo 2025 Osaka, MakerFaire Rome, Stati Generali dell'Innovazione Comune di Roma.
           </p>
 
           <h2>Formazione e competenze</h2>

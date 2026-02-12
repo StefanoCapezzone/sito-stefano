@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection } from 'astro:content';
 import { t, formatDate } from '../../../i18n/utils';
 
@@ -13,11 +14,20 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 
 const title = t(lang, 'blog.title');
 const description = t(lang, 'blog.description');
+
+const latestDate = posts[0]?.data.updatedDate || posts[0]?.data.pubDate;
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Blog' },
+];
 ---
 
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout title={title} description={description} lang={lang} dateModified={latestDate ? latestDate.toISOString().split('T')[0] : undefined}>
   <div class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumb items={breadcrumbItems} lang={lang} />
+
       <!-- Header -->
       <div class="mb-12">
         <h1 class="text-3xl lg:text-4xl font-bold text-ibm-blue-90 mb-4">

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection, render } from 'astro:content';
 import { t, formatDate } from '../../../i18n/utils';
 
@@ -11,7 +12,6 @@ export async function getStaticPaths() {
   });
 
   return posts.map((post) => ({
-    // Remove language prefix from slug (e.g., "en/linux-day-2025" -> "linux-day-2025")
     params: { slug: post.slug.replace(/^(it|en)\//, '') },
     props: { post },
   }));
@@ -19,6 +19,33 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const allPosts = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
+const relatedPosts = allPosts
+  .filter((p) => p.slug !== post.slug)
+  .filter((p) => p.data.tags?.some((tag) => post.data.tags?.includes(tag)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "image": post.data.image ? new URL(post.data.image, Astro.site).href : undefined,
+  "datePublished": post.data.pubDate.toISOString(),
+  "dateModified": (post.data.updatedDate || post.data.pubDate).toISOString(),
+  "author": { "@id": "https://stefano.capezzone.it/#person" },
+  "publisher": { "@id": "https://stefano.capezzone.it/#person" },
+  "mainEntityOfPage": Astro.url.href,
+  "inLanguage": "en-US"
+};
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Blog', href: '/en/blog' },
+  { label: post.data.title },
+];
 ---
 
 <BaseLayout
@@ -27,12 +54,26 @@ const { Content } = await render(post);
   image={post.data.image}
   ogImage={post.data.ogImage}
   lang={lang}
+  jsonLd={articleSchema}
+  ogType="article"
+  datePublished={post.data.pubDate.toISOString()}
+  dateModified={(post.data.updatedDate || post.data.pubDate).toISOString()}
+  articleMeta={{
+    publishedTime: post.data.pubDate.toISOString(),
+    modifiedTime: (post.data.updatedDate || post.data.pubDate).toISOString(),
+    author: "https://stefano.capezzone.it/en/bio",
+    tags: post.data.tags,
+  }}
 >
   <article class="py-16 lg:py-24">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumb items={breadcrumbItems} lang={lang} />
+
       <!-- Header -->
       <header class="mb-12">
         <div class="flex items-center gap-4 text-sm text-ibm-blue-50 mb-4">
+          <a href="/en/bio" rel="author" class="hover:text-ibm-blue-60 transition-colors">Stefano Capezzone</a>
+          <span>•</span>
           <time datetime={post.data.pubDate.toISOString()}>
             {formatDate(post.data.pubDate, lang)}
           </time>
@@ -82,8 +123,58 @@ const { Content } = await render(post);
         <Content />
       </div>
 
+      <!-- Author Bio Box -->
+      <aside class="mt-16 pt-8 border-t border-ibm-blue-20">
+        <div class="flex items-start gap-4">
+          <img
+            src="/images/optimized/stefano-400.webp"
+            alt="Stefano Capezzone"
+            class="w-16 h-16 rounded-full object-cover"
+            loading="lazy"
+          />
+          <div>
+            <h3 class="font-semibold text-ibm-blue-90">
+              <a href="/en/bio" rel="author" class="hover:text-ibm-blue-60 transition-colors">Stefano Capezzone</a>
+            </h3>
+            <p class="text-sm text-ibm-blue-70 mt-1">
+              Entrepreneur, lecturer and innovation manager. CEO of <a href="https://www.fastal.it/en/" class="text-ibm-blue-60 hover:underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, President of the Communication and Services Union at <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:underline" target="_blank" rel="noopener noreferrer">CNA Roma</a>.
+            </p>
+            <a href="/en/bio" class="text-sm text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors mt-2 inline-block">
+              Full profile &rarr;
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Related Posts -->
+      {relatedPosts.length > 0 && (
+        <aside class="mt-12 pt-8 border-t border-ibm-blue-20">
+          <h3 class="text-lg font-semibold text-ibm-blue-90 mb-6">Related articles</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedPosts.map((rp) => (
+              <a href={`/en/blog/${rp.slug.replace(/^en\//, '')}`} class="group block">
+                {rp.data.image && (
+                  <img src={rp.data.image} alt={rp.data.imageAlt || rp.data.title} class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy" />
+                )}
+                <h4 class="font-medium text-ibm-blue-90 group-hover:text-ibm-blue-60 transition-colors">{rp.data.title}</h4>
+                <time class="text-xs text-ibm-blue-50 mt-1 block" datetime={rp.data.pubDate.toISOString()}>
+                  {formatDate(rp.data.pubDate, lang)}
+                </time>
+              </a>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      <!-- Publications Link -->
+      <aside class="mt-8 p-4 bg-ibm-blue-10 rounded-lg">
+        <p class="text-sm text-ibm-blue-70">
+          Discover Stefano Capezzone's <a href="/en/publications" class="text-ibm-blue-60 font-medium hover:underline">scientific publications</a> on Artificial Intelligence and Quantum Computing.
+        </p>
+      </aside>
+
       <!-- Navigation -->
-      <nav class="mt-16 pt-8 border-t border-ibm-blue-20">
+      <nav class="mt-8 pt-8 border-t border-ibm-blue-20">
         <a
           href="/en/blog"
           class="inline-flex items-center text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors"

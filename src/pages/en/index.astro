@@ -14,11 +14,18 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
+// Get publications
+const publicationsData = await getCollection('publications');
+const publications = publicationsData[0]?.data || [];
+const latestPublications = [...publications].sort((a, b) => b.year - a.year).slice(0, 3);
+
 const title = t(lang, 'site.title');
 const description = t(lang, 'site.description');
+
+const latestDate = latestPosts[0]?.data.updatedDate || latestPosts[0]?.data.pubDate;
 ---
 
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout title={title} description={description} lang={lang} datePublished="2025-01-01" dateModified={latestDate ? latestDate.toISOString().split('T')[0] : "2026-02-12"}>
   <!-- Hero Section -->
   <section class="relative py-20 lg:py-32 bg-gradient-to-b from-ibm-blue-10 to-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,6 +109,47 @@ const description = t(lang, 'site.description');
       </a>
     </div>
   </section>
+
+  <!-- Publications Section -->
+  {latestPublications.length > 0 && (
+    <section class="py-16 lg:py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl lg:text-3xl font-bold text-ibm-blue-90">
+            Scientific Publications
+          </h2>
+          <a
+            href="/en/publications"
+            class="text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
+          >
+            View all &rarr;
+          </a>
+        </div>
+        <div class="space-y-4">
+          {latestPublications.map((pub) => (
+            <a
+              href={`https://doi.org/${pub.doi}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block p-4 bg-ibm-blue-10 rounded-lg hover:bg-ibm-blue-20 transition-colors"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h3 class="font-medium text-ibm-blue-90">{pub.title}</h3>
+                  <p class="text-sm text-ibm-blue-60 mt-1">{pub.journal} ({pub.year})</p>
+                </div>
+                <span class="shrink-0 text-ibm-blue-60">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- Latest Posts Section -->
   {latestPosts.length > 0 && (
