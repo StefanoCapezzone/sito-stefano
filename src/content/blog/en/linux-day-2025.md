@@ -5,6 +5,7 @@ pubDate: 2025-10-25
 updatedDate: 2026-02-12
 image: "/images/blog/linux-day-llm.webp"
 imageAlt: "Raspberry Pi 5 with cooler and M.2 HAT for SSD"
+ogImage: "/images/blog/linux-day-llm-og.webp"
 lang: en
 tags: ["linux", "llm", "raspberry-pi", "self-hosting", "artificial-intelligence"]
 ---

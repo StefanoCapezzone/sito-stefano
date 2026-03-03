@@ -174,9 +174,9 @@ const allJsonLd = jsonLd
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
 
-    <!-- Date meta tags -->
-    {datePublished && <meta property="og:article:published_time" content={datePublished} />}
-    {dateModified && <meta property="og:updated_time" content={dateModified} />}
+    <!-- OG image dimensions -->
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content={title} />
 
     <!-- Dublin Core -->
     <meta name="DC.title" content={title} />

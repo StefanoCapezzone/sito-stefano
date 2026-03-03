@@ -21,9 +21,28 @@ const breadcrumbItems = [
   { label: 'Home', href: '/it/' },
   { label: 'Blog' },
 ];
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": title,
+  "description": description,
+  "url": new URL('/it/blog', Astro.site).href,
+  "inLanguage": "it-IT",
+  "isPartOf": { "@id": "https://stefano.capezzone.it/#website" },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": posts.map((post, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": new URL(`/it/blog/${post.slug.replace(/^it\//, '')}`, Astro.site).href,
+      "name": post.data.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout title={title} description={description} lang={lang} dateModified={latestDate ? latestDate.toISOString().split('T')[0] : undefined}>
+<BaseLayout title={title} description={description} lang={lang} jsonLd={blogSchema} dateModified={latestDate ? latestDate.toISOString().split('T')[0] : undefined}>
   <div class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumb items={breadcrumbItems} lang={lang} />

@@ -23,9 +23,22 @@ const title = t(lang, 'site.title');
 const description = t(lang, 'site.description');
 
 const latestDate = latestPosts[0]?.data.updatedDate || latestPosts[0]?.data.pubDate;
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": new URL('/en/', Astro.site).href,
+  "inLanguage": "en-US",
+  "isPartOf": { "@id": "https://stefano.capezzone.it/#website" },
+  "about": { "@id": "https://stefano.capezzone.it/#person" },
+  "datePublished": "2025-01-01",
+  "dateModified": latestDate ? latestDate.toISOString().split('T')[0] : "2026-02-12",
+};
 ---
 
-<BaseLayout title={title} description={description} lang={lang} datePublished="2025-01-01" dateModified={latestDate ? latestDate.toISOString().split('T')[0] : "2026-02-12"}>
+<BaseLayout title={title} description={description} lang={lang} jsonLd={webPageSchema} datePublished="2025-01-01" dateModified={latestDate ? latestDate.toISOString().split('T')[0] : "2026-02-12"}>
   <!-- Hero Section -->
   <section class="relative py-20 lg:py-32 bg-gradient-to-b from-ibm-blue-10 to-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

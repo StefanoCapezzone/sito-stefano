@@ -27,18 +27,35 @@ const relatedPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
+// Build image array for Article schema (Google recommends multiple images)
+const articleImages = post.data.image ? (() => {
+  const base = post.data.image.replace(/\.webp$/, '');
+  return [
+    new URL(post.data.image, Astro.site).href,
+    post.data.ogImage ? new URL(post.data.ogImage, Astro.site).href : null,
+    new URL(`${base}-800.webp`, Astro.site).href,
+    new URL(`${base}-400.webp`, Astro.site).href,
+  ].filter(Boolean);
+})() : undefined;
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": post.data.title,
   "description": post.data.description,
-  "image": post.data.image ? new URL(post.data.image, Astro.site).href : undefined,
+  "image": articleImages,
   "datePublished": post.data.pubDate.toISOString(),
   "dateModified": (post.data.updatedDate || post.data.pubDate).toISOString(),
-  "author": { "@id": "https://stefano.capezzone.it/#person" },
+  "author": {
+    "@type": "Person",
+    "@id": "https://stefano.capezzone.it/#person",
+    "name": "Stefano Capezzone",
+    "url": "https://stefano.capezzone.it/en/bio"
+  },
   "publisher": { "@id": "https://stefano.capezzone.it/#person" },
   "mainEntityOfPage": Astro.url.href,
-  "inLanguage": "en-US"
+  "inLanguage": "en-US",
+  "articleSection": post.data.tags?.[0] || "Blog"
 };
 
 const breadcrumbItems = [
@@ -109,6 +126,8 @@ const breadcrumbItems = [
             alt={post.data.imageAlt || post.data.title}
             class="w-full rounded-xl shadow-lg"
             loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
           {post.data.imageAlt && (
             <figcaption class="text-center text-sm text-ibm-blue-50 mt-3">
