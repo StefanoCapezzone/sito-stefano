@@ -266,18 +266,36 @@ limitando il lato lungo produce, su un'immagine verticale, un file 583×800 che
 `imageSrcset()` annuncia come `800w` — il browser lo sceglie credendo di avere
 800px di larghezza. Usare `cwebp -resize <w> 0` (altezza automatica).
 
-**La copertina degli articoli misura, non suppone.** È l'elemento LCP della pagina
-(`eager`, `fetchpriority="high"`) e rende in un box largo fino a 848px, quindi a
-differenza delle card ha bisogno anche dell'originale: le varianti si fermano a
-800w. Ma gli originali del blog hanno larghezze diverse fra loro (864, 1169, 1516),
-e un `w` scritto a mano sarebbe giusto per uno e sbagliato per gli altri due. Da
-qui `heroSrcset()` in `src/utils/blog.ts`, che legge la larghezza vera di ogni file
-con `sharp` al build: **il `w` diventa una misura invece di una promessa**, e la
-classe di bug del paragrafo qui sopra non può più ripetersi in silenzio.
+**A garantirlo c'è il build, non la buona volontà.** L'integrazione
+`assertVariantWidths` in `astro.config.mjs` controlla ogni `*-<N>.webp` di
+`public/images/` e fallisce se non è larga N — con il comando per rigenerarla.
+Copre tutte le varianti, comprese le `stefano-square-*` che sono scritte a mano
+nel markup e che nessuna funzione guarderebbe. Il fatto è statico (le varianti
+cambiano solo quando qualcuno le rigenera a mano), quindi si verifica una volta
+al build invece che a ogni chiamata: `imageSrcset()` può restare sincrona e
+dichiarare `400w`/`800w` senza mentire.
 
-Stessa ragione per `og:image:width`/`height` in `BaseLayout`: le OG del blog non
-hanno tutte la stessa forma, quindi si misurano. (`sharp` arrivava già da Astro
-come dipendenza transitiva; ora che il codice lo usa è dichiarato in `package.json`.)
+**Gli originali invece si misurano, perché la loro larghezza non è conoscibile.**
+Le copertine del blog sono larghe 864, 1169 e 1516: un numero scritto a mano
+sarebbe giusto per una e falso per due. `heroImage()` in `src/utils/blog.ts` legge
+i file al build e restituisce sia il `srcset` sia le dimensioni. Serve anche
+`og:image:width`/`height` in `BaseLayout`, per lo stesso motivo: le OG del blog non
+hanno tutte la stessa forma. L'unico punto che tocca il filesystem è
+`measuredSize()` in `src/utils/images.ts` — che ancora `public/` a `import.meta.url`
+e non alla CWD, e **lancia** se le dimensioni non si leggono: meglio un build rotto
+di un `content="undefined"` servito a ogni scraper.
+
+(`sharp` arrivava già da Astro come dipendenza transitiva; ora che il codice lo usa
+è dichiarato in `package.json`.)
+
+**La copertina degli articoli deve avere `width`/`height`.** Non sono decorativi:
+danno le proporzioni al browser prima che l'immagine arrivi. Senza, la `<figure>`
+occupa zero e poi l'immagine atterra spingendo giù ~770px di articolo — CLS a
+palate, sull'elemento LCP, cioè la Core Web Vital che si rompe ottimizzando
+l'altra. Le varianti sono riduzioni proporzionali, quindi il rapporto
+dell'originale vale qualunque variante scelga il browser. Verificato con un `<img>`
+la cui `src` non carica mai: riserva 769px esatti invece di 0. Serve `h-auto`
+accanto a `w-full`, o l'attributo `height` fisserebbe l'altezza.
 
 ### Pattern per immagini responsive
 
@@ -315,6 +333,11 @@ non sono un'approssimazione — `HERO_IMAGE_SIZES` e `RELATED_IMAGE_SIZES` in
 `blog.ts` derivano dal `max-w-*` e dal padding ai breakpoint, e sono verificate
 sul render reale (832px e 261px misurati in browser). Se cambia il layout del
 contenitore, vanno rifatte.
+
+**E deve riservare lo spazio**: `width`/`height` se l'altezza dipende
+dall'immagine (la copertina), oppure un'altezza fissa via CSS (`h-48` sulle card,
+`h-32` sulle miniature correlate, `w-64 h-64` sulla foto profilo). Un `<img>` che
+non fa né l'uno né l'altro sposta il layout quando carica.
 
 ### OG Images
 

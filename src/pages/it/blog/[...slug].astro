@@ -5,7 +5,7 @@ import { getCollection, render } from 'astro:content';
 import { routePath, t, formatDate } from '../../../i18n/utils';
 import {
   blogPostUrl,
-  heroSrcset,
+  heroImage,
   imageSrcset,
   HERO_IMAGE_SIZES,
   RELATED_IMAGE_SIZES,
@@ -34,9 +34,10 @@ const relatedPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-// L'immagine di copertina è l'elemento LCP: serve le varianti, non l'originale
-// a tutte le larghezze. Sta qui e non nel markup perché va misurata al build.
-const heroImageSrcset = post.data.image ? await heroSrcset(post.data.image) : undefined;
+// L'immagine di copertina è l'elemento LCP: serve le varianti invece
+// dell'originale a tutte le larghezze, e le sue dimensioni intrinseche per
+// riservare lo spazio. Sta qui e non nel markup perché va misurata al build.
+const hero = post.data.image ? await heroImage(post.data.image) : undefined;
 
 // Build image array for Article schema (Google recommends multiple images)
 const articleImages = post.data.image ? (() => {
@@ -132,10 +133,12 @@ const breadcrumbItems = [
         <figure class="mb-12">
           <img
             src={post.data.image}
-            srcset={heroImageSrcset}
+            srcset={hero?.srcset}
             sizes={HERO_IMAGE_SIZES}
+            width={hero?.width}
+            height={hero?.height}
             alt={post.data.imageAlt || post.data.title}
-            class="w-full rounded-xl shadow-lg"
+            class="w-full h-auto rounded-xl shadow-lg"
             loading="eager"
             fetchpriority="high"
             decoding="async"

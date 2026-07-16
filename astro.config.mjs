@@ -1,8 +1,63 @@
 // @ts-check
-import { rename, rm } from 'node:fs/promises';
+import { readdir, rename, rm } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import sharp from 'sharp';
+
+/**
+ * Ogni variante `*-<N>.webp` deve essere larga esattamente N pixel.
+ *
+ * È l'invariante su cui poggia ogni `srcset` del sito: il descrittore `w` non è
+ * un'etichetta, è la larghezza vera del file, ed è l'unico dato su cui il
+ * browser sceglie. Il repo l'ha già visto mentire — `claude-code-800.webp` era
+ * 583×800 e si annunciava `800w`, quindi il browser la sceglieva credendo di
+ * avere 800px di larghezza (vedi CLAUDE.md).
+ *
+ * Il controllo vive qui e non nei componenti perché il fatto è statico: le
+ * varianti si generano a mano con `cwebp` e cambiano solo quando qualcuno le
+ * rigenera. Verificarlo una volta al build copre **tutte** le varianti — quelle
+ * del blog (`-400`, `-800`) e quelle della foto profilo (`-320`, `-640`, `-960`),
+ * che sono scritte a mano nel markup e nessuna funzione controllerebbe.
+ *
+ * Fallisce forte, come `nestedNotFoundAsFile`: una variante storta non rompe
+ * niente in modo visibile, fa solo scaricare al browser il file sbagliato per
+ * sempre.
+ */
+function assertVariantWidths() {
+  /** @type {URL} */
+  let publicDir;
+  return {
+    name: 'assert-variant-widths',
+    hooks: {
+      'astro:config:done': ({ config }) => {
+        publicDir = config.publicDir;
+      },
+      'astro:build:start': async () => {
+        const root = fileURLToPath(new URL('images/', publicDir));
+        const files = await readdir(root, { recursive: true });
+        const varianti = files.filter((f) => /-\d+\.webp$/.test(f));
+
+        const bugiarde = [];
+        for (const file of varianti) {
+          const attesa = Number(file.match(/-(\d+)\.webp$/)[1]);
+          const { width } = await sharp(root + file).metadata();
+          if (width !== attesa) {
+            bugiarde.push(`  ${file}: dichiara ${attesa}w, è larga ${width}px`);
+          }
+        }
+
+        if (bugiarde.length > 0) {
+          throw new Error(
+            `Varianti con larghezza diversa dal nome:\n${bugiarde.join('\n')}\n` +
+              `Rigenerarle con: cwebp -resize <N> 0 -q 82 <sorgente> -o <file>-<N>.webp`
+          );
+        }
+      },
+    },
+  };
+}
 
 /**
  * Astro emette `404.html` solo per la 404 di radice: `src/pages/en/404.astro`
@@ -77,6 +132,7 @@ export default defineConfig({
       filter: (page) => page !== 'https://stefano.capezzone.it/',
     }),
     nestedNotFoundAsFile(),
+    assertVariantWidths(),
   ],
 
   // Vite plugins
