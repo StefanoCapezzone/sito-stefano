@@ -267,23 +267,34 @@ limitando il lato lungo produce, su un'immagine verticale, un file 583×800 che
 800px di larghezza. Usare `cwebp -resize <w> 0` (altezza automatica).
 
 **A garantirlo c'è il build, non la buona volontà.** L'integrazione
-`assertVariantWidths` in `astro.config.mjs` controlla ogni `*-<N>.webp` di
-`public/images/` e fallisce se non è larga N — con il comando per rigenerarla.
-Copre tutte le varianti, comprese le `stefano-square-*` che sono scritte a mano
-nel markup e che nessuna funzione guarderebbe. Il fatto è statico (le varianti
-cambiano solo quando qualcuno le rigenera a mano), quindi si verifica una volta
-al build invece che a ogni chiamata: `imageSrcset()` può restare sincrona e
-dichiarare `400w`/`800w` senza mentire.
+`assertDeclaredVariants` in `astro.config.mjs` verifica che ogni variante
+annunciata in un `srcset` **esista** e sia larga quanto promette, e fallisce con
+il comando per generarla. Il fatto è statico (le varianti si rigenerano a mano),
+quindi si verifica una volta al build invece che a ogni chiamata: `imageSrcset()`
+può restare sincrona e dichiarare `400w`/`800w` senza mentire.
+
+**Parte dalle dichiarazioni, non dai file, e la differenza è concreta.** La
+versione che spazzolava `public/` cercando i nomi `-<N>.webp` sbagliava da
+entrambi i lati: chiamare una copertina `linux-day-2025.webp` — cioè come lo slug
+del suo articolo, la convenzione più naturale — faceva fallire il build con
+«dichiara 2025w, è larga 1169px»; e una variante *mancante* non veniva notata,
+perché un file che non c'è non ha un nome da controllare. La scala vive in
+`VARIANT_WIDTHS` (`src/utils/blog.ts`), che è l'unica dichiarazione: la leggono
+`imageSrcset` per annunciarla e l'integrazione per verificarla. Le
+`stefano-square-*` sono elencate a parte nell'integrazione perché sono scritte a
+mano nel markup, quindi nessuna funzione le dichiara.
 
 **Gli originali invece si misurano, perché la loro larghezza non è conoscibile.**
-Le copertine del blog sono larghe 864, 1169 e 1516: un numero scritto a mano
-sarebbe giusto per una e falso per due. `heroImage()` in `src/utils/blog.ts` legge
-i file al build e restituisce sia il `srcset` sia le dimensioni. Serve anche
-`og:image:width`/`height` in `BaseLayout`, per lo stesso motivo: le OG del blog non
-hanno tutte la stessa forma. L'unico punto che tocca il filesystem è
-`measuredSize()` in `src/utils/images.ts` — che ancora `public/` a `import.meta.url`
-e non alla CWD, e **lancia** se le dimensioni non si leggono: meglio un build rotto
-di un `content="undefined"` servito a ogni scraper.
+Ogni copertina del blog è larga in modo diverso dalle altre: un numero scritto a
+mano sarebbe giusto per una e falso per le altre. `heroImage()` in
+`src/utils/blog.ts` misura **solo** l'originale e lo aggiunge a ciò che
+`imageSrcset` già annuncia — le varianti non le rimisura, sarebbe ricontrollare
+un fatto che il build ha già verificato. Serve anche `og:image:width`/`height` in
+`BaseLayout`, per lo stesso motivo: le OG del blog non hanno tutte la stessa
+forma. L'unico punto che tocca il filesystem è `measuredSize()` in
+`src/utils/images.ts` — che ancora `public/` a `import.meta.url` e non alla CWD,
+e **lancia** se le dimensioni non si leggono: meglio un build rotto di un
+`content="undefined"` servito a ogni scraper.
 
 (`sharp` arrivava già da Astro come dipendenza transitiva; ora che il codice lo usa
 è dichiarato in `package.json`.)
@@ -344,10 +355,17 @@ non fa né l'uno né l'altro sposta il layout quando carica.
 - Default: `/images/og-default.webp` (usato in `BaseLayout.astro`)
 - Custom: Ogni post può specificare `ogImage` (separato da `image`) nel frontmatter
 
-**Vanno tagliate ~1.91:1** (1200×630 è la misura di riferimento). Non è estetica:
-LinkedIn e X ritagliano al centro ciò che ricevono, quindi una OG quadrata non
-viene mostrata "un po' storta" — viene **decisa da loro**. `linux-day-llm-og.webp`
-era 1200×1108 e il ritaglio automatico troncava a metà i due soggetti.
+**Vanno orizzontali**, 1200×630 (1.91:1) come misura di riferimento. Non è
+estetica: LinkedIn e X ritagliano al centro ciò che ricevono, quindi la forma che
+non scegli tu la **scelgono loro**. `linux-day-llm-og.webp` era 1200×1108, quasi
+quadrata, e il ritaglio automatico troncava a metà i due soggetti.
+
+Il numero però non è una soglia: quello che rompe è **stare lontano**
+dall'orizzontale, non discostarsi di qualche punto. `claude-code-og.webp` è
+1344×768 (1.75) e va bene — LinkedIn le toglie ~8% e i soggetti restano in campo.
+Da qui la scelta di non asserire il rapporto al build come si fa per le larghezze
+delle varianti: là il confine è netto (o è larga 800 o mente), qui sarebbe una
+soglia arbitraria che boccia file a posto.
 
 ## Blog Posts
 

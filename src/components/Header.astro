@@ -1,6 +1,6 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
-import { routePath, t, type Lang } from '../i18n/utils';
+import { navLinks, type Lang } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -8,14 +8,9 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// Label da i18n e rotte da ROUTES: scriverle qui a mano rendeva i JSON di
-// traduzione una fonte di verità solo apparente.
-const currentNav = [
-  { name: t(lang, 'nav.home'), href: `/${lang}/` },
-  { name: t(lang, 'nav.bio'), href: routePath('bio', lang) },
-  { name: t(lang, 'nav.blog'), href: routePath('blog', lang) },
-  { name: t(lang, 'nav.publications'), href: routePath('publications', lang) },
-];
+// Label da i18n e rotte da ROUTES (vedi navLinks): scriverle qui a mano rendeva
+// i JSON di traduzione una fonte di verità solo apparente.
+const currentNav = navLinks(lang);
 const currentPath = Astro.url.pathname;
 ---
 

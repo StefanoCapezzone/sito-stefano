@@ -4,7 +4,7 @@ import { SITE_LAUNCH_DATE } from '../../consts';
 import SocialLinks from '../../components/SocialLinks.astro';
 import { getCollection } from 'astro:content';
 import { routePath, t, formatDate } from '../../i18n/utils';
-import { blogPostUrl, imageSrcset, CARD_IMAGE_SIZES } from '../../utils/blog';
+import { blogPostUrl, imageSrcset, variantSrc, CARD_IMAGE_SIZES } from '../../utils/blog';
 import {
   displayJournal,
   getPublications,
@@ -198,7 +198,7 @@ const webPageSchema = {
             <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
               {post.data.image && (
                 <img
-                  src={`${post.data.image.replace(/\.webp$/, '')}-800.webp`}
+                  src={variantSrc(post.data.image, 800)}
                   srcset={imageSrcset(post.data.image)}
                   sizes={CARD_IMAGE_SIZES}
                   alt={post.data.imageAlt || post.data.title}

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { routePath, t, type Lang } from '../i18n/utils';
+import { navLinks, t, type Lang } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -11,12 +11,7 @@ const { lang } = Astro.props;
 // Niente Breadcrumb, a differenza di ogni altra pagina: il breadcrumb dichiara
 // una posizione nella gerarchia del sito, e questa pagina risponde a indirizzi
 // che nella gerarchia non stanno.
-const links = [
-  { name: t(lang, 'nav.home'), href: `/${lang}/` },
-  { name: t(lang, 'nav.bio'), href: routePath('bio', lang) },
-  { name: t(lang, 'nav.blog'), href: routePath('blog', lang) },
-  { name: t(lang, 'nav.publications'), href: routePath('publications', lang) },
-];
+const links = navLinks(lang);
 ---
 
 <BaseLayout

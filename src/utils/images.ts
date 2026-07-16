@@ -18,8 +18,9 @@ export interface ImageSize {
  * Dimensioni reali di un file di `public/`, lette dal file stesso al build.
  *
  * Esiste perché le larghezze delle immagini di questo sito **non sono
- * conoscibili a mano**: gli originali del blog sono larghi 864, 1169 e 1516, e
- * un numero scritto nel markup sarebbe giusto per uno e falso per gli altri due.
+ * conoscibili a mano**: ogni copertina del blog ha una larghezza diversa dalle
+ * altre, e un numero scritto nel markup sarebbe giusto per una e falso per le
+ * altre.
  *
  * Lancia se sharp non deduce le dimensioni: un'immagine di cui non sappiamo la
  * forma non può finire in un `w` o in un `og:image:width` — meglio un build

@@ -4,54 +4,82 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import sharp from 'sharp';
+import { VARIANT_WIDTHS, variantSrc } from './src/utils/blog';
+import { measuredSize } from './src/utils/images';
 
 /**
- * Ogni variante `*-<N>.webp` deve essere larga esattamente N pixel.
+ * Ogni variante che il sito annuncia in un `srcset` deve esistere ed essere
+ * larga quanto il suo `w` dichiara.
  *
- * È l'invariante su cui poggia ogni `srcset` del sito: il descrittore `w` non è
+ * È l'invariante su cui poggia ogni `srcset`: il descrittore `w` non è
  * un'etichetta, è la larghezza vera del file, ed è l'unico dato su cui il
  * browser sceglie. Il repo l'ha già visto mentire — `claude-code-800.webp` era
  * 583×800 e si annunciava `800w`, quindi il browser la sceglieva credendo di
  * avere 800px di larghezza (vedi CLAUDE.md).
  *
- * Il controllo vive qui e non nei componenti perché il fatto è statico: le
- * varianti si generano a mano con `cwebp` e cambiano solo quando qualcuno le
- * rigenera. Verificarlo una volta al build copre **tutte** le varianti — quelle
- * del blog (`-400`, `-800`) e quelle della foto profilo (`-320`, `-640`, `-960`),
- * che sono scritte a mano nel markup e nessuna funzione controllerebbe.
+ * **Parte dalle dichiarazioni, non dai file.** Per ogni copertina del blog
+ * chiede a `imageSrcset` cosa promette e verifica quello. Spazzolare invece
+ * `public/` cercando i nomi che *sembrano* varianti sbaglia da entrambi i lati:
+ * `-\d+\.webp` matcha `linux-day-2025.webp` — una copertina chiamata come lo
+ * slug del suo articolo, cioè la convenzione più naturale — e fa fallire il
+ * build con «dichiara 2025w, è larga 1169px»; e non nota una variante
+ * *mancante*, perché un file che non c'è non ha un nome da controllare.
  *
- * Fallisce forte, come `nestedNotFoundAsFile`: una variante storta non rompe
- * niente in modo visibile, fa solo scaricare al browser il file sbagliato per
- * sempre.
+ * Fallisce forte, come `nestedNotFoundAsFile`: una variante storta o assente
+ * non rompe niente in modo visibile, fa solo scaricare al browser il file
+ * sbagliato — o un 404 — per sempre.
  */
-function assertVariantWidths() {
+function assertDeclaredVariants() {
   /** @type {URL} */
   let publicDir;
   return {
-    name: 'assert-variant-widths',
+    name: 'assert-declared-variants',
     hooks: {
       'astro:config:done': ({ config }) => {
         publicDir = config.publicDir;
       },
       'astro:build:start': async () => {
-        const root = fileURLToPath(new URL('images/', publicDir));
-        const files = await readdir(root, { recursive: true });
-        const varianti = files.filter((f) => /-\d+\.webp$/.test(f));
+        // Le copertine: i .webp di blog/ che non siano già una variante o una OG.
+        const blogDir = new URL('images/blog/', publicDir);
+        const covers = (await readdir(fileURLToPath(blogDir)))
+          .filter((f) => f.endsWith('.webp'))
+          .filter((f) => !/-(\d+|og)\.webp$/.test(f));
 
-        const bugiarde = [];
-        for (const file of varianti) {
-          const attesa = Number(file.match(/-(\d+)\.webp$/)[1]);
-          const { width } = await sharp(root + file).metadata();
+        /** Ciò che il sito promette: `[percorso, larghezza attesa]`. */
+        const promesse = [
+          ...covers.flatMap((cover) =>
+            VARIANT_WIDTHS.map((w) => [
+              variantSrc(`/images/blog/${cover}`, w),
+              w,
+            ])
+          ),
+          // La foto profilo: le sue varianti sono scritte a mano nel markup di
+          // homepage e bio, quindi nessuna funzione le dichiara e vanno elencate.
+          ...[320, 640, 960].map((w) => [
+            `/images/optimized/stefano-square-${w}.webp`,
+            w,
+          ]),
+        ];
+
+        const rotte = [];
+        for (const [percorso, attesa] of promesse) {
+          let width;
+          try {
+            ({ width } = await measuredSize(percorso));
+          } catch {
+            rotte.push(`  ${percorso}: annunciata ${attesa}w, non esiste`);
+            continue;
+          }
           if (width !== attesa) {
-            bugiarde.push(`  ${file}: dichiara ${attesa}w, è larga ${width}px`);
+            rotte.push(`  ${percorso}: annunciata ${attesa}w, è larga ${width}px`);
           }
         }
 
-        if (bugiarde.length > 0) {
+        if (rotte.length > 0) {
           throw new Error(
-            `Varianti con larghezza diversa dal nome:\n${bugiarde.join('\n')}\n` +
-              `Rigenerarle con: cwebp -resize <N> 0 -q 82 <sorgente> -o <file>-<N>.webp`
+            `Varianti annunciate nei srcset ma assenti o di larghezza diversa:\n` +
+              `${rotte.join('\n')}\n` +
+              `Generarle con: cwebp -resize <N> 0 -q 82 <sorgente> -o <file>-<N>.webp`
           );
         }
       },
@@ -66,16 +94,35 @@ function assertVariantWidths() {
  * /en/* ricadrebbe sulla 404 italiana e /en/404/ resterebbe una pagina "non
  * trovata" servita con 200 — il soft 404 che questa pagina esiste per togliere.
  *
+ * Le lingue arrivano da `i18n.locales` e non sono scritte qui: la lingua di
+ * default ha già la 404 di radice, tutte le altre hanno la propria annidata.
+ * Cablare `en` significherebbe che una terza lingua **non fa niente in
+ * silenzio** — nessun rename, nessun errore, e /fr/* che ricade sulla 404
+ * italiana mentre /fr/404/ torna a rispondere 200. Cioè esattamente il bug che
+ * questa integrazione esiste per togliere, di nuovo, senza che nessuno lo veda.
+ *
  * Il rename fallisce forte di proposito: se un giorno Astro cambiasse la resa,
  * meglio un build rotto di una 404 che risponde 200 senza dirlo a nessuno.
  */
 function nestedNotFoundAsFile() {
+  /** @type {string[]} */
+  let annidate;
   return {
     name: 'nested-404-as-file',
     hooks: {
+      'astro:config:done': ({ config }) => {
+        annidate = config.i18n.locales
+          .map((l) => (typeof l === 'string' ? l : l.path))
+          .filter((l) => l !== config.i18n.defaultLocale);
+      },
       'astro:build:done': async ({ dir }) => {
-        await rename(new URL('en/404/index.html', dir), new URL('en/404.html', dir));
-        await rm(new URL('en/404/', dir), { recursive: true });
+        for (const lang of annidate) {
+          await rename(
+            new URL(`${lang}/404/index.html`, dir),
+            new URL(`${lang}/404.html`, dir)
+          );
+          await rm(new URL(`${lang}/404/`, dir), { recursive: true });
+        }
       },
     },
   };
@@ -132,7 +179,7 @@ export default defineConfig({
       filter: (page) => page !== 'https://stefano.capezzone.it/',
     }),
     nestedNotFoundAsFile(),
-    assertVariantWidths(),
+    assertDeclaredVariants(),
   ],
 
   // Vite plugins

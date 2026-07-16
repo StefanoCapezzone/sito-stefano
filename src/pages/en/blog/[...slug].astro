@@ -7,6 +7,7 @@ import {
   blogPostUrl,
   heroImage,
   imageSrcset,
+  variantSrc,
   HERO_IMAGE_SIZES,
   RELATED_IMAGE_SIZES,
 } from '../../../utils/blog';
@@ -188,7 +189,7 @@ const breadcrumbItems = [
               <a href={blogPostUrl(rp, lang)} class="group block">
                 {rp.data.image && (
                   <img
-                    src={`${rp.data.image.replace(/\.webp$/, '')}-400.webp`}
+                    src={variantSrc(rp.data.image, 400)}
                     srcset={imageSrcset(rp.data.image)}
                     sizes={RELATED_IMAGE_SIZES}
                     alt={rp.data.imageAlt || rp.data.title}

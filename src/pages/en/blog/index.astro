@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection } from 'astro:content';
 import { t, formatDate } from '../../../i18n/utils';
-import { blogPostUrl, imageSrcset, CARD_IMAGE_SIZES } from '../../../utils/blog';
+import { blogPostUrl, imageSrcset, variantSrc, CARD_IMAGE_SIZES } from '../../../utils/blog';
 
 const lang = 'en';
 
@@ -66,7 +66,7 @@ const blogSchema = {
               {post.data.image && (
                 <a href={blogPostUrl(post, lang)}>
                   <img
-                    src={`${post.data.image.replace(/\.webp$/, '')}-800.webp`}
+                    src={variantSrc(post.data.image, 800)}
                     srcset={imageSrcset(post.data.image)}
                     sizes={CARD_IMAGE_SIZES}
                     alt={post.data.imageAlt || post.data.title}

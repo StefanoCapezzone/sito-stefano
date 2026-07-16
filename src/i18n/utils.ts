@@ -75,6 +75,24 @@ export function routePath(
   return `/${lang}/${[ROUTES[key][lang], ...rest].join('/')}/`;
 }
 
+/**
+ * La navigazione principale del sito: label da `t()`, URL da `ROUTES`.
+ *
+ * Vive qui, accanto al registro delle rotte, perché ha più di un consumatore:
+ * `Header` la rende come menu e `NotFound` come vie d'uscita. Sono la stessa
+ * cosa — la 404 esiste per rimandare dentro il sito — e tenerne due copie
+ * significa che una rotta nuova compare nel menu e non nella 404, senza che
+ * niente lo segnali.
+ */
+export function navLinks(lang: Lang): Array<{ name: string; href: string }> {
+  return [
+    { name: t(lang, 'nav.home'), href: `/${lang}/` },
+    { name: t(lang, 'nav.bio'), href: routePath('bio', lang) },
+    { name: t(lang, 'nav.blog'), href: routePath('blog', lang) },
+    { name: t(lang, 'nav.publications'), href: routePath('publications', lang) },
+  ];
+}
+
 function translateSegment(segment: string, targetLang: Lang): string {
   const key = (Object.keys(ROUTES) as RouteKey[]).find((k) =>
     Object.values(ROUTES[k]).includes(segment as never)
