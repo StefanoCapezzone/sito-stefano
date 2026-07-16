@@ -41,6 +41,12 @@
     "readOnPublisher": "Leggi l'articolo completo",
     "metaDescription": "{title} — {journal}, {year}. Pubblicazione scientifica di Stefano Capezzone."
   },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "description": "La pagina cercata non esiste o è stata spostata.",
+    "message": "L'indirizzo aperto non corrisponde a nessuna pagina del sito: il link potrebbe essere vecchio o contenere un errore di battitura.",
+    "links": "Da qui puoi ripartire:"
+  },
   "footer": {
     "rights": "Tutti i diritti riservati."
   }

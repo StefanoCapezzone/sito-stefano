@@ -1,7 +1,30 @@
 // @ts-check
+import { rename, rm } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+
+/**
+ * Astro emette `404.html` solo per la 404 di radice: `src/pages/en/404.astro`
+ * diventa `dist/en/404/index.html`. Ma Cloudflare Pages cerca un *file*
+ * `404.html` risalendo l'albero delle directory, quindi non lo troverebbe:
+ * /en/* ricadrebbe sulla 404 italiana e /en/404/ resterebbe una pagina "non
+ * trovata" servita con 200 — il soft 404 che questa pagina esiste per togliere.
+ *
+ * Il rename fallisce forte di proposito: se un giorno Astro cambiasse la resa,
+ * meglio un build rotto di una 404 che risponde 200 senza dirlo a nessuno.
+ */
+function nestedNotFoundAsFile() {
+  return {
+    name: 'nested-404-as-file',
+    hooks: {
+      'astro:build:done': async ({ dir }) => {
+        await rename(new URL('en/404/index.html', dir), new URL('en/404.html', dir));
+        await rm(new URL('en/404/', dir), { recursive: true });
+      },
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -67,6 +90,7 @@ export default defineConfig({
         return item;
       },
     }),
+    nestedNotFoundAsFile(),
   ],
 
   // Vite plugins

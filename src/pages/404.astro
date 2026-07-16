@@ -1,0 +1,10 @@
+---
+import NotFound from '../components/NotFound.astro';
+
+// Cloudflare Pages serve la 404.html piu' vicina risalendo l'albero delle
+// directory, quindi questa risponde a tutto il dominio tranne /en/*, che ha la
+// sua (src/pages/en/404.astro). E' anche il fallback se quella non viene
+// trovata: nel dubbio, italiano — e' la lingua di default del sito.
+---
+
+<NotFound lang="it" />

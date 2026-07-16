@@ -41,6 +41,12 @@
     "readOnPublisher": "Read the full article",
     "metaDescription": "{title} — {journal}, {year}. Scientific publication by Stefano Capezzone."
   },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "message": "The address you opened does not match any page on this site: the link may be outdated or contain a typo.",
+    "links": "You can start again from here:"
+  },
   "footer": {
     "rights": "All rights reserved."
   }

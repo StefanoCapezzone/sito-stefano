@@ -14,6 +14,11 @@ interface Props {
   canonicalURL?: string;
   jsonLd?: object | object[];
   ogType?: string;
+  // Per le pagine che non sono un URL del sito ma una risposta a un URL
+  // sbagliato (la 404). Oltre al noindex sopprime canonical e hreflang: sono
+  // dichiarazioni sull'indirizzo della pagina, e la 404 viene servita su
+  // indirizzi che non esistono.
+  noindex?: boolean;
   datePublished?: string;
   dateModified?: string;
   articleMeta?: {
@@ -42,6 +47,7 @@ const {
   canonicalURL = Astro.url.href,
   jsonLd,
   ogType = 'website',
+  noindex = false,
   datePublished,
   dateModified,
   articleMeta,
@@ -136,10 +142,15 @@ const allJsonLd = jsonLd
     <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
     <meta name="author" content="Stefano Capezzone" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex, follow'
+        : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}
+    />
 
     <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL} />
+    {!noindex && <link rel="canonical" href={canonicalURL} />}
     <link rel="author" href={routePath('bio', lang)} />
 
     <!-- Sitemap -->
@@ -202,9 +213,13 @@ const allJsonLd = jsonLd
     )}
 
     <!-- Alternate languages -->
-    <link rel="alternate" hreflang="it" href={hreflangIt} />
-    <link rel="alternate" hreflang="en" href={hreflangEn} />
-    <link rel="alternate" hreflang="x-default" href={hreflangIt} />
+    {!noindex && (
+      <>
+        <link rel="alternate" hreflang="it" href={hreflangIt} />
+        <link rel="alternate" hreflang="en" href={hreflangEn} />
+        <link rel="alternate" hreflang="x-default" href={hreflangIt} />
+      </>
+    )}
 
     <!-- View Transitions -->
     <ClientRouter />

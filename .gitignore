@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# stato locale di `wrangler pages dev` (verifica delle 404)
+.wrangler/
 
 # dependencies
 node_modules/

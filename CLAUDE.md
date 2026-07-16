@@ -113,6 +113,7 @@ Il `BaseLayout.astro` supporta queste props per il SEO:
 | `articleMeta` | object? | — | Meta article:* per blog posts |
 | `citationMeta` | array? | — | Highwire Press tags per pubblicazioni |
 | `jsonLd` | object\|array? | — | Schema JSON-LD aggiuntivi |
+| `noindex` | boolean | false | `noindex` + niente canonical/hreflang (vedi 404) |
 
 Meta tags emessi su tutte le pagine:
 - `robots`: index, follow, max-snippet:-1, max-image-preview:large
@@ -149,6 +150,27 @@ del file dipende dalla profondità del clone in CI, che se shallow dà una data
 vuota o quella della build. Non esistendo una fonte vera, si omette — stessa
 regola del `lastmod` nel sitemap: meglio assente che falso. Non reintrodurlo a
 mano.
+
+### Pagina 404
+
+`src/pages/404.astro` (it) e `src/pages/en/404.astro` (en), entrambe sottili sopra
+`NotFound.astro`. **Devono esistere**: senza `dist/404.html` Cloudflare Pages ricade
+su `index.html` e *ogni* URL inesistente del dominio risponde `200` — soft 404 su
+tutto il sito, era il caso fino a luglio 2026.
+
+Cloudflare cerca la `404.html` più vicina risalendo l'albero delle directory: da qui
+`dist/en/404.html` per `/en/*`, con la radice (italiana) come fallback. Astro però
+genera `404.html` **solo** per la 404 di radice, e annidata darebbe
+`dist/en/404/index.html` — un file che Cloudflare non userebbe come pagina d'errore
+e che resterebbe servito con 200. Lo rinomina l'integrazione `nestedNotFoundAsFile`
+in `astro.config.mjs`, che fallisce il build se non trova il file.
+
+Le 404 passano `noindex` a `BaseLayout`: sopprime anche canonical e hreflang, che
+dichiarerebbero `/it/404/` e `/en/404/`, URL inesistenti. Niente `Breadcrumb`: la
+pagina risponde a indirizzi che nella gerarchia del sito non stanno.
+
+Il preview di Astro non replica il lookup di Cloudflare: per verificare gli status
+code veri serve `npx wrangler@4 pages dev dist` (wrangler non è una dipendenza).
 
 ### robots.txt
 
