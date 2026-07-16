@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import Abstract from '../../../components/Abstract.astro';
+import { routePath, t } from '../../../i18n/utils';
+import {
+  doiUrl,
+  getPublications,
+  publicationDate,
+  publicationYear,
+  scholarlyArticleSchema,
+  type Publication,
+} from '../../../utils/publications';
+
+const lang = 'it';
+
+export async function getStaticPaths() {
+  const publications = await getPublications();
+
+  return publications.map((pub) => ({
+    params: { slug: pub.slug },
+    props: { pub },
+  }));
+}
+
+const { pub } = Astro.props as { pub: Publication };
+
+const datePublished = publicationDate(pub);
+
+const title = pub.title;
+const description = t(lang, 'publications.metaDescription', {
+  title: pub.title,
+  journal: pub.journal,
+  year: publicationYear(pub),
+});
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  ...scholarlyArticleSchema(pub, lang, Astro.site),
+};
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/it/' },
+  { label: t(lang, 'publications.title'), href: routePath('publications', lang) },
+  { label: pub.title },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  ogType="article"
+  jsonLd={articleSchema}
+  datePublished={datePublished}
+  citationMeta={{
+    title: pub.title,
+    authors: pub.authors || [],
+    doi: pub.doi,
+    journal: pub.journal,
+    publicationDate: datePublished,
+  }}
+>
+  <div class="py-16 lg:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumb items={breadcrumbItems} lang={lang} />
+
+      <article class="bg-white rounded-xl shadow-sm border border-ibm-blue-20 p-6 lg:p-8">
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <span class="inline-flex items-center px-3 py-1 bg-ibm-blue-60 text-white text-sm font-medium rounded-full">
+            {publicationYear(pub)}
+          </span>
+          <span class="text-ibm-blue-60 font-medium">{pub.journal}</span>
+        </div>
+
+        <h1 class="text-2xl lg:text-3xl font-bold text-ibm-blue-90 mb-6">
+          {pub.title}
+        </h1>
+
+        {pub.authors && pub.authors.length > 0 && (
+          <div class="mb-6">
+            <h2 class="text-sm font-semibold text-ibm-blue-90 mb-1">
+              {t(lang, 'publications.authors')}
+            </h2>
+            <p class="text-ibm-blue-60">{pub.authors.join(', ')}</p>
+          </div>
+        )}
+
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 text-sm">
+          <div>
+            <dt class="font-semibold text-ibm-blue-90">{t(lang, 'publications.journal')}</dt>
+            <dd class="text-ibm-blue-60">{pub.journal}</dd>
+          </div>
+          {pub.publisher && (
+            <div>
+              <dt class="font-semibold text-ibm-blue-90">{t(lang, 'publications.publisher')}</dt>
+              <dd class="text-ibm-blue-60">{pub.publisher}</dd>
+            </div>
+          )}
+          <div>
+            <dt class="font-semibold text-ibm-blue-90">DOI</dt>
+            <dd>
+              <a
+                href={doiUrl(pub)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors"
+              >
+                {pub.doi}
+              </a>
+            </dd>
+          </div>
+        </dl>
+
+        {pub.abstract && (
+          <div class="mb-8">
+            <h2 class="text-lg font-semibold text-ibm-blue-90 mb-3">
+              {t(lang, 'publications.abstract')}
+            </h2>
+            <Abstract abstract={pub.abstract} />
+          </div>
+        )}
+
+        <a
+          href={doiUrl(pub)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-6 py-3 bg-ibm-blue-60 text-white rounded-lg hover:bg-ibm-blue-70 transition-colors"
+        >
+          {t(lang, 'publications.readOnPublisher')}
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </article>
+
+      <div class="mt-12">
+        <a
+          href={routePath('publications', lang)}
+          class="inline-flex items-center text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
+        >
+          &larr; {t(lang, 'publications.backToPublications')}
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

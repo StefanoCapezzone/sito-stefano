@@ -2,7 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection, render } from 'astro:content';
-import { t, formatDate } from '../../../i18n/utils';
+import { routePath, t, formatDate } from '../../../i18n/utils';
+import { blogPostUrl } from '../../../utils/blog';
 
 const lang = 'en';
 
@@ -46,12 +47,10 @@ const articleSchema = {
   "image": articleImages,
   "datePublished": post.data.pubDate.toISOString(),
   "dateModified": (post.data.updatedDate || post.data.pubDate).toISOString(),
-  "author": {
-    "@type": "Person",
-    "@id": "https://stefano.capezzone.it/#person",
-    "name": "Stefano Capezzone",
-    "url": "https://stefano.capezzone.it/en/bio"
-  },
+  // Riferimento puro: il nodo Person è già definito per intero nel grafo di
+  // BaseLayout. Ridichiararne le proprietà qui dava allo stesso @id due `url`
+  // in conflitto a merge del grafo.
+  "author": { "@id": "https://stefano.capezzone.it/#person" },
   "publisher": { "@id": "https://stefano.capezzone.it/#person" },
   "mainEntityOfPage": Astro.url.href,
   "inLanguage": "en-US",
@@ -60,7 +59,7 @@ const articleSchema = {
 
 const breadcrumbItems = [
   { label: 'Home', href: '/en/' },
-  { label: 'Blog', href: '/en/blog' },
+  { label: t(lang, 'nav.blog'), href: routePath('blog', lang) },
   { label: post.data.title },
 ];
 ---
@@ -78,7 +77,7 @@ const breadcrumbItems = [
   articleMeta={{
     publishedTime: post.data.pubDate.toISOString(),
     modifiedTime: (post.data.updatedDate || post.data.pubDate).toISOString(),
-    author: "https://stefano.capezzone.it/en/bio",
+    author: new URL(routePath('bio', lang), Astro.site).href,
     tags: post.data.tags,
   }}
 >
@@ -89,7 +88,7 @@ const breadcrumbItems = [
       <!-- Header -->
       <header class="mb-12">
         <div class="flex items-center gap-4 text-sm text-ibm-blue-50 mb-4">
-          <a href="/en/bio" rel="author" class="hover:text-ibm-blue-60 transition-colors">Stefano Capezzone</a>
+          <a href={routePath('bio', lang)} rel="author" class="hover:text-ibm-blue-60 transition-colors">Stefano Capezzone</a>
           <span>•</span>
           <time datetime={post.data.pubDate.toISOString()}>
             {formatDate(post.data.pubDate, lang)}
@@ -146,19 +145,19 @@ const breadcrumbItems = [
       <aside class="mt-16 pt-8 border-t border-ibm-blue-20">
         <div class="flex items-start gap-4">
           <img
-            src="/images/optimized/stefano-400.webp"
+            src="/images/optimized/stefano-square-320.webp"
             alt="Stefano Capezzone"
             class="w-16 h-16 rounded-full object-cover"
             loading="lazy"
           />
           <div>
             <h3 class="font-semibold text-ibm-blue-90">
-              <a href="/en/bio" rel="author" class="hover:text-ibm-blue-60 transition-colors">Stefano Capezzone</a>
+              <a href={routePath('bio', lang)} rel="author" class="hover:text-ibm-blue-60 transition-colors">Stefano Capezzone</a>
             </h3>
             <p class="text-sm text-ibm-blue-70 mt-1">
               Entrepreneur, lecturer and innovation manager. CEO of <a href="https://www.fastal.it/en/" class="text-ibm-blue-60 hover:underline" target="_blank" rel="noopener noreferrer">Fastal Srl</a>, President of the Communication and Services Union at <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:underline" target="_blank" rel="noopener noreferrer">CNA Roma</a>.
             </p>
-            <a href="/en/bio" class="text-sm text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors mt-2 inline-block">
+            <a href={routePath('bio', lang)} class="text-sm text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors mt-2 inline-block">
               Full profile &rarr;
             </a>
           </div>
@@ -171,7 +170,7 @@ const breadcrumbItems = [
           <h3 class="text-lg font-semibold text-ibm-blue-90 mb-6">Related articles</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {relatedPosts.map((rp) => (
-              <a href={`/en/blog/${rp.slug.replace(/^en\//, '')}`} class="group block">
+              <a href={blogPostUrl(rp, lang)} class="group block">
                 {rp.data.image && (
                   <img src={rp.data.image} alt={rp.data.imageAlt || rp.data.title} class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy" />
                 )}
@@ -188,14 +187,14 @@ const breadcrumbItems = [
       <!-- Publications Link -->
       <aside class="mt-8 p-4 bg-ibm-blue-10 rounded-lg">
         <p class="text-sm text-ibm-blue-70">
-          Discover Stefano Capezzone's <a href="/en/publications" class="text-ibm-blue-60 font-medium hover:underline">scientific publications</a> on Artificial Intelligence and Quantum Computing.
+          Discover Stefano Capezzone's <a href={routePath('publications', lang)} class="text-ibm-blue-60 font-medium hover:underline">scientific publications</a> on Artificial Intelligence and Quantum Computing.
         </p>
       </aside>
 
       <!-- Navigation -->
       <nav class="mt-8 pt-8 border-t border-ibm-blue-20">
         <a
-          href="/en/blog"
+          href={routePath('blog', lang)}
           class="inline-flex items-center text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors"
         >
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

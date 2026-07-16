@@ -3,6 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection } from 'astro:content';
 import { t, formatDate } from '../../../i18n/utils';
+import { blogPostUrl, imageSrcset, CARD_IMAGE_SIZES } from '../../../utils/blog';
 
 const lang = 'it';
 
@@ -35,7 +36,7 @@ const blogSchema = {
     "itemListElement": posts.map((post, index) => ({
       "@type": "ListItem",
       "position": index + 1,
-      "url": new URL(`/it/blog/${post.slug.replace(/^it\//, '')}`, Astro.site).href,
+      "url": new URL(blogPostUrl(post, lang), Astro.site).href,
       "name": post.data.title,
     })),
   },
@@ -63,12 +64,15 @@ const blogSchema = {
           {posts.map((post) => (
             <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-ibm-blue-20">
               {post.data.image && (
-                <a href={`/it/blog/${post.slug.replace(/^it\//, '')}`}>
+                <a href={blogPostUrl(post, lang)}>
                   <img
-                    src={post.data.image}
+                    src={`${post.data.image.replace(/\.webp$/, '')}-800.webp`}
+                    srcset={imageSrcset(post.data.image)}
+                    sizes={CARD_IMAGE_SIZES}
                     alt={post.data.imageAlt || post.data.title}
                     class="w-full h-48 object-cover"
                     loading="lazy"
+                    decoding="async"
                   />
                 </a>
               )}
@@ -77,7 +81,7 @@ const blogSchema = {
                   {formatDate(post.data.pubDate, lang)}
                 </time>
                 <h2 class="text-xl font-semibold text-ibm-blue-90 mt-2 mb-3">
-                  <a href={`/it/blog/${post.slug.replace(/^it\//, '')}`} class="hover:text-ibm-blue-60 transition-colors">
+                  <a href={blogPostUrl(post, lang)} class="hover:text-ibm-blue-60 transition-colors">
                     {post.data.title}
                   </a>
                 </h2>

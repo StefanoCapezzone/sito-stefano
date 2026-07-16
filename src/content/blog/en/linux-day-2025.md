@@ -147,4 +147,4 @@ After a few minutes, someone caught my hook and understood. The CyberPunk cultur
 3. **Privacy is guaranteed by design**: data never leaves the device, no dependency on cloud services
 4. **Cybersecurity remains essential**: as demonstrated the previous year with the Flipper Zero, network security awareness is crucial, even when talking about AI
 
-*The Linux Day experiment is part of the broader work of [AI technology outreach](/en/bio) we carry out through CNA Roma's Digital Innovation Hub. For a deeper look at how AI is transforming software development, read the article on [Claude Code and the Era of Agentic Coding](/en/blog/claude-code-agentic-coding).*
+*The Linux Day experiment is part of the broader work of [AI technology outreach](/en/bio/) we carry out through CNA Roma's Digital Innovation Hub. For a deeper look at how AI is transforming software development, read the article on [Claude Code and the Era of Agentic Coding](/en/blog/claude-code-agentic-coding/).*

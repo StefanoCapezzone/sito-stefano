@@ -27,8 +27,6 @@
   "blog": {
     "title": "Blog",
     "description": "Articles on technological innovation, artificial intelligence and digital transformation.",
-    "readMore": "Read article",
-    "publishedOn": "Published on",
     "noPosts": "No articles available."
   },
   "publications": {
@@ -36,16 +34,14 @@
     "description": "Scientific publications and academic research.",
     "viewPaper": "View publication",
     "abstract": "Abstract",
-    "year": "Year",
-    "journal": "Journal"
+    "journal": "Journal",
+    "backToPublications": "Back to publications",
+    "authors": "Authors",
+    "publisher": "Publisher",
+    "readOnPublisher": "Read the full article",
+    "metaDescription": "{title} — {journal}, {year}. Scientific publication by Stefano Capezzone."
   },
   "footer": {
-    "rights": "All rights reserved.",
-    "madeWith": "Made with"
-  },
-  "common": {
-    "loading": "Loading...",
-    "error": "Error",
-    "notFound": "Page not found"
+    "rights": "All rights reserved."
   }
 }

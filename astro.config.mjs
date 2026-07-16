@@ -10,8 +10,10 @@ export default defineConfig({
   // Output statico - massime performance
   output: 'static',
 
-  // Prefetch automatico dei link al hover
-  prefetch: true,
+  // Prefetch al hover. Serve prefetchAll: con il solo `true` Astro precarica
+  // unicamente i link marcati data-astro-prefetch — che qui non esistono,
+  // quindi il runtime veniva spedito senza precaricare nulla.
+  prefetch: { prefetchAll: true },
 
   // Internazionalizzazione
   i18n: {
@@ -33,7 +35,13 @@ export default defineConfig({
         },
       },
       changefreq: 'weekly',
-      lastmod: new Date(),
+      // Nessun lastmod: `new Date()` lo fissava al momento del build, quindi
+      // ogni rebuild — anche di un fix CSS — dichiarava tutte le 29 pagine
+      // modificate. Google ignora il lastmod per l'intero sito quando lo trova
+      // cronicamente inaffidabile: meglio ometterlo che mentire. La data di
+      // modifica reale resta nei dati strutturati e nei meta DC.date.modified.
+      // La homepage non va indicizzata: è un redirect a /it/ (vedi _redirects).
+      filter: (page) => page !== 'https://stefano.capezzone.it/',
       serialize(item) {
         // Homepage e bio con priorita' alta
         if (item.url.match(/\/(it|en)\/?$/)) {

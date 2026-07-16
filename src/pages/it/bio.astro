@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_LAUNCH_DATE } from '../../consts';
 import SocialLinks from '../../components/SocialLinks.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { t } from '../../i18n/utils';
@@ -12,8 +13,11 @@ const profilePageSchema = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
   "mainEntity": { "@id": "https://stefano.capezzone.it/#person" },
-  "dateCreated": "2025-01-01",
-  "dateModified": "2026-02-12",
+  "dateCreated": SITE_LAUNCH_DATE,
+  // Niente dateModified: e' l'unica pagina senza contenuti datati da cui
+  // derivarlo (gli Event portano la data del talk, non quella della modifica).
+  // Scriverlo a mano non fallisce mai il build, mente e basta — come il
+  // lastmod nel sitemap, meglio assente che falso. Vedi CLAUDE.md.
   "inLanguage": "it-IT"
 };
 
@@ -29,7 +33,11 @@ const eventsSchema = {
         "@type": "Event",
         "name": "Expo 2025 Osaka",
         "startDate": "2025-04-13",
-        "location": { "@type": "Place", "name": "Osaka, Giappone" },
+        "location": {
+          "@type": "Place",
+          "name": "Expo 2025 Osaka",
+          "address": { "@type": "PostalAddress", "addressLocality": "Osaka", "addressCountry": "JP" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     },
@@ -40,9 +48,13 @@ const eventsSchema = {
         "@type": "Event",
         "name": "Linux Day 2025 - Self-hosting estremo di LLM",
         "startDate": "2025-10-25",
-        "location": { "@type": "Place", "name": "Università di Roma Tor Vergata" },
+        "location": {
+          "@type": "Place",
+          "name": "Università di Roma Tor Vergata",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" },
-        "url": "https://stefano.capezzone.it/it/blog/linux-day-2025"
+        "url": "https://stefano.capezzone.it/it/blog/linux-day-2025/"
       }
     },
     {
@@ -52,7 +64,11 @@ const eventsSchema = {
         "@type": "Event",
         "name": "Linux Day 2024 - Hacking di Reti Wireless con Flipper Zero",
         "startDate": "2024-10-26",
-        "location": { "@type": "Place", "name": "Università di Roma Tor Vergata" },
+        "location": {
+          "@type": "Place",
+          "name": "Università di Roma Tor Vergata",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     },
@@ -62,7 +78,12 @@ const eventsSchema = {
       "item": {
         "@type": "Event",
         "name": "MakerFaire Rome",
-        "location": { "@type": "Place", "name": "Roma, Italia" },
+        "startDate": "2024-10-26",
+        "location": {
+          "@type": "Place",
+          "name": "MakerFaire Rome",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     },
@@ -72,7 +93,12 @@ const eventsSchema = {
       "item": {
         "@type": "Event",
         "name": "TEDx Ostiense",
-        "location": { "@type": "Place", "name": "Roma, Italia" },
+        "startDate": "2022-02-04",
+        "location": {
+          "@type": "Place",
+          "name": "TEDx Ostiense",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     }
@@ -85,7 +111,7 @@ const breadcrumbItems = [
 ];
 ---
 
-<BaseLayout title={title} description={description} lang={lang} jsonLd={[profilePageSchema, eventsSchema]} datePublished="2025-01-01" dateModified="2026-02-12">
+<BaseLayout title={title} description={description} lang={lang} jsonLd={[profilePageSchema, eventsSchema]} datePublished={SITE_LAUNCH_DATE}>
   <article class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumb items={breadcrumbItems} lang={lang} />
@@ -96,12 +122,13 @@ const breadcrumbItems = [
             <picture>
               <source
                 type="image/webp"
-                srcset="/images/optimized/stefano-400.webp 400w,
-                        /images/optimized/stefano-800.webp 800w"
-                sizes="(max-width: 640px) 256px, 320px"
+                srcset="/images/optimized/stefano-square-320.webp 320w,
+                        /images/optimized/stefano-square-640.webp 640w,
+                        /images/optimized/stefano-square-960.webp 960w"
+                sizes="(max-width: 1024px) 256px, 320px"
               />
               <img
-                src="/images/optimized/stefano-800.webp"
+                src="/images/optimized/stefano-square-640.webp"
                 alt="Stefano Capezzone"
                 class="w-64 h-64 lg:w-80 lg:h-80 mx-auto object-cover rounded-2xl shadow-lg"
                 width="320"
@@ -146,7 +173,7 @@ const breadcrumbItems = [
 
           <h2>Innovazione, associazionismo e cultura digitale</h2>
           <p>
-            Dal 2015 al 2024 è stato Presidente di <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, ruolo in cui ha promosso la diffusione della cultura digitale e delle tecnologie del framework Industria 4.0 presso imprese manifatturiere e artigiane del Lazio. In questo ambito ha progettato e coordinato iniziative territoriali, percorsi di accompagnamento alla trasformazione digitale e attività di networking tra aziende e Fab Lab della rete regionale. Attraverso il Digital Innovation Hub di CNA Roma, ha introdotto l'uso di framework agentici di IA per lo sviluppo software nelle aziende associate, come descritto nell'articolo <a href="/it/blog/claude-code-agentic-coding" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Claude Code e l'era del coding agentico</a>.
+            Dal 2015 al 2024 è stato Presidente di <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, ruolo in cui ha promosso la diffusione della cultura digitale e delle tecnologie del framework Industria 4.0 presso imprese manifatturiere e artigiane del Lazio. In questo ambito ha progettato e coordinato iniziative territoriali, percorsi di accompagnamento alla trasformazione digitale e attività di networking tra aziende e Fab Lab della rete regionale. Attraverso il Digital Innovation Hub di CNA Roma, ha introdotto l'uso di framework agentici di IA per lo sviluppo software nelle aziende associate, come descritto nell'articolo <a href="/it/blog/claude-code-agentic-coding/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Claude Code e l'era del coding agentico</a>.
           </p>
           <p>
             Ha tenuto numerose attività di docenza e divulgazione rivolte a quadri dirigenti, imprenditori e professionisti, affrontando temi quali fabbricazione additiva, robotica collaborativa, prototipazione rapida elettronica e nuovi modelli produttivi abilitati dalle tecnologie digitali.
@@ -167,7 +194,7 @@ const breadcrumbItems = [
 
           <h2>Interventi come relatore</h2>
           <p>
-            Stefano Capezzone è spesso presente come relatore in convegni ed eventi dedicati all'innovazione, tra le partecipazioni principali vi sono: TedX Ostiense, <a href="/it/blog/linux-day-2025" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Linux Day Roma</a>, Expo 2025 Osaka, MakerFaire Rome, Stati Generali dell'Innovazione Comune di Roma.
+            Stefano Capezzone è spesso presente come relatore in convegni ed eventi dedicati all'innovazione, tra le partecipazioni principali vi sono: TedX Ostiense, <a href="/it/blog/linux-day-2025/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Linux Day Roma</a>, Expo 2025 Osaka, MakerFaire Rome, Stati Generali dell'Innovazione Comune di Roma.
           </p>
 
           <h2>Formazione e competenze</h2>

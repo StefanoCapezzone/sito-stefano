@@ -1,2 +1,4 @@
-# Redirect root to Italian homepage
-/ /it/ 302
+# Redirect root to Italian homepage.
+# 301 e non 302: il redirect è permanente, e solo il 301 consolida sui /it/ i
+# segnali di ranking del dominio nudo — che è l'URL più linkato del sito.
+/ /it/ 301

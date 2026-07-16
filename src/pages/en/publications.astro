@@ -1,16 +1,22 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_LAUNCH_DATE } from '../../consts';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { getCollection } from 'astro:content';
+import Abstract from '../../components/Abstract.astro';
 import { t } from '../../i18n/utils';
+import {
+  displayJournal,
+  doiUrl,
+  getPublications,
+  latestPublicationDate,
+  publicationUrl,
+  publicationYear,
+  scholarlyArticleSchema,
+} from '../../utils/publications';
 
 const lang = 'en';
 
-const publicationsData = await getCollection('publications');
-const publications = publicationsData[0]?.data || [];
-
-// Sort by year descending
-const sortedPublications = [...publications].sort((a, b) => b.year - a.year);
+const sortedPublications = await getPublications();
 
 const title = t(lang, 'publications.title');
 const description = t(lang, 'publications.description');
@@ -22,15 +28,7 @@ const scholarlyArticlesSchema = {
   "itemListElement": sortedPublications.map((pub, index) => ({
     "@type": "ListItem",
     "position": index + 1,
-    "item": {
-      "@type": "ScholarlyArticle",
-      "name": pub.title,
-      "author": pub.authors?.map((name: string) => ({ "@type": "Person", "name": name })) || [],
-      "datePublished": `${pub.year}`,
-      "isPartOf": { "@type": "Periodical", "name": pub.journal },
-      "sameAs": `https://doi.org/${pub.doi}`,
-      ...(pub.abstract ? { "abstract": pub.abstract } : {}),
-    }
+    "item": scholarlyArticleSchema(pub, lang, Astro.site),
   }))
 };
 
@@ -45,15 +43,8 @@ const breadcrumbItems = [
   description={description}
   lang={lang}
   jsonLd={scholarlyArticlesSchema}
-  datePublished="2025-01-01"
-  dateModified="2026-02-12"
-  citationMeta={sortedPublications.map((pub) => ({
-    title: pub.title,
-    authors: pub.authors || [],
-    doi: pub.doi,
-    journal: pub.journal,
-    year: pub.year,
-  }))}
+  datePublished={SITE_LAUNCH_DATE}
+  dateModified={latestPublicationDate(sortedPublications)}
 >
   <div class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,14 +62,14 @@ const breadcrumbItems = [
 
       <!-- Publications List -->
       <div class="space-y-8">
-        {sortedPublications.map((pub, index) => (
+        {sortedPublications.map((pub) => (
           <article class="bg-white rounded-xl shadow-sm border border-ibm-blue-20 p-6 lg:p-8">
             <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
               <span class="inline-flex items-center px-3 py-1 bg-ibm-blue-60 text-white text-sm font-medium rounded-full">
-                {pub.year}
+                {publicationYear(pub)}
               </span>
               <a
-                href={`https://doi.org/${pub.doi}`}
+                href={doiUrl(pub)}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center text-sm text-ibm-blue-60 hover:text-ibm-blue-70 transition-colors"
@@ -91,11 +82,16 @@ const breadcrumbItems = [
             </div>
 
             <h2 class="text-xl font-semibold text-ibm-blue-90 mb-2">
-              {pub.title}
+              <a
+                href={publicationUrl(pub, lang)}
+                class="hover:text-ibm-blue-60 transition-colors"
+              >
+                {pub.title}
+              </a>
             </h2>
 
             <p class="text-ibm-blue-60 mb-4">
-              <span class="font-medium">{pub.journal}</span>
+              <span class="font-medium">{displayJournal(pub)}</span>
             </p>
 
             {pub.authors && (
@@ -114,11 +110,18 @@ const breadcrumbItems = [
                     </svg>
                   </span>
                 </summary>
-                <p class="mt-4 text-ibm-blue-70 leading-relaxed">
-                  {pub.abstract}
-                </p>
+                <Abstract abstract={pub.abstract} class="mt-4" />
               </details>
             )}
+
+            <div class="mt-6">
+              <a
+                href={publicationUrl(pub, lang)}
+                class="inline-flex items-center text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
+              >
+                {t(lang, 'publications.viewPaper')} &rarr;
+              </a>
+            </div>
           </article>
         ))}
       </div>

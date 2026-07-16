@@ -147,4 +147,4 @@ Dopo alcuni minuti, qualcuno ha colto il mio gancio e ha capito, la cultura Cybe
 3. **La privacy è garantita by design**: i dati non escono mai dal dispositivo, nessuna dipendenza da servizi cloud
 4. **La cybersecurity resta fondamentale**: come dimostrato l'anno precedente con il Flipper Zero, la consapevolezza sulla sicurezza delle reti è essenziale, anche quando si parla di IA
 
-*L'esperimento del Linux Day si inserisce nel più ampio lavoro di [diffusione delle tecnologie IA](/it/bio) che portiamo avanti attraverso il Digital Innovation Hub di CNA Roma. Per un approfondimento su come l'IA stia trasformando lo sviluppo software, leggi l'articolo su [Claude Code e l'era del coding agentico](/it/blog/claude-code-agentic-coding).*
+*L'esperimento del Linux Day si inserisce nel più ampio lavoro di [diffusione delle tecnologie IA](/it/bio/) che portiamo avanti attraverso il Digital Innovation Hub di CNA Roma. Per un approfondimento su come l'IA stia trasformando lo sviluppo software, leggi l'articolo su [Claude Code e l'era del coding agentico](/it/blog/claude-code-agentic-coding/).*

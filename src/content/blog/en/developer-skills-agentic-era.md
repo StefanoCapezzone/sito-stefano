@@ -201,4 +201,4 @@ We also have recommendations for young talents entering this sector now:
 - **Deepen business domain knowledge**: AI amplifies whatever domain expertise you possess — robust testing, modular architecture, and CI/CD practices make AI safer and more powerful
 - **Never stop understanding code**: even if you no longer write it manually, the ability to read, evaluate, and debug remains fundamental to ensuring quality and security
 
-*For a deeper look at agentic coding tools, read my article on [Claude Code and the era of agentic coding](/en/blog/claude-code-agentic-coding).*
+*For a deeper look at agentic coding tools, read my article on [Claude Code and the era of agentic coding](/en/blog/claude-code-agentic-coding/).*

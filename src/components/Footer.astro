@@ -1,23 +1,17 @@
 ---
 import SocialLinks from './SocialLinks.astro';
+import { routePath, t, type Lang } from '../i18n/utils';
 
 interface Props {
-  lang: 'it' | 'en';
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
 const currentYear = new Date().getFullYear();
 
-const footerText = {
-  it: {
-    copyright: `${currentYear} Stefano Capezzone. Tutti i diritti riservati.`,
-  },
-  en: {
-    copyright: `${currentYear} Stefano Capezzone. All rights reserved.`,
-  },
+const text = {
+  copyright: `${currentYear} Stefano Capezzone. ${t(lang, 'footer.rights')}`,
 };
-
-const text = footerText[lang];
 ---
 
 <footer class="bg-ibm-blue-90 text-white">
@@ -41,14 +35,14 @@ const text = footerText[lang];
           {lang === 'it' ? 'Link Rapidi' : 'Quick Links'}
         </h3>
         <nav class="space-y-2">
-          <a href={`/${lang}/bio`} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
-            Bio
+          <a href={routePath('bio', lang)} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
+            {t(lang, 'nav.bio')}
           </a>
-          <a href={`/${lang}/blog`} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
-            Blog
+          <a href={routePath('blog', lang)} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
+            {t(lang, 'nav.blog')}
           </a>
-          <a href={`/${lang}/${lang === 'it' ? 'pubblicazioni' : 'publications'}`} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
-            {lang === 'it' ? 'Pubblicazioni' : 'Publications'}
+          <a href={routePath('publications', lang)} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
+            {t(lang, 'nav.publications')}
           </a>
         </nav>
       </div>

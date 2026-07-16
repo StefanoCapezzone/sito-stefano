@@ -27,8 +27,6 @@
   "blog": {
     "title": "Blog",
     "description": "Articoli su innovazione tecnologica, intelligenza artificiale e trasformazione digitale.",
-    "readMore": "Leggi articolo",
-    "publishedOn": "Pubblicato il",
     "noPosts": "Nessun articolo disponibile."
   },
   "publications": {
@@ -36,16 +34,14 @@
     "description": "Pubblicazioni scientifiche e ricerche accademiche.",
     "viewPaper": "Vedi pubblicazione",
     "abstract": "Abstract",
-    "year": "Anno",
-    "journal": "Rivista"
+    "journal": "Rivista",
+    "backToPublications": "Torna alle pubblicazioni",
+    "authors": "Autori",
+    "publisher": "Editore",
+    "readOnPublisher": "Leggi l'articolo completo",
+    "metaDescription": "{title} — {journal}, {year}. Pubblicazione scientifica di Stefano Capezzone."
   },
   "footer": {
-    "rights": "Tutti i diritti riservati.",
-    "madeWith": "Realizzato con"
-  },
-  "common": {
-    "loading": "Caricamento...",
-    "error": "Errore",
-    "notFound": "Pagina non trovata"
+    "rights": "Tutti i diritti riservati."
   }
 }

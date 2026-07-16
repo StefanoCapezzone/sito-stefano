@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_LAUNCH_DATE } from '../../consts';
 import SocialLinks from '../../components/SocialLinks.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { t } from '../../i18n/utils';
@@ -12,8 +13,11 @@ const profilePageSchema = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
   "mainEntity": { "@id": "https://stefano.capezzone.it/#person" },
-  "dateCreated": "2025-01-01",
-  "dateModified": "2026-02-12",
+  "dateCreated": SITE_LAUNCH_DATE,
+  // Niente dateModified: e' l'unica pagina senza contenuti datati da cui
+  // derivarlo (gli Event portano la data del talk, non quella della modifica).
+  // Scriverlo a mano non fallisce mai il build, mente e basta — come il
+  // lastmod nel sitemap, meglio assente che falso. Vedi CLAUDE.md.
   "inLanguage": "en-US"
 };
 
@@ -29,7 +33,11 @@ const eventsSchema = {
         "@type": "Event",
         "name": "Expo 2025 Osaka",
         "startDate": "2025-04-13",
-        "location": { "@type": "Place", "name": "Osaka, Japan" },
+        "location": {
+          "@type": "Place",
+          "name": "Expo 2025 Osaka",
+          "address": { "@type": "PostalAddress", "addressLocality": "Osaka", "addressCountry": "JP" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     },
@@ -40,9 +48,13 @@ const eventsSchema = {
         "@type": "Event",
         "name": "Linux Day 2025 - Extreme LLM Self-Hosting",
         "startDate": "2025-10-25",
-        "location": { "@type": "Place", "name": "University of Rome Tor Vergata" },
+        "location": {
+          "@type": "Place",
+          "name": "University of Rome Tor Vergata",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" },
-        "url": "https://stefano.capezzone.it/en/blog/linux-day-2025"
+        "url": "https://stefano.capezzone.it/en/blog/linux-day-2025/"
       }
     },
     {
@@ -52,7 +64,11 @@ const eventsSchema = {
         "@type": "Event",
         "name": "Linux Day 2024 - Wireless Network Hacking with Flipper Zero",
         "startDate": "2024-10-26",
-        "location": { "@type": "Place", "name": "University of Rome Tor Vergata" },
+        "location": {
+          "@type": "Place",
+          "name": "University of Rome Tor Vergata",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     },
@@ -62,7 +78,12 @@ const eventsSchema = {
       "item": {
         "@type": "Event",
         "name": "MakerFaire Rome",
-        "location": { "@type": "Place", "name": "Rome, Italy" },
+        "startDate": "2024-10-26",
+        "location": {
+          "@type": "Place",
+          "name": "MakerFaire Rome",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     },
@@ -72,7 +93,12 @@ const eventsSchema = {
       "item": {
         "@type": "Event",
         "name": "TEDx Ostiense",
-        "location": { "@type": "Place", "name": "Rome, Italy" },
+        "startDate": "2022-02-04",
+        "location": {
+          "@type": "Place",
+          "name": "TEDx Ostiense",
+          "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" }
+        },
         "performer": { "@id": "https://stefano.capezzone.it/#person" }
       }
     }
@@ -85,7 +111,7 @@ const breadcrumbItems = [
 ];
 ---
 
-<BaseLayout title={title} description={description} lang={lang} jsonLd={[profilePageSchema, eventsSchema]} datePublished="2025-01-01" dateModified="2026-02-12">
+<BaseLayout title={title} description={description} lang={lang} jsonLd={[profilePageSchema, eventsSchema]} datePublished={SITE_LAUNCH_DATE}>
   <article class="py-16 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumb items={breadcrumbItems} lang={lang} />
@@ -96,12 +122,13 @@ const breadcrumbItems = [
             <picture>
               <source
                 type="image/webp"
-                srcset="/images/optimized/stefano-400.webp 400w,
-                        /images/optimized/stefano-800.webp 800w"
-                sizes="(max-width: 640px) 256px, 320px"
+                srcset="/images/optimized/stefano-square-320.webp 320w,
+                        /images/optimized/stefano-square-640.webp 640w,
+                        /images/optimized/stefano-square-960.webp 960w"
+                sizes="(max-width: 1024px) 256px, 320px"
               />
               <img
-                src="/images/optimized/stefano-800.webp"
+                src="/images/optimized/stefano-square-640.webp"
                 alt="Stefano Capezzone"
                 class="w-64 h-64 lg:w-80 lg:h-80 mx-auto object-cover rounded-2xl shadow-lg"
                 width="320"
@@ -146,7 +173,7 @@ const breadcrumbItems = [
 
           <h2>Innovation, Associations and Digital Culture</h2>
           <p>
-            From 2015 to 2024, he served as President of <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, where he promoted the spread of digital culture and Industry 4.0 framework technologies among manufacturing and artisan companies in the Lazio region. In this role, he designed and coordinated territorial initiatives, digital transformation support programs and networking activities between companies and regional Fab Labs. Through CNA Roma's Digital Innovation Hub, he introduced the use of AI agentic frameworks for software development in affiliated companies, as described in the article <a href="/en/blog/claude-code-agentic-coding" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Claude Code and the Era of Agentic Coding</a>.
+            From 2015 to 2024, he served as President of <a href="https://cnaroma.it" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline" target="_blank" rel="noopener noreferrer">CNA Roma</a> Digitale, where he promoted the spread of digital culture and Industry 4.0 framework technologies among manufacturing and artisan companies in the Lazio region. In this role, he designed and coordinated territorial initiatives, digital transformation support programs and networking activities between companies and regional Fab Labs. Through CNA Roma's Digital Innovation Hub, he introduced the use of AI agentic frameworks for software development in affiliated companies, as described in the article <a href="/en/blog/claude-code-agentic-coding/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Claude Code and the Era of Agentic Coding</a>.
           </p>
           <p>
             He has conducted numerous teaching and outreach activities for executives, entrepreneurs and professionals, addressing topics such as additive manufacturing, collaborative robotics, rapid electronic prototyping and new production models enabled by digital technologies.
@@ -167,7 +194,7 @@ const breadcrumbItems = [
 
           <h2>Speaking Engagements</h2>
           <p>
-            Stefano Capezzone frequently appears as a speaker at conferences and events dedicated to innovation. Key appearances include: TedX Ostiense, <a href="/en/blog/linux-day-2025" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Linux Day Roma</a>, Expo 2025 Osaka, MakerFaire Rome, and the General States of Innovation of the City of Rome.
+            Stefano Capezzone frequently appears as a speaker at conferences and events dedicated to innovation. Key appearances include: TedX Ostiense, <a href="/en/blog/linux-day-2025/" class="text-ibm-blue-60 hover:text-ibm-blue-70 underline">Linux Day Roma</a>, Expo 2025 Osaka, MakerFaire Rome, and the General States of Innovation of the City of Rome.
           </p>
 
           <h2>Education and Skills</h2>

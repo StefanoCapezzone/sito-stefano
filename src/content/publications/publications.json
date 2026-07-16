@@ -1,50 +1,139 @@
 [
   {
+    "slug": "peanut-shell-biocomposites-food-packaging",
+    "title": "Peanut Shell Waste Valorization in 3D-Printed Biocomposites for Sustainable Food Packaging: Material Properties, Preservation Performance, and Biodegradability",
+    "pubDate": "2026-06-25",
+    "journal": "Polysaccharides",
+    "publisher": "MDPI",
+    "doi": "10.3390/polysaccharides7030076",
+    "authors": [
+      "M. Sambucci",
+      "R. Esposito",
+      "F. Marzulli",
+      "I. Bavasso",
+      "S. Capezzone",
+      "M. Villano",
+      "F. Sarasini",
+      "J. Tirillò"
+    ],
+    "abstract": "This paper investigates the valorization of peanut shell powder (PSP), an abundant agro-industrial residue, as a biofiller for the development of sustainable 3D printable PLA-based composites for food packaging applications. A low-filled biocomposite containing 2.5 wt.% PSP was successfully processed into filament with dimensional tolerances suitable for fused deposition modeling printing. Thermal and melt flow analyses demonstrated that PSP marginally reduced the thermal stability of PLA while preserving its thermal transition temperatures and increasing the melt flow rate up to 51%. Differential scanning calorimetry revealed a slight increase in crystallinity in biocomposite filament compared to neat PLA pellets, mainly associated with thermo-mechanical processing of the extrusion, while the lower crystallinity degree relative to PLA extrudate suggested a negligible nucleating effect of PSP. To optimize print quality, different extrusion temperatures and infill flow rates were evaluated. The best mechanical performance was achieved at 200 °C and 130% flow rate, where reduced inter-filament porosity (5.2%) resulted in improved tensile strength and stiffness compared with the other printing conditions. Although mechanical properties remained lower than neat PLA, the material proved suitable for non-structural packaging applications. Prototype packaging boxes were fabricated and tested for the storage of fresh-cut melon. Compared with neat PLA packaging, the PLA-PSP system better preserved fruit firmness over 10 days, inhibited fungal growth, and delayed visible deterioration, highlighting the potential active role of PSP in food preservation. Anaerobic biodegradation tests conducted under mesophilic conditions confirmed that the addition of PSP did not hinder PLA biodegradability and slightly enhanced methane production. Overall, the results demonstrate that peanut shell waste can be effectively upcycled into functional 3D-printable biocomposites for sustainable packaging solutions."
+  },
+  {
+    "slug": "quantum-metabolic-avatar",
     "title": "Quantum Metabolic Avatar: A digital replica of metabolism enhanced by quantum algorithms",
-    "year": 2025,
+    "pubDate": "2026-01",
     "journal": "Expert Systems with Applications",
+    "publisher": "Elsevier",
     "doi": "10.1016/j.eswa.2025.129045",
-    "authors": ["A. Abeltino", "C. Serantoni", "M.M. De Giulio", "A. Riente", "S. Capezzone", "R. Esposito", "M. De Spirito", "G. Maulucci"],
-    "abstract": "The integration of quantum computing into predictive modeling represents a transformative advancement in machine learning. This study compares classical Echo State Networks (ESN) with quantum Echo State Networks (qESN) for time-series forecasting, emphasizing the concept of a metabolic avatar - a dynamic data-driven model of individual metabolic processes. QESNs achieve comparable results to classical models under optimal conditions using a minimal number of qubits (4), outperform classical ESN significantly when trained with limited data, and demonstrate higher resilience to outliers."
+    "authors": [
+      "A. Abeltino",
+      "C. Serantoni",
+      "M.M. De Giulio",
+      "A. Riente",
+      "S. Capezzone",
+      "R. Esposito",
+      "M. De Spirito",
+      "G. Maulucci"
+    ],
+    "abstract": "The integration of quantum computing (QC) into predictive modeling represents a transformative advancement in machine learning, providing substantial improvements over traditional methods. This study compares classical Echo State Networks (ESN) with quantum Echo State Networks (qESN) for time-series forecasting, emphasizing the concept of a metabolic avatar—a dynamic data-driven model of individual metabolic processes. Utilizing time-series data from six distinct users, we assessed both models’ precision and adaptability through Root Mean Squared Error (RMSE). Our results demonstrate consistent superiority of qESN over classical ESN, highlighted by a 30% RMSE reduction during cross-validation (CV). Notably, qESN showed remarkable stability and accuracy even with limited training data, underscoring its effectiveness in data-sparse scenarios. Furthermore, we examined model performance in datasets containing outliers. QESN significantly outperformed classical ESN, achieving approximately 76% lower RMSE in CV and about 55% lower RMSE in walk-forward validation (WFV). This demonstrates qESN’s enhanced robustness and reduced susceptibility to overfitting. Crucially, our findings highlight the Quantum Metabolic Avatar’s (QMA) profound potential for personalized predictive analytics, essential for applications in personalized healthcare and customized wellness programs. The study strongly supports integrating quantum algorithms into predictive modeling, marking a pivotal advancement towards highly personalized and dynamic metabolic avatars."
   },
   {
-    "title": "Transforming personalized weight forecasting: From the Personalized Metabolic Avatar to the Generalized Metabolic Avatar",
-    "year": 2025,
-    "journal": "Computers in Biology and Medicine",
-    "doi": "10.1016/j.compbiomed.2025.109879",
-    "authors": ["A. Abeltino", "C. Serantoni", "A. Riente", "S. Capezzone", "R. Esposito", "M. De Spirito", "G. Maulucci"],
-    "abstract": "This research presents the evolution from the Personalized Metabolic Avatar (PMA) to the Generalized Metabolic Avatar (GMA), advancing personalized weight forecasting through improved machine learning architectures and broader applicability across diverse patient populations."
-  },
-  {
-    "title": "Machine Learning Applications in Oral Pathology Diagnosis",
-    "year": 2025,
+    "slug": "masticatory-dysfunction-trigeminal-neuralgia",
+    "title": "Using Quantitative Masticatory Dysfunction to Inform Pain Management in Trigeminal Neuralgia Through Electromyographic Monitoring",
+    "pubDate": "2025-08-15",
     "journal": "Journal of Oral Pathology & Medicine",
+    "publisher": "Wiley",
     "doi": "10.1111/jop.70035",
-    "authors": ["S. Capezzone et al."],
-    "abstract": "A comprehensive study exploring the application of machine learning techniques in oral pathology diagnosis, demonstrating improved accuracy and efficiency in identifying pathological conditions."
+    "authors": [
+      "A. Riente",
+      "A. Abeltino",
+      "C. Serantoni",
+      "M.M. De Giulio",
+      "G. Bianchetti",
+      "M. Santantonio",
+      "G.C. Passali",
+      "S. Capezzone",
+      "R. Esposito",
+      "M. De Spirito",
+      "G. Maulucci"
+    ],
+    "abstract": "Background: Trigeminal neuralgia (TN) is a rare and debilitating condition characterized by severe, episodic facial pain, with an incidence of about five individuals per 100 000 annually, predominantly affecting women aged 50–70 years. TN is often difficult to diagnose; leading to underestimation or misdiagnosis and prolonged patient suffering. Objective: This study aimed to assess masticatory dysfunction in individuals with and without TN using an electromyographic device (“Chewing”) and evaluate its potential to quantify pain-related dysfunction and inform treatment approaches. Methods: This observational study assessed masticatory dysfunction in TN patients and healthy controls using “Chewing” device. Masticatory behavior was monitored with apple and carrot as test foods, and parameters such as chewing time, number of chews, and chewing force were recorded. Participants were clustered based on masticatory patterns using an unsupervised learning approach. Results: Two distinct clusters of masticatory behavior emerged from the analysis. Cluster 1, representing 27.5% of TN1 patients, was characterized by prolonged chewing duration, a greater number of chewing cycles, and reduced chewing force compared to Cluster 0. Specifically, during apple mastication, Cluster 1 showed a 24% increase in chewing time (p = 0.02), a twofold increase in the number of chews (p < 0.001), and a 50% reduction in chewing force (p < 0.001). When chewing carrots, the number of chews increased by 57% (p < 0.001), while chewing force decreased by 64% (p < 0.001). Chewing frequency was also significantly higher in Cluster 1 for both food types (p < 0.001). Furthermore, a higher prevalence of TN1 patients was found in Cluster 1 compared to Cluster 0 (χ² = 4.53, p = 0.05), suggesting an association between altered masticatory behavior and trigeminal neuralgia. Nonetheless, the presence of some TN1 patients in Cluster 0 indicates that masticatory function may remain intact in certain individuals, possibly due to milder pain symptoms or the development of compensatory coping strategies. Conclusions: “Chewing” device successfully quantified and differentiated masticatory patterns, providing valuable insights into functional adaptations. Subgrouping TN patients by masticatory behavior may guide personalized treatment strategies and improve patient outcomes."
   },
   {
+    "slug": "generalized-metabolic-avatar",
+    "title": "Transforming personalized weight forecasting: From the Personalized Metabolic Avatar to the Generalized Metabolic Avatar",
+    "pubDate": "2025-04",
+    "journal": "Computers in Biology and Medicine",
+    "publisher": "Elsevier",
+    "doi": "10.1016/j.compbiomed.2025.109879",
+    "authors": [
+      "A. Abeltino",
+      "C. Serantoni",
+      "A. Riente",
+      "M. De Giulio",
+      "S. Capezzone",
+      "R. Esposito",
+      "M. De Spirito",
+      "G. Maulucci"
+    ],
+    "abstract": "BACKGROUND AND OBJECTIVE: Developing predictive computational models of metabolism using mechanistic approaches is complex and resource intensive. Data-driven models offer a reliable, fast, and continuously updating solution for predictive analytics. Previously, we developed the Personalized Metabolic Avatar (PMA), a gated recurrent unit deep learning model, to forecast personalized weight variations based on macronutrient composition and daily energy balance. This model allows for diet plan simulations and tailored goal setting, empowering individuals with the knowledge to achieve long-lasting healthy lifestyle results. However, the PMA requires adaptation through the collection of individual-specific data. Our objective is to address this limitation by creating a more generalized model that maintains predictive accuracy without the need for individual data measurement. METHODS: We propose the Generalized Metabolic Avatar (GMA) to generalize metabolic predictions for a broader user base by incorporating parameters such as age and gender, thus eliminating the need for individual data measurement and enabling application to individuals who have not been previously analyzed. The GMA's predictive accuracy was assessed in both ideal conditions and real-world scenarios. Comparative evaluations against the PMA were performed to validate the GMA's viability and efficiency. RESULTS: The GMA demonstrated promising predictive accuracy, with an average RMSE of 0.54 ± 0.03 in ideal conditions and 0.92 ± 0.76 in real-world scenarios. Comparative evaluations showed that the GMA maintains comparable accuracy to the PMA (PMA RMSE: 0.42 ± 0.04; GMA RMSE: 0.44 ± 0.17), while significantly reducing computational time (PMA: 12.0 ± 1.22 s; GMA: 0.15 ± 0.11 s). CONCLUSIONS: The GMA offers significant advantages over the PMA by employing a single, scalable model that captures common weight fluctuations through age and gender distinctions. It reduces overfitting and enhances generalizability, achieving comparable accuracy to complex deep learning models. The GMA significantly improves computational efficiency by eliminating the need for individual retraining and maintains robust predictive performance even with limited user-specific data."
+  },
+  {
+    "slug": "digital-applications-precision-nutrition",
     "title": "Digital applications for diet monitoring, planning, and precision nutrition for citizens and professionals: a state of the art",
-    "year": 2025,
+    "pubDate": "2025-02-01",
     "journal": "Nutrition Reviews",
+    "publisher": "Oxford University Press",
     "doi": "10.1093/nutrit/nuae035",
-    "authors": ["A. Abeltino", "A. Riente", "G. Bianchetti", "C. Serantoni", "M. De Spirito", "S. Capezzone", "R. Esposito", "G. Maulucci"],
-    "abstract": "This review examines digital applications for diet monitoring and precision nutrition, covering wearable devices, masticatory analysis, glucose monitoring systems, and mobile applications for dietary planning. The paper discusses the current state of technology and its potential for personalized nutrition interventions."
+    "authors": [
+      "A. Abeltino",
+      "A. Riente",
+      "G. Bianchetti",
+      "C. Serantoni",
+      "M. De Spirito",
+      "S. Capezzone",
+      "R. Esposito",
+      "G. Maulucci"
+    ],
+    "abstract": "The objective of this review was to critically examine existing digital applications, tailored for use by citizens and professionals, to provide diet monitoring, diet planning, and precision nutrition. We sought to identify the strengths and weaknesses of such digital applications, while exploring their potential contributions to enhancing public health, and discussed potential developmental pathways. Nutrition is a critical aspect of maintaining good health, with an unhealthy diet being one of the primary risk factors for chronic diseases, such as obesity, diabetes, and cardiovascular disease. Tracking and monitoring one’s diet has been shown to help improve health and weight management. However, this task can be complex and time-consuming, often leading to frustration and a lack of adherence to dietary recommendations. Digital applications for diet monitoring, diet generation, and precision nutrition offer the promise of better health outcomes. Data on current nutrition-based digital tools was collected from pertinent literature and software providers. These digital tools have been designed for particular user groups: citizens, nutritionists, and physicians and researchers employing genetics and epigenetics tools. The applications were evaluated in terms of their key functionalities, strengths, and limitations. The analysis primarily concentrated on artificial intelligence algorithms and devices intended to streamline the collection and organization of nutrition data. Furthermore, an exploration was conducted of potential future advancements in this field. Digital applications designed for the use of citizens allow diet self-monitoring, and they can be an effective tool for weight and diabetes management, while digital precision nutrition solutions for professionals can provide scalability, personalized recommendations for patients, and a means of providing ongoing diet support. The limitations in using these digital applications include data accuracy, accessibility, and affordability, and further research and development are required. The integration of artificial intelligence, machine learning, and blockchain technology holds promise for improving the performance, security, and privacy of digital precision nutrition interventions. Multidisciplinarity is crucial for evidence-based and accessible solutions. Digital applications for diet monitoring and precision nutrition have the potential to revolutionize nutrition and health. These tools can make it easier for individuals to control their diets, help nutritionists provide better care, and enable physicians to offer personalized treatment."
   },
   {
+    "slug": "chewing-pattern-glucose-homeostasis",
     "title": "Assessment of the influence of chewing pattern on glucose homeostasis through linear regression model",
-    "year": 2024,
+    "pubDate": "2024-09",
     "journal": "Nutrition",
+    "publisher": "Elsevier",
     "doi": "10.1016/j.nut.2024.112481",
-    "authors": ["A. Riente", "A. Abeltino", "C. Serantoni", "S. Capezzone", "R. Esposito", "M. De Spirito", "G. Maulucci"],
-    "abstract": "This study investigates the relationship between chewing patterns and glucose homeostasis using linear regression modeling, revealing significant correlations between mastication behaviors and postprandial glucose responses."
+    "authors": [
+      "A. Riente",
+      "A. Abeltino",
+      "G. Bianchetti",
+      "C. Serantoni",
+      "M. De Spirito",
+      "D. Pitocco",
+      "S. Capezzone",
+      "R. Esposito",
+      "G. Maulucci"
+    ],
+    "abstract": "Maintaining plasma glucose homeostasis is vital for mammalian survival, but the masticatory function, which influences glucose regulation, has been overlooked. In this study, we investigated the relationship between the glycaemic response curve and chewing performance in a group of 8 individuals who consumed 80 grams of apple. A device called \"Chewing\" utilizing electromyographic (EMG) technology quantitatively assesses chewing pattern, while glycemic response is analysed using continuous glucose monitoring. We assessed chewing pattern characterizing chewing time (tchew), number of bites (nchew), work (w), power (wr), and chewing cycles (tcyc). Moreover, we measured the principal features of the glycaemic response curve, including the area under the curve (α) and the mean time to reach the glycaemic peak (tmean). We used linear regression models to examine the correlations between these variables. tchew, nchew, and wr were correlated with α (R2 = 0, 44, p < 0, 05 for tchew and nchew, p < 0, 001 for wr), and tmean was correlated with tchew (R2 = 0, 25, p < 0, 05). These findings suggest that increasing chewing time and power, while reducing the number of chews, resulted in a wider glycaemic curve and an earlier attainment of the glycemic peak. These results emphasize the influence of proper chewing techniques on blood sugar levels. Implementing correct chewing habits could serve as an additional approach to managing the glycaemic curve, particularly for individuals with diabetes."
   },
   {
+    "slug": "chewing-pattern-electromyographic-device",
     "title": "Evaluation of the Chewing Pattern through an Electromyographic Device",
-    "year": 2023,
-    "journal": "Biosensors (MDPI)",
+    "pubDate": "2023-07-20",
+    "journal": "Biosensors",
+    "publisher": "MDPI",
     "doi": "10.3390/bios13070749",
-    "authors": ["A. Riente", "A. Abeltino", "C. Serantoni", "G. Bianchetti", "M. De Spirito", "S. Capezzone", "R. Esposito", "G. Maulucci"],
-    "abstract": "Development and evaluation of a non-invasive electromyographic device for analyzing personalized chewing patterns. The device evaluates chewing time, cycle time, work rate, number of chews and work, providing insights into mastication behaviors and their potential health implications."
+    "authors": [
+      "A. Riente",
+      "A. Abeltino",
+      "C. Serantoni",
+      "G. Bianchetti",
+      "M. De Spirito",
+      "S. Capezzone",
+      "R. Esposito",
+      "G. Maulucci"
+    ],
+    "abstract": "Chewing is essential in regulating metabolism and initiating digestion. Various methods have been used to examine chewing, including analyzing chewing sounds and using piezoelectric sensors to detect muscle contractions. However, these methods struggle to distinguish chewing from other movements. Electromyography (EMG) has proven to be an accurate solution, although it requires sensors attached to the skin. Existing EMG devices focus on detecting the act of chewing or classifying foods and do not provide self-awareness of chewing habits. We developed a non-invasive device that evaluates a personalized chewing style by analyzing various aspects, like chewing time, cycle time, work rate, number of chews and work. It was tested in a case study comparing the chewing pattern of smokers and non-smokers, as smoking can alter chewing habits. Previous studies have shown that smokers exhibit reduced chewing speed, but other aspects of chewing were overlooked. The goal of this study is to present the device and provide additional insights into the effects of smoking on chewing patterns by considering multiple chewing features. Statistical analysis revealed significant differences, as non-smokers had more chews and higher work values, indicating more efficient chewing. The device provides valuable insights into personalized chewing profiles and could modify unhealthy chewing habits."
   }
 ]

@@ -220,7 +220,7 @@ Our associates, pioneers in the use of this type of agentic framework, are relea
 
 The first effects on company organization have involved the requalification of many developers and their relocation to higher-level professional positions.
 
-From [my privileged vantage point](/en/bio), I feel confident in stating that the new era of software development has just begun.
+From [my privileged vantage point](/en/bio/), I feel confident in stating that the new era of software development has just begun.
 
 ## The Numbers from Our Experience
 
@@ -233,4 +233,4 @@ The activities of CNA Roma's Digital Innovation Hub involved over 15 ICT compani
 
 The experience confirms that value does not lie in the tool itself, but in the ability to apply software engineering principles to AI agent management. Those who tried to use Claude Code as a ChatBot failed; those who used it as a virtual development team, governed by solid software engineering practices, achieved extraordinary results.
 
-*For another example of how open source technologies are democratizing access to AI, read my article on [Linux Day 2025: Extreme LLM Self-Hosting](/en/blog/linux-day-2025).*
+*For another example of how open source technologies are democratizing access to AI, read my article on [Linux Day 2025: Extreme LLM Self-Hosting](/en/blog/linux-day-2025/).*

@@ -1,8 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_LAUNCH_DATE } from '../../consts';
 import SocialLinks from '../../components/SocialLinks.astro';
 import { getCollection } from 'astro:content';
-import { t, formatDate } from '../../i18n/utils';
+import { routePath, t, formatDate } from '../../i18n/utils';
+import { blogPostUrl, imageSrcset, CARD_IMAGE_SIZES } from '../../utils/blog';
+import {
+  displayJournal,
+  getPublications,
+  latestIsoDate,
+  latestPublicationDate,
+  publicationUrl,
+  publicationYear,
+} from '../../utils/publications';
 
 const lang = 'en';
 
@@ -15,14 +25,19 @@ const latestPosts = allPosts
   .slice(0, 3);
 
 // Get publications
-const publicationsData = await getCollection('publications');
-const publications = publicationsData[0]?.data || [];
-const latestPublications = [...publications].sort((a, b) => b.year - a.year).slice(0, 3);
+const publications = await getPublications();
+const latestPublications = publications.slice(0, 3);
 
 const title = t(lang, 'site.title');
 const description = t(lang, 'site.description');
 
-const latestDate = latestPosts[0]?.data.updatedDate || latestPosts[0]?.data.pubDate;
+// La homepage mostra sia gli articoli sia le pubblicazioni: dateModified deve
+// guardare entrambi, o l'aggiunta di una pubblicazione non la sposta.
+const latestPostDate = latestPosts[0]?.data.updatedDate || latestPosts[0]?.data.pubDate;
+const latestDate = latestIsoDate([
+  latestPostDate?.toISOString().split('T')[0],
+  latestPublicationDate(publications),
+]);
 
 const webPageSchema = {
   "@context": "https://schema.org",
@@ -33,12 +48,12 @@ const webPageSchema = {
   "inLanguage": "en-US",
   "isPartOf": { "@id": "https://stefano.capezzone.it/#website" },
   "about": { "@id": "https://stefano.capezzone.it/#person" },
-  "datePublished": "2025-01-01",
-  "dateModified": latestDate ? latestDate.toISOString().split('T')[0] : "2026-02-12",
+  "datePublished": SITE_LAUNCH_DATE,
+  "dateModified": latestDate,
 };
 ---
 
-<BaseLayout title={title} description={description} lang={lang} jsonLd={webPageSchema} datePublished="2025-01-01" dateModified={latestDate ? latestDate.toISOString().split('T')[0] : "2026-02-12"}>
+<BaseLayout title={title} description={description} lang={lang} jsonLd={webPageSchema} datePublished={SITE_LAUNCH_DATE} dateModified={latestDate}>
   <!-- Hero Section -->
   <section class="relative py-20 lg:py-32 bg-gradient-to-b from-ibm-blue-10 to-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,7 +71,7 @@ const webPageSchema = {
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
             <a
-              href="/en/bio"
+              href={routePath('bio', lang)}
               class="inline-flex items-center justify-center px-6 py-3 bg-ibm-blue-60 text-white font-medium rounded-lg hover:bg-ibm-blue-70 transition-colors"
             >
               {t(lang, 'home.hero.cta')}
@@ -72,12 +87,13 @@ const webPageSchema = {
             <picture>
               <source
                 type="image/webp"
-                srcset="/images/optimized/stefano-400.webp 400w,
-                        /images/optimized/stefano-800.webp 800w"
+                srcset="/images/optimized/stefano-square-320.webp 320w,
+                        /images/optimized/stefano-square-640.webp 640w,
+                        /images/optimized/stefano-square-960.webp 960w"
                 sizes="(max-width: 1024px) 256px, 320px"
               />
               <img
-                src="/images/optimized/stefano-800.webp"
+                src="/images/optimized/stefano-square-640.webp"
                 alt="Stefano Capezzone"
                 class="relative w-64 h-64 lg:w-80 lg:h-80 object-cover rounded-2xl shadow-xl"
                 width="320"
@@ -112,7 +128,7 @@ const webPageSchema = {
         </p>
       </div>
       <a
-        href="/en/bio"
+        href={routePath('bio', lang)}
         class="inline-flex items-center mt-6 text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
       >
         {t(lang, 'home.readMore')}
@@ -132,7 +148,7 @@ const webPageSchema = {
             Scientific Publications
           </h2>
           <a
-            href="/en/publications"
+            href={routePath('publications', lang)}
             class="text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
           >
             View all &rarr;
@@ -141,19 +157,17 @@ const webPageSchema = {
         <div class="space-y-4">
           {latestPublications.map((pub) => (
             <a
-              href={`https://doi.org/${pub.doi}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={publicationUrl(pub, lang)}
               class="block p-4 bg-ibm-blue-10 rounded-lg hover:bg-ibm-blue-20 transition-colors"
             >
               <div class="flex items-start justify-between gap-4">
                 <div>
                   <h3 class="font-medium text-ibm-blue-90">{pub.title}</h3>
-                  <p class="text-sm text-ibm-blue-60 mt-1">{pub.journal} ({pub.year})</p>
+                  <p class="text-sm text-ibm-blue-60 mt-1">{displayJournal(pub)} ({publicationYear(pub)})</p>
                 </div>
                 <span class="shrink-0 text-ibm-blue-60">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
                 </span>
               </div>
@@ -173,7 +187,7 @@ const webPageSchema = {
             {t(lang, 'home.latestPosts')}
           </h2>
           <a
-            href="/en/blog"
+            href={routePath('blog', lang)}
             class="text-ibm-blue-60 font-medium hover:text-ibm-blue-70 transition-colors"
           >
             {t(lang, 'home.viewAll')} &rarr;
@@ -184,10 +198,13 @@ const webPageSchema = {
             <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
               {post.data.image && (
                 <img
-                  src={post.data.image}
+                  src={`${post.data.image.replace(/\.webp$/, '')}-800.webp`}
+                  srcset={imageSrcset(post.data.image)}
+                  sizes={CARD_IMAGE_SIZES}
                   alt={post.data.imageAlt || post.data.title}
                   class="w-full h-48 object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               )}
               <div class="p-6">
@@ -195,7 +212,7 @@ const webPageSchema = {
                   {formatDate(post.data.pubDate, lang)}
                 </time>
                 <h3 class="text-xl font-semibold text-ibm-blue-90 mt-2 mb-3">
-                  <a href={`/en/blog/${post.slug.replace(/^en\//, '')}`} class="hover:text-ibm-blue-60 transition-colors">
+                  <a href={blogPostUrl(post, lang)} class="hover:text-ibm-blue-60 transition-colors">
                     {post.data.title}
                   </a>
                 </h3>

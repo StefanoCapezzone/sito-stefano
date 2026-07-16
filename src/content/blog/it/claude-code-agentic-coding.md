@@ -220,7 +220,7 @@ I nostri associati, pionieri nell'uso di questo tipo di framework agentici, stan
 
 I primi effetti sull'organizzazione aziendale hanno riguardato la riqualificazione di molti sviluppatori e la ricollocazione su posizioni professionali di livello superiore.
 
-Dal [mio privilegiato punto di osservazione](/it/bio), mi sento di affermare che la nuova era dello sviluppo software è appena iniziata.
+Dal [mio privilegiato punto di osservazione](/it/bio/), mi sento di affermare che la nuova era dello sviluppo software è appena iniziata.
 
 ## I numeri della nostra esperienza
 
@@ -233,4 +233,4 @@ L'attività del Digital Innovation Hub di CNA Roma ha coinvolto oltre 15 aziende
 
 L'esperienza conferma che il valore non risiede nello strumento in sé, ma nella capacità di applicare i principi dell'ingegneria del software alla gestione degli agenti IA. Chi ha provato ad usare Claude Code come un ChatBot ha fallito; chi lo ha usato come un team di sviluppatori virtuali, governato da solide pratiche di software engineering, ha ottenuto risultati straordinari.
 
-*Per un altro esempio di come le tecnologie open source stiano democratizzando l'accesso all'IA, leggi il mio articolo sul [Linux Day 2025: self-hosting estremo di LLM](/it/blog/linux-day-2025).*
+*Per un altro esempio di come le tecnologie open source stiano democratizzando l'accesso all'IA, leggi il mio articolo sul [Linux Day 2025: self-hosting estremo di LLM](/it/blog/linux-day-2025/).*

@@ -201,4 +201,4 @@ Abbiamo raccomandazioni anche per i giovani talenti che si affacciano ora in que
 - **Approfondire il dominio di business**: l'AI amplifica qualunque competenza di dominio si possieda — testing robusto, architettura modulare e pratiche CI/CD rendono l'AI più sicura e potente
 - **Non smettere di comprendere il codice**: anche se non lo si scrive più manualmente, la capacità di leggere, valutare e debuggare resta fondamentale per garantire qualità e sicurezza
 
-*Per approfondire il tema degli strumenti di coding agentico, leggi il mio articolo su [Claude Code e l'era del coding agentico](/it/blog/claude-code-agentic-coding).*
+*Per approfondire il tema degli strumenti di coding agentico, leggi il mio articolo su [Claude Code e l'era del coding agentico](/it/blog/claude-code-agentic-coding/).*

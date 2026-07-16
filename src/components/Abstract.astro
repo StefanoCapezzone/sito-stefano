@@ -1,0 +1,31 @@
+---
+import { abstractSections } from '../utils/publications';
+
+interface Props {
+  /** Testo verbatim dalla fonte. Non viene mai riscritto, solo impaginato. */
+  abstract: string;
+  /** Classi del contenitore, per le differenze fra elenco e dettaglio. */
+  class?: string;
+}
+
+const { abstract, class: className } = Astro.props;
+
+// Gli abstract strutturati diventano un paragrafo per sezione; gli altri
+// restano un blocco unico. Vedi abstractSections(): la resa non altera il testo.
+const sections = abstractSections(abstract);
+---
+
+<div class={className || undefined}>
+  {
+    sections.map((section) => (
+      <p class="text-ibm-blue-70 leading-relaxed [&_+_p]:mt-4">
+        {section.heading && (
+          <strong class="block font-semibold text-ibm-blue-90">
+            {section.heading}
+          </strong>
+        )}
+        {section.body}
+      </p>
+    ))
+  }
+</div>

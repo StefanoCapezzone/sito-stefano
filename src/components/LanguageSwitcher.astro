@@ -1,26 +1,17 @@
 ---
+import { getLocalizedUrl, type Lang } from '../i18n/utils';
+
 interface Props {
-  lang: 'it' | 'en';
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
 const currentPath = Astro.url.pathname;
-
-// Build the alternate language URL
-const getAlternateURL = () => {
-  if (lang === 'it') {
-    return currentPath.replace('/it/', '/en/').replace('/it', '/en') || '/en/';
-  }
-  return currentPath.replace('/en/', '/it/').replace('/en', '/it') || '/it/';
-};
-
-const alternateURL = getAlternateURL();
-const alternateLang = lang === 'it' ? 'en' : 'it';
 ---
 
 <div class="flex items-center gap-1 text-sm">
   <a
-    href="/it/"
+    href={getLocalizedUrl(currentPath, 'it')}
     class:list={[
       'px-2 py-1 rounded transition-colors',
       lang === 'it'
@@ -34,7 +25,7 @@ const alternateLang = lang === 'it' ? 'en' : 'it';
   </a>
   <span class="text-ibm-blue-30">|</span>
   <a
-    href="/en/"
+    href={getLocalizedUrl(currentPath, 'en')}
     class:list={[
       'px-2 py-1 rounded transition-colors',
       lang === 'en'
