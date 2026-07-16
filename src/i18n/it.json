@@ -48,6 +48,8 @@
     "links": "Da qui puoi ripartire:"
   },
   "footer": {
-    "rights": "Tutti i diritti riservati."
+    "rights": "Tutti i diritti riservati.",
+    "quickLinks": "Link Rapidi",
+    "follow": "Seguimi"
   }
 }

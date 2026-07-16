@@ -57,38 +57,24 @@ export default defineConfig({
           en: 'en-US',
         },
       },
-      changefreq: 'weekly',
-      // Nessun lastmod: `new Date()` lo fissava al momento del build, quindi
-      // ogni rebuild — anche di un fix CSS — dichiarava tutte le 29 pagine
-      // modificate. Google ignora il lastmod per l'intero sito quando lo trova
-      // cronicamente inaffidabile: meglio ometterlo che mentire. La data di
+      // Il sitemap dice due cose sole: quali URL esistono e in che lingue.
+      //
+      // Niente `lastmod`: `new Date()` lo fissava al momento del build, quindi
+      // ogni rebuild — anche di un fix CSS — dichiarava tutte le pagine
+      // modificate. Google lo usa "if it's consistently and verifiably
+      // accurate", e omettere è esplicitamente previsto ("it's fine to leave
+      // out lastmod for those pages"): meglio assente che falso. La data di
       // modifica reale resta nei dati strutturati e nei meta DC.date.modified.
+      //
+      // Niente `priority` né `changefreq`, per due motivi. Il primo è che non
+      // servono: "Google ignores <priority> and <changefreq> values"
+      // (developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).
+      // Il secondo conta di più: `changefreq: 'weekly'` era un'affermazione
+      // che nessun contenuto sosteneva, dichiarata a ogni crawler — lo stesso
+      // difetto per cui il lastmod è stato tolto tre righe più su.
+      //
       // La homepage non va indicizzata: è un redirect a /it/ (vedi _redirects).
       filter: (page) => page !== 'https://stefano.capezzone.it/',
-      serialize(item) {
-        // Homepage e bio con priorita' alta
-        if (item.url.match(/\/(it|en)\/?$/)) {
-          item.priority = 1.0;
-          item.changefreq = 'weekly';
-        } else if (item.url.includes('/bio')) {
-          item.priority = 0.9;
-          item.changefreq = 'monthly';
-        } else if (item.url.includes('/blog/') && !item.url.endsWith('/blog/')) {
-          // Singoli articoli blog
-          item.priority = 0.8;
-          item.changefreq = 'monthly';
-        } else if (item.url.includes('/blog')) {
-          // Blog index
-          item.priority = 0.7;
-          item.changefreq = 'weekly';
-        } else if (item.url.includes('/pubblicazioni') || item.url.includes('/publications')) {
-          item.priority = 0.8;
-          item.changefreq = 'monthly';
-        } else {
-          item.priority = 0.5;
-        }
-        return item;
-      },
     }),
     nestedNotFoundAsFile(),
   ],

@@ -48,6 +48,8 @@
     "links": "You can start again from here:"
   },
   "footer": {
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "quickLinks": "Quick Links",
+    "follow": "Follow Me"
   }
 }

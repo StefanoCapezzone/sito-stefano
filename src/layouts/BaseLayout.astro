@@ -1,4 +1,5 @@
 ---
+import sharp from 'sharp';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
@@ -59,6 +60,14 @@ const socialImage = ogImage || image || '/images/og-default.webp';
 const siteName = 'Stefano Capezzone';
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 const socialImageURL = new URL(socialImage, Astro.site);
+
+// og:image:width/height servono a chi rende l'anteprima *prima* di aver
+// scaricato l'immagine: senza, la prima condivisione di un URL mostra spesso un
+// riquadro vuoto o mal ritagliato, perché lo scraper non sa che forma aspettarsi.
+// Misurate e non dichiarate: le OG del blog non hanno tutte la stessa forma, e
+// un numero scritto a mano qui varrebbe per una sola di esse.
+const { width: socialImageWidth, height: socialImageHeight } =
+  await sharp(`public${socialImage}`).metadata();
 
 const currentPath = Astro.url.pathname;
 const hreflangIt = new URL(getLocalizedUrl(currentPath, 'it'), Astro.site).href;
@@ -189,6 +198,8 @@ const allJsonLd = jsonLd
 
     <!-- OG image dimensions -->
     <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content={String(socialImageWidth)} />
+    <meta property="og:image:height" content={String(socialImageHeight)} />
     <meta property="og:image:alt" content={title} />
 
     <!-- Dublin Core -->

@@ -25,12 +25,38 @@ export function sortPublications(pubs: Publication[]): Publication[] {
 }
 
 /**
- * Data di pubblicazione alla precisione dichiarata dalla fonte.
- * Usata per datePublished (Schema.org) e citation_publication_date (Scholar):
- * entrambi accettano YYYY, YYYY-MM e YYYY-MM-DD.
+ * Data di pubblicazione alla precisione dichiarata dalla fonte, in ISO.
+ * Usata per `datePublished` (Schema.org), che accetta YYYY, YYYY-MM e
+ * YYYY-MM-DD. **Non** per Scholar, che vuole un altro formato: vedi
+ * `citationDate()`.
  */
 export function publicationDate(pub: Publication): string {
   return pub.pubDate;
+}
+
+/**
+ * Data per `citation_publication_date` (Highwire Press / Google Scholar).
+ *
+ * Scholar non usa l'ISO. Documenta un formato solo, con le barre e senza zeri
+ * iniziali, e una sola alternativa: «Provide full dates in the "2010/5/12"
+ * format if available; **or a year alone otherwise**».
+ *
+ * Da qui le due sole uscite possibili:
+ * - `YYYY-MM-DD` → `YYYY/M/D`, la data piena.
+ * - `YYYY-MM` e `YYYY` → `YYYY`, l'anno da solo.
+ *
+ * Il caso interessante è il secondo. `pubDate` sta alla precisione di Crossref
+ * (vedi CLAUDE.md) e alcune riviste datano solo il fascicolo: `2026-01` non è
+ * né una data piena né un anno, cioè non è nessuno dei due formati che Scholar
+ * dichiara di leggere. Completarlo a `2026/1/1` significherebbe inventare un
+ * giorno per far contento un parser. L'anno da solo è la via che Scholar offre
+ * esattamente per questo caso: si perde precisione che non avevamo, non se ne
+ * aggiunge di falsa.
+ */
+export function citationDate(pub: Publication): string {
+  const [year, month, day] = pub.pubDate.split('-');
+  if (!month || !day) return year;
+  return `${year}/${Number(month)}/${Number(day)}`;
 }
 
 /** Anno di pubblicazione, per la resa a schermo. */

@@ -3,7 +3,13 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection, render } from 'astro:content';
 import { routePath, t, formatDate } from '../../../i18n/utils';
-import { blogPostUrl } from '../../../utils/blog';
+import {
+  blogPostUrl,
+  heroSrcset,
+  imageSrcset,
+  HERO_IMAGE_SIZES,
+  RELATED_IMAGE_SIZES,
+} from '../../../utils/blog';
 
 const lang = 'en';
 
@@ -27,6 +33,10 @@ const relatedPosts = allPosts
   .filter((p) => p.data.tags?.some((tag) => post.data.tags?.includes(tag)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+// L'immagine di copertina è l'elemento LCP: serve le varianti, non l'originale
+// a tutte le larghezze. Sta qui e non nel markup perché va misurata al build.
+const heroImageSrcset = post.data.image ? await heroSrcset(post.data.image) : undefined;
 
 // Build image array for Article schema (Google recommends multiple images)
 const articleImages = post.data.image ? (() => {
@@ -122,6 +132,8 @@ const breadcrumbItems = [
         <figure class="mb-12">
           <img
             src={post.data.image}
+            srcset={heroImageSrcset}
+            sizes={HERO_IMAGE_SIZES}
             alt={post.data.imageAlt || post.data.title}
             class="w-full rounded-xl shadow-lg"
             loading="eager"
@@ -172,7 +184,15 @@ const breadcrumbItems = [
             {relatedPosts.map((rp) => (
               <a href={blogPostUrl(rp, lang)} class="group block">
                 {rp.data.image && (
-                  <img src={rp.data.image} alt={rp.data.imageAlt || rp.data.title} class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy" />
+                  <img
+                    src={`${rp.data.image.replace(/\.webp$/, '')}-400.webp`}
+                    srcset={imageSrcset(rp.data.image)}
+                    sizes={RELATED_IMAGE_SIZES}
+                    alt={rp.data.imageAlt || rp.data.title}
+                    class="w-full h-32 object-cover rounded-lg mb-3"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 )}
                 <h4 class="font-medium text-ibm-blue-90 group-hover:text-ibm-blue-60 transition-colors">{rp.data.title}</h4>
                 <time class="text-xs text-ibm-blue-50 mt-1 block" datetime={rp.data.pubDate.toISOString()}>

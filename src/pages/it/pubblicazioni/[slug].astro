@@ -4,6 +4,7 @@ import Breadcrumb from '../../../components/Breadcrumb.astro';
 import Abstract from '../../../components/Abstract.astro';
 import { routePath, t } from '../../../i18n/utils';
 import {
+  citationDate,
   doiUrl,
   getPublications,
   publicationDate,
@@ -58,7 +59,7 @@ const breadcrumbItems = [
     authors: pub.authors || [],
     doi: pub.doi,
     journal: pub.journal,
-    publicationDate: datePublished,
+    publicationDate: citationDate(pub),
   }}
 >
   <div class="py-16 lg:py-24">

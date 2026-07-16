@@ -32,7 +32,7 @@ const text = {
       <!-- Quick Links -->
       <div>
         <h3 class="font-semibold text-lg mb-4">
-          {lang === 'it' ? 'Link Rapidi' : 'Quick Links'}
+          {t(lang, 'footer.quickLinks')}
         </h3>
         <nav class="space-y-2">
           <a href={routePath('bio', lang)} class="block text-ibm-blue-30 hover:text-white transition-colors text-sm">
@@ -50,7 +50,7 @@ const text = {
       <!-- Social -->
       <div>
         <h3 class="font-semibold text-lg mb-4">
-          {lang === 'it' ? 'Seguimi' : 'Follow Me'}
+          {t(lang, 'footer.follow')}
         </h3>
         <SocialLinks variant="footer" />
       </div>

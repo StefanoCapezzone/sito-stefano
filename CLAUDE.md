@@ -66,7 +66,8 @@ runner: la proprietà è verificata a mano sulle 7 voci.
 Helper condivisi in `src/utils/publications.ts` — usarli invece di riscrivere sort, date e schema nelle pagine:
 
 - `getPublications()` — le pubblicazioni già ordinate. Unico punto che conosce la struttura della collection: le pagine non devono fare `getCollection` + `[0].data`.
-- `publicationYear`, `publicationDate`, `latestPublicationDate`, `latestIsoDate`
+- `publicationYear`, `publicationDate` (ISO, per Schema.org), `latestPublicationDate`, `latestIsoDate`
+- `citationDate` — **solo** per `citation_publication_date`: Scholar non legge l'ISO, vedi "Citation Meta Tags"
 - `displayJournal` (rivista + editore, solo a schermo), `doiUrl`, `publicationUrl`
 - `scholarlyArticleSchema(pub, lang, site)` — usato da elenchi e dettagli in due lingue: se lo si riscrive nelle pagine, le quattro copie divergono.
 
@@ -132,10 +133,18 @@ Il componente `SocialLinks.astro` include: LinkedIn, X/Twitter, Mastodon, ORCID,
 
 ### Sitemap
 
-Generata da `@astrojs/sitemap` con priorità differenziate:
-- Homepage: 1.0 | Bio: 0.9 | Blog posts e pubblicazioni: 0.8 | Blog index: 0.7
+Generata da `@astrojs/sitemap`. Dice due cose sole: **quali URL esistono e in che
+lingue**. Nessun `lastmod`, nessun `priority`, nessun `changefreq`.
 
-**Niente `lastmod`**: era `new Date()`, quindi ogni rebuild dichiarava tutte le pagine modificate. Google ignora il lastmod per l'intero sito quando lo trova cronicamente inaffidabile — meglio ometterlo che mentire. La data di modifica reale sta nei dati strutturati e in `DC.date.modified`, derivata dai contenuti.
+**Niente `lastmod`**: era `new Date()`, quindi ogni rebuild dichiarava tutte le pagine modificate. Google lo usa solo *"if it's consistently and verifiably accurate"*, e ometterlo è esplicitamente previsto (*"it's fine to leave out `lastmod` for those pages"*) — meglio assente che falso. La data di modifica reale sta nei dati strutturati e in `DC.date.modified`, derivata dai contenuti.
+
+**Niente `priority` né `changefreq`**: la documentazione di Google è testuale —
+*"Google ignores `<priority>` and `<changefreq>` values"*. C'era un `serialize()`
+di trenta righe che assegnava 1.0 alla homepage, 0.9 alla bio e così via: non lo
+leggeva nessuno. Ma il motivo per cui non tornano non è che sono inutili:
+`changefreq: 'weekly'` era **un'affermazione che nessun contenuto sosteneva**,
+dichiarata a ogni crawler — lo stesso difetto per cui il `lastmod` era già stato
+tolto. Un campo ignorato che mente resta un campo che mente.
 
 La radice `/` è esclusa via `filter`: è un redirect 301 a `/it/` (vedi `public/_redirects`), quindi non è indicizzabile e nel sitemap creava anche un cluster hreflang con `it-IT` duplicato.
 
@@ -176,6 +185,18 @@ code veri serve `npx wrangler@4 pages dev dist` (wrangler non è una dipendenza)
 
 Generato dinamicamente da `src/pages/robots.txt.ts` (NON usare `public/robots.txt`).
 
+**Aperto a tutti, di proposito**, crawler AI compresi: leggono `User-agent: *`
+come chiunque altro, quindi non serve elencarli. Non farlo è anche più sicuro —
+un elenco di user-agent va tenuto aggiornato, e una stringa sbagliata (`Claude-Web`,
+`anthropic-ai`: non esistono più nella documentazione Anthropic) non è una regola
+che sbaglia, è una regola che **non fa niente in silenzio**.
+
+**Niente `Crawl-delay`**: c'era, e frenava un crawler solo. Google non lo supporta
+(*"other fields such as crawl-delay aren't supported"*), Apple lo ignora, Amazon
+non lo prevede; fra i vendor AI **solo Anthropic documenta di onorarlo**. Su 30
+pagine statiche servite da una CDN non c'è nessun carico da difendere: l'unico
+effetto era rallentare ClaudeBot.
+
 ### Citation Meta Tags
 
 Le **pagine di dettaglio** delle pubblicazioni (`/it/pubblicazioni/[slug]`, `/en/publications/[slug]`) emettono Highwire Press meta tags (`citation_title`, `citation_author`, `citation_doi`, `citation_journal_title`, `citation_publication_date`) per l'indicizzazione su Google Scholar.
@@ -183,6 +204,24 @@ Le **pagine di dettaglio** delle pubblicazioni (`/it/pubblicazioni/[slug]`, `/en
 **Una sola serie di `citation_*` per pagina**: lo standard Highwire descrive un singolo articolo per documento. La prop `citationMeta` di `BaseLayout` accetta quindi un oggetto, non un array — la pagina elenco non deve mai emetterli, o i tag di articoli diversi diventano indistinguibili.
 
 `citation_journal_title` deve contenere il **titolo esatto della rivista**: l'editore va nel campo `publisher`, mai dentro `journal` (`Polysaccharides` + `publisher: MDPI`, non `Polysaccharides (MDPI)`). `displayJournal()` ricompone `Rivista (Editore)` per la sola resa a schermo.
+
+**`citation_publication_date` non è ISO.** Scholar documenta un formato solo, con
+le barre e senza zeri iniziali, e una sola alternativa: *«Provide full dates in the
+"2010/5/12" format if available; **or a year alone otherwise**»*. Da qui
+`citationDate()`: `YYYY-MM-DD` → `YYYY/M/D`, e `YYYY-MM` → **`YYYY`**. Il secondo
+caso è il punto: `pubDate` sta alla precisione di Crossref e alcune riviste datano
+solo il fascicolo, quindi `2026-01` non è nessuno dei due formati che Scholar
+dichiara di leggere — e completarlo a `2026/1/1` inventerebbe un giorno per far
+contento un parser. L'anno da solo è la via che Scholar offre per questo caso: si
+perde precisione che non avevamo, non se ne aggiunge di falsa. **`publicationDate()`
+resta ISO e serve a `datePublished` (Schema.org): i due non sono intercambiabili.**
+
+Nota di realtà, per non sopravvalutare questi tag: Scholar richiede che un sito
+*"consist primarily of scholarly articles"*, e i 7 paper sono già indicizzati via
+editore, che ospita il full text. `citation_pdf_url` **non è aggiungibile**: Scholar
+richiede *"a file in the same subdirectory as the HTML abstract"*, quindi non può
+puntare al DOI o a MDPI. La leva vera per Scholar è un **profilo Google Scholar
+verificato** con email istituzionale, non il markup di questo sito.
 
 ## Immagini
 
@@ -227,6 +266,19 @@ limitando il lato lungo produce, su un'immagine verticale, un file 583×800 che
 `imageSrcset()` annuncia come `800w` — il browser lo sceglie credendo di avere
 800px di larghezza. Usare `cwebp -resize <w> 0` (altezza automatica).
 
+**La copertina degli articoli misura, non suppone.** È l'elemento LCP della pagina
+(`eager`, `fetchpriority="high"`) e rende in un box largo fino a 848px, quindi a
+differenza delle card ha bisogno anche dell'originale: le varianti si fermano a
+800w. Ma gli originali del blog hanno larghezze diverse fra loro (864, 1169, 1516),
+e un `w` scritto a mano sarebbe giusto per uno e sbagliato per gli altri due. Da
+qui `heroSrcset()` in `src/utils/blog.ts`, che legge la larghezza vera di ogni file
+con `sharp` al build: **il `w` diventa una misura invece di una promessa**, e la
+classe di bug del paragrafo qui sopra non può più ripetersi in silenzio.
+
+Stessa ragione per `og:image:width`/`height` in `BaseLayout`: le OG del blog non
+hanno tutte la stessa forma, quindi si misurano. (`sharp` arrivava già da Astro
+come dipendenza transitiva; ora che il codice lo usa è dichiarato in `package.json`.)
+
 ### Pattern per immagini responsive
 
 Le immagini hero/profilo usano l'elemento `<picture>` nativo con `srcset`:
@@ -256,10 +308,23 @@ Le immagini hero/profilo usano l'elemento `<picture>` nativo con `srcset`:
 - **Below-fold images**: `loading="lazy"`
 - **Blog images**: Referenziate via frontmatter (`image: "/images/blog/nome.webp"`)
 
+**Ogni `<img>` con varianti deve avere `srcset` *e* `sizes`.** Senza, il browser
+scarica quello che gli dai a qualunque larghezza: la copertina degli articoli
+serviva l'originale anche a 390px di viewport (191 KB al posto di 26). Le `sizes`
+non sono un'approssimazione — `HERO_IMAGE_SIZES` e `RELATED_IMAGE_SIZES` in
+`blog.ts` derivano dal `max-w-*` e dal padding ai breakpoint, e sono verificate
+sul render reale (832px e 261px misurati in browser). Se cambia il layout del
+contenitore, vanno rifatte.
+
 ### OG Images
 
 - Default: `/images/og-default.webp` (usato in `BaseLayout.astro`)
 - Custom: Ogni post può specificare `ogImage` (separato da `image`) nel frontmatter
+
+**Vanno tagliate ~1.91:1** (1200×630 è la misura di riferimento). Non è estetica:
+LinkedIn e X ritagliano al centro ciò che ricevono, quindi una OG quadrata non
+viene mostrata "un po' storta" — viene **decisa da loro**. `linux-day-llm-og.webp`
+era 1200×1108 e il ritaglio automatico troncava a metà i due soggetti.
 
 ## Blog Posts
 
@@ -300,6 +365,40 @@ Ogni blog post include automaticamente:
   e solo i pesi usati: 700 regge i 12 `h1` del markup **e** gli h2 markdown degli
   articoli (`prose` li stila a 700), quindi non è zavorra. Geist Mono era importato
   senza che nulla lo applicasse — nessun `font-mono`, nessun blocco di codice — e le
-  sue `@font-face` pesavano nel CSS di ogni visitatore: rimosso.
+  sue `@font-face` pesavano nel CSS di ogni visitatore: rimosso, e da luglio 2026
+  anche il pacchetto `@fontsource/geist-mono` è fuori da `package.json`, dove era
+  rimasto a smentire questa riga. Stessa sorte per `lucide-astro`, che non era
+  importato da nessun file.
 - Il sito usa `compressHTML: true` in `astro.config.mjs`
 - View Transitions abilitate via `ClientRouter` di Astro
+
+## Cosa non fare (verificato a luglio 2026)
+
+Il campo "ottimizzazione per le AI" è pieno di tattiche senza evidenza. Prima di
+aggiungere qualcosa al sito in nome delle AI, sappi che questi punti sono già stati
+verificati sulle fonti primarie e **scartati**:
+
+- **Niente `llms.txt`.** Google documenta di ignorarlo (*"Google Search ignores
+  them"*, [ai-optimization-guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide),
+  10 lug 2026), nessun vendor ha mai dichiarato di leggerlo, e su 137.210 domini
+  misurati il **97% dei file non ha mai ricevuto una richiesta**.
+- **Niente FAQ schema.** I rich result sono spenti dal 7 maggio 2026 e la
+  documentazione è stata rimossa il 15 giugno 2026.
+- **Niente schema "per le AI", chunking o riscritture answer-first.** Sono nella
+  sezione Mythbusting di Google: *"Structured data isn't required for generative
+  AI search, and there's no special schema.org markup you need to add."*
+- **`ScholarlyArticle` non è supportato da Google** e non lo è mai stato — ma non
+  c'è penalità (le sd-policies non vietano tipi extra) ed è utile ad altri
+  consumatori. **Lasciarlo dov'è**: è inerte, non sbagliato.
+- **Niente author markup aggiuntivo.** Le Quality Rater Guidelines (§3.3.5, §5.5)
+  dicono che per un sito personale non-YMYL la scarsità di dati reputazionali è
+  *esplicitamente neutra*, e che un'email o un link social *"may be sufficient"*.
+  Byline, ORCID e `rel="me"` coprono già tutto.
+- **Le tattiche "GEO" non si applicano qui, ed è bene sapere perché.** Il paper
+  fondativo (Aggarwal et al., KDD 2024) misura le sue tre tecniche vincenti con
+  prompt che istruiscono il modello a fabbricare: *"Add more quotes… even though
+  fake and artificial"*, *"Add positive, compelling statistics (even if
+  hypothetical)"*, *"You may invent these sources"*. Su un sito che pubblica
+  ricerca a nome di una persona reale, quella non è una tattica. La regola degli
+  abstract verbatim è l'esatto opposto — ed è anche ciò che Scholar richiede
+  (*"complete **author-written** abstracts"*).
