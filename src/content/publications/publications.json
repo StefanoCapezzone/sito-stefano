@@ -1,5 +1,21 @@
 [
   {
+    "slug": "vision-language-models-food-recognition-portion-size",
+    "title": "Benchmarking Open-Source Vision–Language Models for Food Image Recognition and Portion Size Estimation",
+    "pubDate": "2026-10-29",
+    "journal": "Nutrients",
+    "publisher": "MDPI",
+    "doi": "10.3390/nu18213582",
+    "authors": [
+      "T. Marchetti",
+      "S. Capezzone",
+      "R. Esposito",
+      "M. De Spirito",
+      "G. Maulucci"
+    ],
+    "abstract": "Background/Objectives: Accurate recognition of food items and estimation of portion sizes from images is a key challenge in advancing dietary assessment and nutritional monitoring. In this study, we benchmark twenty-six configurations (seventeen model releases) of state-of-the-art open-source Vision–Language Models (VLMs), varying in size (≤15 GB) and number of parameters (<25B), on real-world food photographs collected in a university canteen, doing so to evaluate their potential for supporting automated nutrition logging and health interventions. Methods: We construct a curated benchmark dataset with human-annotated labels, including both food item names and scale-measured portion sizes, and assess model predictions based on recognition performance and mean absolute error in the portion estimate. The semantic matcher used to score food recognition is validated against a panel of human judges, and all results are reported with bootstrap confidence intervals and stochastic replicates. Results: Our experiments show that the VLM qwen2.5vl:7b achieves the highest overall performance in food identification (F1=0.68), outperforming other open-source models in terms of precision and F1 score. Under the human-validated semantic matcher, it also outperforms the more recent successors of the same model families, which nevertheless improve portion estimation and, under a threshold-free LLM judge less sensitive to verbose descriptions, match or exceed it in recognition. For comparison, we evaluate five proprietary models (four OpenAI generations and one Anthropic model) as a benchmark and find that they tend to outperform open-source VLMs in both food recognition (best F1=0.77, GPT-4o) and portion size estimation error; notably, however, the most recent proprietary generations do not improve on their predecessors for this task under our evaluation protocol. Conclusions: These findings highlight the potential and current limitations of general-purpose VLMs in fine-grained food understanding tasks, with implications for the design of scalable, vision-based dietary assessment systems in digital health."
+  },
+  {
     "slug": "peanut-shell-biocomposites-food-packaging",
     "title": "Peanut Shell Waste Valorization in 3D-Printed Biocomposites for Sustainable Food Packaging: Material Properties, Preservation Performance, and Biodegradability",
     "pubDate": "2026-06-25",

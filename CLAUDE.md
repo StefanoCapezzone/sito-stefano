@@ -59,7 +59,7 @@ restituire la stringa di partenza. Le etichette riconosciute sono un elenco
 chiuso e contano solo a inizio testo o dopo la fine di una frase, così un
 "Results:" citato a metà periodo non spezza l'abstract nel punto sbagliato. Nel
 JSON-LD l'abstract resta la stringa piatta verbatim. Il repo non ha un test
-runner: la proprietà è verificata a mano sulle 7 voci.
+runner: la proprietà è verificata a mano sulle 8 voci.
 
 `pubDate` sta alla precisione dichiarata da Crossref (`YYYY`, `YYYY-MM` o `YYYY-MM-DD`): alcune riviste datano solo il fascicolo, e completare a un giorno preciso significherebbe inventarlo. È una stringa, non una Date, proprio per questo.
 
@@ -217,7 +217,7 @@ perde precisione che non avevamo, non se ne aggiunge di falsa. **`publicationDat
 resta ISO e serve a `datePublished` (Schema.org): i due non sono intercambiabili.**
 
 Nota di realtà, per non sopravvalutare questi tag: Scholar richiede che un sito
-*"consist primarily of scholarly articles"*, e i 7 paper sono già indicizzati via
+*"consist primarily of scholarly articles"*, e gli 8 paper sono già indicizzati via
 editore, che ospita il full text. `citation_pdf_url` **non è aggiungibile**: Scholar
 richiede *"a file in the same subdirectory as the HTML abstract"*, quindi non può
 puntare al DOI o a MDPI. La leva vera per Scholar è un **profilo Google Scholar

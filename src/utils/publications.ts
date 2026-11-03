@@ -106,6 +106,7 @@ export interface AbstractSection {
  * Solo queste: un elenco chiuso non può inventare una sezione dove non c'è.
  */
 const ABSTRACT_HEADINGS = [
+  'Background/Objectives', // MDPI
   'Background and Objective',
   'Background and Objectives',
   'Background',
@@ -131,7 +132,7 @@ const ABSTRACT_HEADINGS = [
  * ricomporre `heading: body` con uno spazio deve restituire la stringa di
  * partenza. Gli abstract sono copiati verbatim dalla fonte e non si riscrivono
  * mai (vedi CLAUDE.md), quindi la resa non può permettersi di alterarli.
- * Il repo non ha un test runner: la proprietà è verificata a mano sulle 7 voci.
+ * Il repo non ha un test runner: la proprietà è verificata a mano sulle 8 voci.
  * Se un giorno arriva vitest, questo è il primo caso da coprire.
  *
  * Un'etichetta conta solo se apre il testo o segue la fine di una frase: senza
