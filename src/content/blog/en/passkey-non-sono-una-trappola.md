@@ -2,6 +2,9 @@
 title: "Passkeys are not a trap: my reply to The Hack"
 description: "A viral Substack post urges people to drop passkeys and go back to OTP codes. It is right about governance, but it aims at the wrong target. Here is why."
 pubDate: 2026-11-09
+image: "/images/blog/passkey-trappola.webp"
+imageAlt: "An open, empty rusty bear trap lit up by a glowing blue digital key with a fingerprint; in the background, in shadow, a fishing hook"
+ogImage: "/images/blog/passkey-trappola-og.webp"
 lang: en
 tags: ["cybersecurity", "passkey", "authentication", "phishing", "open-source"]
 ---

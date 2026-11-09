@@ -2,6 +2,9 @@
 title: "Le passkey non sono una trappola: la mia replica a The Hack"
 description: "Un post virale su Substack invita a non usare le passkey e a tornare ai codici OTP. Ha ragione sulla governance, ma sbaglia bersaglio: ecco perché."
 pubDate: 2026-11-09
+image: "/images/blog/passkey-trappola.webp"
+imageAlt: "Una tagliola arrugginita aperta e vuota, illuminata da una chiave digitale blu con un'impronta digitale; sullo sfondo, in ombra, un amo da pesca"
+ogImage: "/images/blog/passkey-trappola-og.webp"
 lang: it
 tags: ["cybersecurity", "passkey", "autenticazione", "phishing", "open-source"]
 ---
